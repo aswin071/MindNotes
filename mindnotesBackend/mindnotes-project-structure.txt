@@ -1,0 +1,124 @@
+# MindNotes Django Backend - Complete Project Structure
+# This is a comprehensive guide for the folder structure
+
+"""
+mindnotes_backend/
+│
+├── manage.py
+├── requirements.txt
+├── .env.example
+├── README.md
+├── docker-compose.yml
+├── Dockerfile
+│
+├── config/
+│   ├── __init__.py
+│   ├── settings/
+│   │   ├── __init__.py
+│   │   ├── base.py
+│   │   ├── development.py
+│   │   ├── production.py
+│   │   └── testing.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── asgi.py
+│
+├── apps/
+│   ├── __init__.py
+│   │
+│   ├── users/
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── managers.py
+│   │   ├── permissions.py
+│   │   └── signals.py
+│   │
+│   ├── journals/
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── services.py
+│   │   └── tasks.py
+│   │
+│   ├── prompts/
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   └── admin.py
+│   │
+│   ├── moods/
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   └── analytics.py
+│   │
+│   ├── focus/
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   └── services.py
+│   │
+│   ├── subscriptions/
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── webhooks.py
+│   │   └── services.py
+│   │
+│   ├── exports/
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── services.py
+│   │   └── tasks.py
+│   │
+│   └── analytics/
+│       ├── __init__.py
+│       ├── models.py
+│       ├── serializers.py
+│       ├── views.py
+│       ├── urls.py
+│       └── services.py
+│
+├── core/
+│   ├── __init__.py
+│   ├── middleware.py
+│   ├── exceptions.py
+│   ├── pagination.py
+│   ├── permissions.py
+│   └── utils.py
+│
+├── media/
+│   ├── journal_entries/
+│   ├── voice_notes/
+│   └── exports/
+│
+└── static/
+    └── admin/
+"""
+
+# This structure follows Django best practices:
+# - Modular app-based architecture
+# - Separation of concerns
+# - Scalable and maintainable
+# - Ready for microservices migration if needed
