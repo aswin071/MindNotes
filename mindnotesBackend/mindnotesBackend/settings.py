@@ -34,7 +34,6 @@ POSTGRES_DATABASE = os.getenv('POSTGRES_DATABASE')
 POSTGRES_HOST = os.getenv('POSTGRES_HOST')
 POSTGRES_PORT = os.getenv('POSTGRES_PORT')
 POSTGRES_USER = os.getenv('POSTGRES_USER')
-print(POSTGRES_USER,'============')
 POSTGRES_PASSWORD = os.getenv('POSTGRES_PASSWORD')
 
 ALLOWED_HOSTS = []
@@ -58,6 +57,7 @@ INSTALLED_APPS = [
     'moods',
     'subscriptions',
     'exports',
+    'core',
 
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
@@ -173,6 +173,79 @@ SIMPLE_JWT = {
 # Google OAuth
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '')
 
-# MongoDB for dynamic, per-user volatile data (widgets, shuffle, counters)
-MONGODB_URI = os.getenv('MONGODB_URI', '')
+# MongoDB Configuration
+MONGODB_URI = os.getenv('MONGODB_URI', 'mongodb://localhost:27017/mindnotes')
 MONGODB_DB_NAME = os.getenv('MONGODB_DB_NAME', 'mindnotes')
+
+# MongoDB Database Configuration
+MONGODB_DATABASES = {
+    'default': {
+        'name': os.getenv('MONGODB_DB', 'mindnotes'),
+        'host': os.getenv('MONGODB_HOST', 'localhost'),
+        'port': int(os.getenv('MONGODB_PORT', '27017')),
+        'username': os.getenv('MONGODB_USER', ''),
+        'password': os.getenv('MONGODB_PASSWORD', ''),
+        'authentication_source': 'admin',
+    }
+}
+
+# MongoEngine connection
+try:
+    import mongoengine
+    mongoengine.connect(
+        db=MONGODB_DATABASES['default']['name'],
+        host=MONGODB_DATABASES['default']['host'],
+        port=MONGODB_DATABASES['default']['port'],
+        username=MONGODB_DATABASES['default']['username'],
+        password=MONGODB_DATABASES['default']['password'],
+        authentication_source=MONGODB_DATABASES['default']['authentication_source'],
+    )
+except Exception as e:
+    print(f"MongoDB connection error: {e}")
+
+# CORS settings
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'logs' / 'django.log',
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console', 'file'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
+
+# Create logs directory if it doesn't exist
+os.makedirs(BASE_DIR / 'logs', exist_ok=True)

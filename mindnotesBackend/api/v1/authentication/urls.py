@@ -8,6 +8,7 @@ from .views import (
     RefreshTokenWrappedView,
     GoogleSignInView,
     GoogleSignupView,
+    DashboardView,
 )
 
 urlpatterns = [
@@ -21,6 +22,9 @@ urlpatterns = [
     # Google flows
     path('signup/google', GoogleSignupView.as_view(),                                               name='auth-signup-google'),
     path('login/google', GoogleSignInView.as_view(),                                                name='auth-login-google'),
+
+    # Home Page
+    path('home', DashboardView.as_view(),                                                      name='home'),
 ]
 
 
