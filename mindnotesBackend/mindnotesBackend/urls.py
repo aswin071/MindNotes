@@ -22,11 +22,11 @@ from django.urls import (
 urlpatterns = [
     path('admin-site-mindnotes/', admin.site.urls),
     path('api/v1/authentication/', include('api.v1.authentication.urls')),
-    # path('api/v1/journals/', include('api.v1.journals.urls')),
-    # path('api/v1/focus/', include('api.v1.focus.urls')),
-    # path('api/v1/prompts/', include('api.v1.prompts.urls')),
-    # path('api/v1/analytics/', include('api.v1.analytics.urls')),
-    # path('api/v1/moods/', include('api.v1.moods.urls')),
-    # path('api/v1/subscriptions/', include('api.v1.subscriptions.urls')),
-    # path('api/v1/exports/', include('api.v1.exports.urls')),
+    path('api/v1/journals/', include('api.v1.journals.urls')),
+    path('api/v1/focus/', include('api.v1.focus.urls')),
+    path('api/v1/prompts/', include('api.v1.prompts.urls')),
+    path('api/v1/analytics/', include('api.v1.analytics.urls')),
+    path('api/v1/moods/', include('api.v1.moods.urls')),
+    path('api/v1/subscriptions/', include('api.v1.subscriptions.urls')),
+    path('api/v1/exports/', include('api.v1.exports.urls')),
 ]

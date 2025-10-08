@@ -179,3 +179,57 @@ class GoogleSignupView(APIView):
         return success_response(data=data, success_message='Google signup successful', status=status.HTTP_200_OK)
 
 
+# ============ DASHBOARD API ============
+
+class DashboardView(APIView):
+    """
+    GET /api/v1/authentication/dashboard/
+
+    Returns complete dashboard data for the Home screen.
+    This is the main endpoint for the Dashboard/Home page wireframe.
+
+    Aggregates data from:
+    - User profile (greeting, avatar, streak)
+    - Daily prompts (prompt of the day)
+    - Focus programs (active program progress)
+    - Mood categories (mood tracker options)
+    - Today's activity stats
+
+    All data is user-specific and cached for 2 minutes for performance.
+    """
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        """Get complete dashboard data"""
+        from django.core.cache import cache
+        from core.services import DashboardService
+        from .serializers import DashboardSerializer
+
+        user = request.user
+
+        # Cache key for dashboard
+        cache_key = f'dashboard_{user.id}'
+        cached_data = cache.get(cache_key)
+
+        if cached_data:
+            return Response(cached_data, status=status.HTTP_200_OK)
+
+        try:
+            # Get aggregated dashboard data from service layer
+            dashboard_data = DashboardService.get_dashboard_data(user)
+
+            # Serialize the data
+            serializer = DashboardSerializer(dashboard_data)
+
+            # Cache for 2 minutes
+            cache.set(cache_key, serializer.data, 120)
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(
+                {'error': f'Failed to retrieve dashboard data: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+

@@ -212,3 +212,91 @@ class SignupWithGoogleSerializer(GoogleAuthSerializer):
     onboarding_answers = serializers.DictField(required=False)
     dob = serializers.DateField(required=False)
     gender = serializers.ChoiceField(required=False, choices=User.GENDER_CHOICES)
+
+
+# ============ DASHBOARD SERIALIZERS ============
+
+class QuickJournalOptionSerializer(serializers.Serializer):
+    """Serializer for quick journal options"""
+    type = serializers.CharField()
+    label = serializers.CharField()
+    icon = serializers.CharField()
+
+
+class DailyPromptSerializer(serializers.Serializer):
+    """Serializer for daily prompt data"""
+    id = serializers.IntegerField(allow_null=True)
+    question = serializers.CharField()
+    category = serializers.CharField(allow_null=True)
+    is_answered = serializers.BooleanField()
+    total_prompts = serializers.IntegerField()
+    answered_count = serializers.IntegerField()
+
+
+class FocusProgramSerializer(serializers.Serializer):
+    """Serializer for active focus program"""
+    id = serializers.IntegerField()
+    program_name = serializers.CharField()
+    program_type = serializers.CharField()
+    current_day = serializers.IntegerField()
+    total_days = serializers.IntegerField()
+    progress_percentage = serializers.FloatField()
+    current_day_title = serializers.CharField()
+    current_day_description = serializers.CharField()
+    target_focus_minutes = serializers.IntegerField()
+    completed_focus_minutes_today = serializers.IntegerField()
+    status = serializers.CharField()
+    started_at = serializers.CharField(allow_null=True)
+
+
+class MoodOptionSerializer(serializers.Serializer):
+    """Serializer for mood options"""
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    emoji = serializers.CharField()
+    color = serializers.CharField()
+    description = serializers.CharField()
+
+
+class TodayStatsSerializer(serializers.Serializer):
+    """Serializer for today's activity stats"""
+    entries_today = serializers.IntegerField()
+    moods_logged_today = serializers.IntegerField()
+    focus_sessions_today = serializers.IntegerField()
+    has_journaled_today = serializers.BooleanField()
+
+
+class DashboardUserSerializer(serializers.Serializer):
+    """Serializer for dashboard user info"""
+    id = serializers.UUIDField()
+    full_name = serializers.CharField()
+    avatar = serializers.URLField(allow_null=True)
+    current_streak = serializers.IntegerField()
+
+
+class DashboardSerializer(serializers.Serializer):
+    """
+    Main serializer for Home Dashboard API
+    Aggregates all dashboard components
+    """
+    # Header
+    greeting = serializers.CharField()
+    user = DashboardUserSerializer()
+
+    # Quick Journal (static options)
+    quick_journal_options = QuickJournalOptionSerializer(many=True)
+
+    # Prompt of the Day
+    prompt_of_the_day = DailyPromptSerializer()
+
+    # Active Focus Program (optional)
+    active_focus_program = FocusProgramSerializer(allow_null=True)
+
+    # Mood Tracker Options
+    mood_options = MoodOptionSerializer(many=True)
+
+    # Today's Stats
+    today_stats = TodayStatsSerializer()
+
+    # Metadata
+    fetched_at = serializers.CharField()

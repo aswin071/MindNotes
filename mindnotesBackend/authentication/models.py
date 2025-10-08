@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import EmailValidator
-
+from utils.model_abstracts import Model
 
 class UserManager(BaseUserManager):
     """Custom user manager for email-based authentication"""
@@ -101,7 +101,7 @@ class User(AbstractUser):
         return self.full_name.split()[0] if self.full_name else self.email.split('@')[0]
 
 
-class UserProfile(models.Model):
+class UserProfile(Model):
     """Extended user profile information"""
     
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -119,18 +119,17 @@ class UserProfile(models.Model):
     # Focus preferences
     default_focus_duration = models.IntegerField(default=25)  # minutes
     focus_sound_enabled = models.BooleanField(default=True)
+    focus_break_duration = models.IntegerField(default=5) 
     
     # Mood tracking preferences
     mood_tracking_enabled = models.BooleanField(default=True)
+    mood_reminder_enabled = models.BooleanField(default=False)
     
     # Statistics
     total_entries = models.IntegerField(default=0)
     current_streak = models.IntegerField(default=0)
     longest_streak = models.IntegerField(default=0)
     total_focus_minutes = models.IntegerField(default=0)
-    
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     # Onboarding questionnaire answers and preferences
     onboarding_answers = models.JSONField(default=dict, blank=True)
@@ -144,7 +143,7 @@ class UserProfile(models.Model):
         return f"Profile of {self.user.email}"
 
 
-class UserStreak(models.Model):
+class UserStreak(Model):
     """Track user journaling streaks"""
     
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='streaks')
@@ -163,7 +162,7 @@ class UserStreak(models.Model):
         return f"{self.user.email} - {self.date}"
 
 
-class UserDevice(models.Model):
+class UserDevice(Model):
     """Track user devices for push notifications"""
     
     DEVICE_TYPES = [
