@@ -7,6 +7,10 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime, date
 from django.contrib.auth import get_user_model
 from django.db import transaction
+from django.db import models
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+import base64
 
 # MongoDB Models
 from journals.mongo_models import JournalEntryMongo, PhotoEmbed, VoiceNoteEmbed, PromptResponseEmbed
@@ -46,14 +50,34 @@ class JournalService:
                 if tag.id not in tag_ids:
                     tag_ids.append(tag.id)
 
-        # Validate tag IDs belong to user
+        # Validate tag IDs belong to user (optimized query)
         if tag_ids:
-            tags = Tag.objects.filter(id__in=tag_ids, user=user)
+            tags = Tag.objects.filter(id__in=tag_ids, user=user).only('id')
             tag_ids = list(tags.values_list('id', flat=True))
 
         # Create embedded documents
         photos = []
         for photo_data in data.get('photos', []):
+            # Handle file upload if image_url is a file object
+            if hasattr(photo_data.get('image_url'), 'read'):
+                # It's an uploaded file
+                image_file = photo_data.pop('image_url')
+
+                # Option 1: Synchronous upload (current behavior)
+                # Use this for immediate upload
+                filename = f"media/journals/{user.id}/{datetime.now().strftime('%Y%m%d_%H%M%S')}_{image_file.name}"
+                path = default_storage.save(filename, ContentFile(image_file.read()))
+                photo_data['image_url'] = default_storage.url(path)
+
+                # Option 2: Async upload (recommended for production)
+                # Uncomment below and comment above for async processing:
+                # from core.tasks import upload_file_to_storage
+                # file_content = image_file.read()
+                # file_content_b64 = base64.b64encode(file_content).decode('utf-8')
+                # result = upload_file_to_storage.delay(file_content_b64, image_file.name, user.id)
+                # photo_data['image_url'] = f'pending:{result.id}'  # Store task ID temporarily
+                # photo_data['upload_status'] = 'pending'
+
             photos.append(PhotoEmbed(**photo_data))
 
         voice_notes = []
@@ -85,11 +109,12 @@ class JournalService:
         )
         entry.save()
 
-        # Update PostgreSQL user stats
+        # Update PostgreSQL user stats (optimized with select_related)
         with transaction.atomic():
-            profile = user.profile
-            profile.total_entries += 1
-            profile.save(update_fields=['total_entries'])
+            from authentication.models import UserProfile
+            UserProfile.objects.filter(user=user).update(
+                total_entries=models.F('total_entries') + 1
+            )
 
         return entry
     

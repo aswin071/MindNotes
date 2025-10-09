@@ -13,8 +13,8 @@ from .views import (
 
 urlpatterns = [
     # Email flows
-    path('signup', RegisterView.as_view(),                                                    name='auth-signup-email'),
-    path('login', LoginView.as_view(),                                                        name='auth-login-email'),
+    path('signup', RegisterView.as_view(),                                                          name='auth-signup-email'),
+    path('login', LoginView.as_view(),                                                              name='auth-login-email'),
     path('refresh', RefreshTokenWrappedView.as_view(),                                              name='auth-refresh'),
     path('profile', ProfileView.as_view(),                                                          name='auth-profile'),
     path('change-password', ChangePasswordView.as_view(),                                           name='auth-change-password'),
@@ -24,7 +24,7 @@ urlpatterns = [
     path('login/google', GoogleSignInView.as_view(),                                                name='auth-login-google'),
 
     # Home Page
-    path('home', DashboardView.as_view(),                                                      name='home'),
+    path('home', DashboardView.as_view(),                                                           name='home'),
 ]
 
 

@@ -14,6 +14,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import mongoengine
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -61,6 +62,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    'django_celery_beat',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -189,19 +192,7 @@ MONGODB_DATABASES = {
     }
 }
 
-# MongoEngine connection
-try:
-    import mongoengine
-    mongoengine.connect(
-        db=MONGODB_DATABASES['default']['name'],
-        host=MONGODB_DATABASES['default']['host'],
-        port=MONGODB_DATABASES['default']['port'],
-        username=MONGODB_DATABASES['default']['username'],
-        password=MONGODB_DATABASES['default']['password'],
-        authentication_source=MONGODB_DATABASES['default']['authentication_source'],
-    )
-except Exception as e:
-    print(f"MongoDB connection error: {e}")
+# MongoEngine will be connected later with connection pooling parameters
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
@@ -249,3 +240,88 @@ LOGGING = {
 
 # Create logs directory if it doesn't exist
 os.makedirs(BASE_DIR / 'logs', exist_ok=True)
+
+# ==============================================================================
+# PERFORMANCE OPTIMIZATION SETTINGS
+# ==============================================================================
+
+# Redis Cache Configuration
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': os.getenv('REDIS_URL', 'redis://127.0.0.1:6379/1'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'CONNECTION_POOL_CLASS_KWARGS': {
+                'max_connections': 50,
+                'retry_on_timeout': True,
+            },
+            'SOCKET_CONNECT_TIMEOUT': 5,
+            'SOCKET_TIMEOUT': 5,
+        },
+        'KEY_PREFIX': 'mindnotes',
+        'TIMEOUT': 300,  # 5 minutes default
+    }
+}
+
+# Session cache
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
+
+# Database Connection Pooling
+DATABASES['default']['CONN_MAX_AGE'] = 600  # 10 minutes
+DATABASES['default']['OPTIONS'] = {
+    'connect_timeout': 10,
+    'options': '-c statement_timeout=30000'  # 30 seconds
+}
+
+# Celery Configuration
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://127.0.0.1:6379/0')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://127.0.0.1:6379/0')
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60  # 30 minutes
+CELERY_RESULT_EXPIRES = 3600  # 1 hour
+CELERY_TASK_COMPRESSION = 'gzip'
+CELERY_RESULT_COMPRESSION = 'gzip'
+
+# Celery Beat Schedule (for periodic tasks)
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+# MongoDB Connection Pooling
+try:
+    mongoengine.connect(
+        db=MONGODB_DATABASES['default']['name'],
+        host=MONGODB_DATABASES['default']['host'],
+        port=MONGODB_DATABASES['default']['port'],
+        username=MONGODB_DATABASES['default']['username'],
+        password=MONGODB_DATABASES['default']['password'],
+        authentication_source=MONGODB_DATABASES['default']['authentication_source'],
+        maxPoolSize=50,
+        minPoolSize=10,
+        maxIdleTimeMS=30000,
+        serverSelectionTimeoutMS=5000,
+    )
+except Exception as e:
+    print(f"MongoDB connection error: {e}")
+
+# DRF Throttling
+REST_FRAMEWORK['DEFAULT_THROTTLE_CLASSES'] = [
+    'rest_framework.throttling.AnonRateThrottle',
+    'rest_framework.throttling.UserRateThrottle'
+]
+REST_FRAMEWORK['DEFAULT_THROTTLE_RATES'] = {
+    'anon': '100/hour',
+    'user': '1000/hour'
+}
+
+# Query Optimization
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
+}
+
+# Enable persistent database connections
+CONN_MAX_AGE = 600

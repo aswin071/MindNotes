@@ -213,7 +213,7 @@ class DashboardView(APIView):
         cached_data = cache.get(cache_key)
 
         if cached_data:
-            return Response(cached_data, status=status.HTTP_200_OK)
+            return success_response(cached_data, status=status.HTTP_200_OK)
 
         try:
             # Get aggregated dashboard data from service layer
@@ -225,10 +225,10 @@ class DashboardView(APIView):
             # Cache for 2 minutes
             cache.set(cache_key, serializer.data, 120)
 
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return success_response(serializer.data, status=status.HTTP_200_OK)
 
         except Exception as e:
-            return Response(
+            return error_response(
                 {'error': f'Failed to retrieve dashboard data: {str(e)}'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )

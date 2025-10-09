@@ -20,14 +20,17 @@ KEPT MODELS:
 
 class Tag(Model):
     """Tags for categorizing journal entries"""
-    
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tags')
-    name = models.CharField(max_length=50)
-    color = models.CharField(max_length=7, default='#3B82F6')  # Hex color     
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tags', db_index=True)
+    name = models.CharField(max_length=50, db_index=True)
+    color = models.CharField(max_length=7, default='#3B82F6')  # Hex color
     class Meta:
         db_table = 'tags'
         unique_together = ['user', 'name']
         ordering = ['name']
+        indexes = [
+            models.Index(fields=['user', 'name']),
+        ]
     
     def __str__(self):
         return f"{self.user.email} - {self.name}"
@@ -173,20 +176,23 @@ class Tag(Model):
 
 class EntryTemplate(Model):
     """Reusable templates for journal entries"""
-    
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='entry_templates')
-    
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='entry_templates', db_index=True)
+
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     content = models.TextField()
-    
-    # Usage statistics
-    usage_count = models.IntegerField(default=0)
 
-    
+    # Usage statistics
+    usage_count = models.IntegerField(default=0, db_index=True)
+
+
     class Meta:
         db_table = 'entry_templates'
         ordering = ['-usage_count', 'name']
+        indexes = [
+            models.Index(fields=['user', '-usage_count']),
+        ]
     
     def __str__(self):
         return f"{self.user.email} - {self.name}"

@@ -1,7 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.core.cache import cache
+import re
 
 from core.services import JournalService
 from helpers.common import success_response, error_response, paginated_response
@@ -51,10 +53,58 @@ class JournalAPIView(APIView):
     """
 
     permission_classes = [IsAuthenticated]
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
+
+    def _parse_nested_formdata(self, data):
+        """
+        Parse nested form-data like photos[0][caption] into structured dict
+        Handles arrays and nested objects from multipart/form-data
+        """
+        parsed = {}
+
+        for key, value in data.items():
+            # Check if it's a nested key like photos[0][caption]
+            match = re.match(r'^(\w+)\[(\d+)\]\[(\w+)\]$', key)
+            if match:
+                field_name, index, sub_field = match.groups()
+                index = int(index)
+
+                # Initialize array if not exists
+                if field_name not in parsed:
+                    parsed[field_name] = []
+
+                # Extend array if needed
+                while len(parsed[field_name]) <= index:
+                    parsed[field_name].append({})
+
+                # Set the value (handle file uploads)
+                parsed[field_name][index][sub_field] = value[0] if isinstance(value, list) else value
+
+            # Check for simple array like tag_ids[0]
+            elif re.match(r'^(\w+)\[(\d+)\]$', key):
+                match = re.match(r'^(\w+)\[(\d+)\]$', key)
+                field_name, index = match.groups()
+                index = int(index)
+
+                if field_name not in parsed:
+                    parsed[field_name] = []
+
+                while len(parsed[field_name]) <= index:
+                    parsed[field_name].append(None)
+
+                parsed[field_name][index] = value[0] if isinstance(value, list) else value
+
+            # Simple field
+            else:
+                parsed[key] = value[0] if isinstance(value, list) else value
+
+        return parsed
 
     def get(self, request):
         """Get user's journal entries"""
         user = request.user
+
+        
 
         try:
             # Parse query parameters
@@ -79,15 +129,42 @@ class JournalAPIView(APIView):
             entries = JournalEntryMongo.objects(**filters).order_by('-entry_date').skip(skip).limit(limit)
             total_count = JournalEntryMongo.objects(**filters).count()
 
+            # Batch fetch all tags to avoid N+1 query problem
+            all_tag_ids = set()
+            for entry in entries:
+                if entry.tag_ids:
+                    all_tag_ids.update(list(entry.tag_ids))
+
+            # Fetch all tags in one query and create lookup dict
+            tags_dict = {}
+            if all_tag_ids:
+                tags_list = Tag.objects.filter(id__in=all_tag_ids, user=user).values('id', 'name', 'color')
+                tags_dict = {tag['id']: tag for tag in tags_list}
+
             # Prepare response data
             entries_data = []
             for entry in entries:
-                # Get tags
+                # Get tags from pre-fetched dict
                 tags = []
                 if entry.tag_ids:
-                    tags = list(Tag.objects.filter(id__in=entry.tag_ids, user=user).values(
-                        'id', 'name', 'color'
-                    ))
+                    for tag_id in entry.tag_ids:
+                        if tag_id in tags_dict:
+                            tags.append(tags_dict[tag_id])
+
+                # Safely get photos data
+                photos_data = []
+                photos_count = 0
+                try:
+                    if entry.photos:
+                        photos_count = len(entry.photos)
+                        for photo in entry.photos:
+                            photos_data.append({
+                                'image_url': photo.image_url,
+                                'caption': photo.caption or '',
+                                'order': photo.order,
+                            })
+                except (AttributeError, TypeError):
+                    photos_count = 0
 
                 entries_data.append({
                     'id': str(entry.id),
@@ -98,7 +175,8 @@ class JournalAPIView(APIView):
                     'is_favorite': entry.is_favorite,
                     'tags': tags,
                     'word_count': entry.word_count,
-                    'photos_count': len(entry.photos) if entry.photos else 0,
+                    'photos_count': photos_count,
+                    'photos': photos_data,
                     'created_at': entry.created_at.isoformat(),
                 })
 
@@ -131,8 +209,14 @@ class JournalAPIView(APIView):
         """Create a new journal entry"""
         user = request.user
 
+        # Parse nested form-data if it's multipart
+        if request.content_type and 'multipart' in request.content_type:
+            parsed_data = self._parse_nested_formdata(request.data)
+        else:
+            parsed_data = request.data
+
         # Validate request data
-        serializer = JournalEntryCreateSerializer(data=request.data)
+        serializer = JournalEntryCreateSerializer(data=parsed_data)
 
         if not serializer.is_valid():
             return error_response(
