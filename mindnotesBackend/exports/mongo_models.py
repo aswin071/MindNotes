@@ -40,6 +40,7 @@ class ExportRequestMongo(Document):
     # Timestamps
     created_at = fields.DateTimeField(default=datetime.utcnow)
     updated_at = fields.DateTimeField(default=datetime.utcnow)
+    is_active = fields.BooleanField(default=False, index=True)
     
     meta = {
         'collection': 'export_requests',

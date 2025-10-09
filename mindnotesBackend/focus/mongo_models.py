@@ -48,6 +48,8 @@ class FocusSessionMongo(Document):
     
     # Milestones (for gamification)
     milestones = fields.ListField(fields.DictField())
+
+    is_active = fields.BooleanField(default=False, index=True)
     
     meta = {
         'collection': 'focus_sessions',

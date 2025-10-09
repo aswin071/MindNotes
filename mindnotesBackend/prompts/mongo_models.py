@@ -10,6 +10,7 @@ class DailyPromptSetMongo(Document):
     user_id = fields.IntField(required=True, index=True)
     date = fields.DateField(required=True, index=True)
     
+    is_active = fields.BooleanField(default=False, index=True)
     # Prompts - Store from PostgreSQL with details
     prompts = fields.ListField(fields.DictField())  # [{id: 1, question: "...", category: "..."}]
     
@@ -52,6 +53,8 @@ class PromptResponseMongo(Document):
     
     # Timestamps
     responded_at = fields.DateTimeField(default=datetime.utcnow, index=True)
+
+    is_active = fields.BooleanField(default=False, index=True)
     
     meta = {
         'collection': 'prompt_responses',

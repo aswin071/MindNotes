@@ -63,6 +63,7 @@ class JournalEntryMongo(Document):
     privacy = fields.StringField(choices=['private', 'public'], default='private')
     is_favorite = fields.BooleanField(default=False, index=True)
     is_archived = fields.BooleanField(default=False, index=True)
+    is_active = fields.BooleanField(default=False, index=True)
     
     # Tags - Store IDs from PostgreSQL
     tag_ids = fields.ListField(fields.IntField())

@@ -28,6 +28,8 @@ class MoodEntryMongo(Document):
     # Time tracking
     recorded_at = fields.DateTimeField(required=True, index=True)
     created_at = fields.DateTimeField(default=datetime.utcnow)
+
+    is_active = fields.BooleanField(default=False, index=True)
     
     # Additional context (flexible)
     context = fields.DictField()  # Store any additional metadata
