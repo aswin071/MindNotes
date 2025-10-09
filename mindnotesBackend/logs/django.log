@@ -173,3 +173,365 @@ INFO 2025-10-08 14:33:39,168 autoreload 367980 129266616817472 Watching for file
 INFO 2025-10-08 14:33:58,666 autoreload 367980 129266616817472 /home/aswin/MindNotes/mindnotesBackend/exports/mongo_models.py changed, reloading.
 INFO 2025-10-08 14:33:59,452 autoreload 368084 130849016182592 Watching for file changes with StatReloader
 INFO 2025-10-08 14:34:03,539 basehttp 368084 130848688956992 "GET /api/v1/journals/list HTTP/1.1" 200 502
+INFO 2025-10-09 03:49:03,102 autoreload 15710 127794628568896 Watching for file changes with StatReloader
+INFO 2025-10-09 03:49:19,971 basehttp 15710 127794302412352 "GET /api/v1/journals/list HTTP/1.1" 200 502
+INFO 2025-10-09 03:49:58,052 basehttp 15710 127794302412352 "POST /api/v1/authentication/signup HTTP/1.1" 201 1364
+INFO 2025-10-09 03:50:08,979 basehttp 15710 127794302412352 "POST /api/v1/authentication/login HTTP/1.1" 200 1357
+WARNING 2025-10-09 03:50:16,147 log 15710 127794302412352 Unauthorized: /api/v1/journals/list
+WARNING 2025-10-09 03:50:16,147 basehttp 15710 127794302412352 "GET /api/v1/journals/list HTTP/1.1" 401 172
+INFO 2025-10-09 03:50:42,252 basehttp 15710 127794302412352 "GET /api/v1/journals/list HTTP/1.1" 200 188
+WARNING 2025-10-09 03:52:13,458 log 15710 127794289821248 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 03:52:13,459 basehttp 15710 127794289821248 "POST /api/v1/journals/create HTTP/1.1" 400 110
+INFO 2025-10-09 03:52:24,967 basehttp 15710 127794289821248 "POST /api/v1/journals/create HTTP/1.1" 201 584
+INFO 2025-10-09 03:52:30,394 basehttp 15710 127794289821248 "GET /api/v1/journals/list HTTP/1.1" 200 476
+INFO 2025-10-09 04:33:34,322 autoreload 15710 127794628568896 /home/aswin/MindNotes/mindnotesBackend/journals/mongo_models.py changed, reloading.
+INFO 2025-10-09 04:33:34,885 autoreload 81584 137696510240576 Watching for file changes with StatReloader
+INFO 2025-10-09 04:33:39,128 autoreload 81584 137696510240576 /home/aswin/MindNotes/mindnotesBackend/journals/mongo_models.py changed, reloading.
+INFO 2025-10-09 04:33:39,598 autoreload 81683 129481149069120 Watching for file changes with StatReloader
+INFO 2025-10-09 04:33:45,846 autoreload 81683 129481149069120 /home/aswin/MindNotes/mindnotesBackend/journals/mongo_models.py changed, reloading.
+INFO 2025-10-09 04:33:46,321 autoreload 82189 130657086854976 Watching for file changes with StatReloader
+INFO 2025-10-09 04:33:48,544 autoreload 82189 130657086854976 /home/aswin/MindNotes/mindnotesBackend/journals/mongo_models.py changed, reloading.
+INFO 2025-10-09 04:37:30,406 autoreload 88259 134936560113472 Watching for file changes with StatReloader
+INFO 2025-10-09 04:37:32,374 basehttp 88259 134936233240128 "POST /api/v1/journals/create HTTP/1.1" 201 588
+INFO 2025-10-09 04:46:48,194 basehttp 88259 134936223798848 "POST /api/v1/authentication/home HTTP/1.1" 200 608
+INFO 2025-10-09 06:20:39,623 autoreload 261641 134025397729088 Watching for file changes with StatReloader
+INFO 2025-10-09 06:20:47,162 autoreload 262175 128240578316096 Watching for file changes with StatReloader
+INFO 2025-10-09 06:21:30,722 autoreload 263534 140536423053120 Watching for file changes with StatReloader
+INFO 2025-10-09 06:21:32,220 autoreload 263577 128073390696256 Watching for file changes with StatReloader
+INFO 2025-10-09 06:21:59,540 autoreload 264243 131564103305024 Watching for file changes with StatReloader
+ERROR 2025-10-09 06:22:06,691 log 264243 131563761690176 Internal Server Error: /api/v1/authentication/signup
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/utils/module_loading.py", line 20, in import_string
+    return getattr(module, class_name)
+AttributeError: module 'redis.connection' has no attribute 'HiredisParser'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 123, in allow_request
+    self.history = self.cache.get(self.key, [])
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/client/default.py", line 253, in get
+    client = self.get_client(write=False)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/client/default.py", line 105, in get_client
+    self._clients[index] = self.connect(index)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/client/default.py", line 118, in connect
+    return self.connection_factory.connect(self._server[index])
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/pool.py", line 70, in connect
+    params = self.make_connection_params(url)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/pool.py", line 42, in make_connection_params
+    "parser_class": self.get_parser_cls(),
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/pool.py", line 99, in get_parser_cls
+    return import_string(cls)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/utils/module_loading.py", line 22, in import_string
+    raise ImportError('Module "%s" does not define a "%s" attribute/class' % (
+ImportError: Module "redis.connection" does not define a "HiredisParser" attribute/class
+ERROR 2025-10-09 06:22:06,691 basehttp 264243 131563761690176 "POST /api/v1/authentication/signup HTTP/1.1" 500 161603
+ERROR 2025-10-09 06:22:30,764 log 264243 131563761690176 Internal Server Error: /api/v1/journals/list
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/utils/module_loading.py", line 20, in import_string
+    return getattr(module, class_name)
+AttributeError: module 'redis.connection' has no attribute 'HiredisParser'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 123, in allow_request
+    self.history = self.cache.get(self.key, [])
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/client/default.py", line 253, in get
+    client = self.get_client(write=False)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/client/default.py", line 105, in get_client
+    self._clients[index] = self.connect(index)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/client/default.py", line 118, in connect
+    return self.connection_factory.connect(self._server[index])
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/pool.py", line 70, in connect
+    params = self.make_connection_params(url)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/pool.py", line 42, in make_connection_params
+    "parser_class": self.get_parser_cls(),
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django_redis/pool.py", line 99, in get_parser_cls
+    return import_string(cls)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/utils/module_loading.py", line 22, in import_string
+    raise ImportError('Module "%s" does not define a "%s" attribute/class' % (
+ImportError: Module "redis.connection" does not define a "HiredisParser" attribute/class
+ERROR 2025-10-09 06:22:30,765 basehttp 264243 131563761690176 "GET /api/v1/journals/list HTTP/1.1" 500 161759
+INFO 2025-10-09 06:23:09,250 autoreload 264243 131564103305024 /home/aswin/MindNotes/mindnotesBackend/mindnotesBackend/settings.py changed, reloading.
+INFO 2025-10-09 06:23:10,027 autoreload 266779 134196243720000 Watching for file changes with StatReloader
+INFO 2025-10-09 06:24:55,338 basehttp 266779 134195970041408 "GET /api/v1/journals/list HTTP/1.1" 200 770
+WARNING 2025-10-09 06:25:02,607 log 266779 134195970041408 Bad Request: /api/v1/authentication/signup
+WARNING 2025-10-09 06:25:02,607 basehttp 266779 134195970041408 "POST /api/v1/authentication/signup HTTP/1.1" 400 156
+INFO 2025-10-09 06:27:53,119 basehttp 266779 134195956401728 "POST /api/v1/authentication/home HTTP/1.1" 200 773
+INFO 2025-10-09 06:28:09,296 basehttp 266779 134195956401728 "POST /api/v1/authentication/signup HTTP/1.1" 201 1359
+INFO 2025-10-09 06:28:15,057 basehttp 266779 134195956401728 "POST /api/v1/authentication/home HTTP/1.1" 200 773
+INFO 2025-10-09 06:28:19,707 basehttp 266779 134195956401728 "POST /api/v1/authentication/login HTTP/1.1" 200 1352
+WARNING 2025-10-09 06:28:25,043 log 266779 134195956401728 Unauthorized: /api/v1/authentication/home
+WARNING 2025-10-09 06:28:25,044 basehttp 266779 134195956401728 "POST /api/v1/authentication/home HTTP/1.1" 401 183
+INFO 2025-10-09 06:28:44,175 basehttp 266779 134195956401728 "POST /api/v1/authentication/home HTTP/1.1" 200 775
+INFO 2025-10-09 09:57:20,755 autoreload 383222 135478032770880 Watching for file changes with StatReloader
+INFO 2025-10-09 10:00:17,893 basehttp 383222 135477691676224 "POST /api/v1/authentication/home HTTP/1.1" 200 775
+INFO 2025-10-09 10:16:05,633 basehttp 383222 135477681186368 "GET /api/v1/journals/list HTTP/1.1" 200 188
+WARNING 2025-10-09 10:19:00,338 log 383222 135477672793664 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:19:00,338 basehttp 383222 135477672793664 "POST /api/v1/journals/create HTTP/1.1" 400 322
+WARNING 2025-10-09 10:20:28,144 log 383222 135477664400960 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:20:28,145 basehttp 383222 135477664400960 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:20:44,398 log 383222 135477664400960 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:20:44,399 basehttp 383222 135477664400960 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:24:57,788 log 383222 135477656008256 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:24:57,788 basehttp 383222 135477656008256 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:25:05,458 log 383222 135477656008256 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:25:05,458 basehttp 383222 135477656008256 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:25:06,633 log 383222 135477656008256 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:25:06,633 basehttp 383222 135477656008256 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:25:33,266 log 383222 135477656008256 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:25:33,266 basehttp 383222 135477656008256 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:25:34,312 log 383222 135477656008256 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:25:34,312 basehttp 383222 135477656008256 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:25:54,441 log 383222 135477656008256 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:25:54,441 basehttp 383222 135477656008256 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:25:55,676 log 383222 135477656008256 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:25:55,676 basehttp 383222 135477656008256 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:25:56,079 log 383222 135477656008256 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:25:56,080 basehttp 383222 135477656008256 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:25:56,412 log 383222 135477656008256 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:25:56,413 basehttp 383222 135477656008256 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:25:56,743 log 383222 135477656008256 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:25:56,743 basehttp 383222 135477656008256 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:25:57,128 log 383222 135477656008256 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:25:57,128 basehttp 383222 135477656008256 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:26:01,662 log 383222 135477656008256 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:26:01,662 basehttp 383222 135477656008256 "POST /api/v1/journals/create HTTP/1.1" 400 173
+INFO 2025-10-09 10:30:00,717 autoreload 383222 135478032770880 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/serializers.py changed, reloading.
+INFO 2025-10-09 10:30:01,594 autoreload 413401 135092548581184 Watching for file changes with StatReloader
+INFO 2025-10-09 10:30:13,061 autoreload 413401 135092548581184 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/serializers.py changed, reloading.
+INFO 2025-10-09 10:30:13,888 autoreload 413582 134275740555072 Watching for file changes with StatReloader
+ERROR 2025-10-09 10:30:16,695 log 413582 134275401242176 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-09 10:30:16,696 basehttp 413582 134275401242176 "POST /api/v1/journals/create HTTP/1.1" 500 203
+ERROR 2025-10-09 10:30:23,260 log 413582 134275401242176 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-09 10:30:23,260 basehttp 413582 134275401242176 "POST /api/v1/journals/create HTTP/1.1" 500 203
+INFO 2025-10-09 10:34:11,700 autoreload 413582 134275740555072 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/serializers.py changed, reloading.
+INFO 2025-10-09 10:34:12,608 autoreload 419425 137800452265792 Watching for file changes with StatReloader
+WARNING 2025-10-09 10:34:32,358 log 419425 137800111871552 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:34:32,360 basehttp 419425 137800111871552 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:34:33,813 log 419425 137800111871552 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:34:33,814 basehttp 419425 137800111871552 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:34:34,447 log 419425 137800111871552 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:34:34,447 basehttp 419425 137800111871552 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:34:35,287 log 419425 137800111871552 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:34:35,287 basehttp 419425 137800111871552 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:34:35,638 log 419425 137800111871552 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:34:35,638 basehttp 419425 137800111871552 "POST /api/v1/journals/create HTTP/1.1" 400 173
+WARNING 2025-10-09 10:34:36,068 log 419425 137800111871552 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:34:36,068 basehttp 419425 137800111871552 "POST /api/v1/journals/create HTTP/1.1" 400 173
+INFO 2025-10-09 10:34:54,831 autoreload 419425 137800452265792 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/serializers.py changed, reloading.
+INFO 2025-10-09 10:34:55,445 autoreload 420476 136015031662400 Watching for file changes with StatReloader
+WARNING 2025-10-09 10:34:57,421 log 420476 136014689986112 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:34:57,422 basehttp 420476 136014689986112 "POST /api/v1/journals/create HTTP/1.1" 400 172
+WARNING 2025-10-09 10:34:58,694 log 420476 136014689986112 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:34:58,694 basehttp 420476 136014689986112 "POST /api/v1/journals/create HTTP/1.1" 400 172
+WARNING 2025-10-09 10:34:59,230 log 420476 136014689986112 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:34:59,230 basehttp 420476 136014689986112 "POST /api/v1/journals/create HTTP/1.1" 400 172
+WARNING 2025-10-09 10:34:59,734 log 420476 136014689986112 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:34:59,734 basehttp 420476 136014689986112 "POST /api/v1/journals/create HTTP/1.1" 400 172
+WARNING 2025-10-09 10:35:00,303 log 420476 136014689986112 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:35:00,303 basehttp 420476 136014689986112 "POST /api/v1/journals/create HTTP/1.1" 400 172
+WARNING 2025-10-09 10:35:02,715 log 420476 136014689986112 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:35:02,715 basehttp 420476 136014689986112 "POST /api/v1/journals/create HTTP/1.1" 400 172
+WARNING 2025-10-09 10:35:10,781 log 420476 136014689986112 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:35:10,781 basehttp 420476 136014689986112 "POST /api/v1/journals/create HTTP/1.1" 400 172
+WARNING 2025-10-09 10:35:11,763 log 420476 136014689986112 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:35:11,764 basehttp 420476 136014689986112 "POST /api/v1/journals/create HTTP/1.1" 400 172
+WARNING 2025-10-09 10:35:12,553 log 420476 136014689986112 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:35:12,553 basehttp 420476 136014689986112 "POST /api/v1/journals/create HTTP/1.1" 400 172
+WARNING 2025-10-09 10:35:13,069 log 420476 136014689986112 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:35:13,069 basehttp 420476 136014689986112 "POST /api/v1/journals/create HTTP/1.1" 400 172
+WARNING 2025-10-09 10:35:14,303 log 420476 136014689986112 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 10:35:14,303 basehttp 420476 136014689986112 "POST /api/v1/journals/create HTTP/1.1" 400 172
+WARNING 2025-10-09 12:08:53,678 log 420476 136014679496256 Bad Request: /api/v1/journals/create
+WARNING 2025-10-09 12:08:53,678 basehttp 420476 136014679496256 "POST /api/v1/journals/create HTTP/1.1" 400 172
+INFO 2025-10-09 12:09:08,974 autoreload 420476 136015031662400 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/serializers.py changed, reloading.
+INFO 2025-10-09 12:09:09,949 autoreload 510334 137957911856960 Watching for file changes with StatReloader
+ERROR 2025-10-09 12:09:10,956 log 510334 137957503661632 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-09 12:09:10,956 basehttp 510334 137957503661632 "POST /api/v1/journals/create HTTP/1.1" 500 203
+ERROR 2025-10-09 12:09:12,038 log 510334 137957503661632 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-09 12:09:12,038 basehttp 510334 137957503661632 "POST /api/v1/journals/create HTTP/1.1" 500 203
+ERROR 2025-10-09 12:09:12,792 log 510334 137957503661632 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-09 12:09:12,792 basehttp 510334 137957503661632 "POST /api/v1/journals/create HTTP/1.1" 500 203
+ERROR 2025-10-09 12:09:13,594 log 510334 137957503661632 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-09 12:09:13,594 basehttp 510334 137957503661632 "POST /api/v1/journals/create HTTP/1.1" 500 203
+INFO 2025-10-09 12:12:30,055 autoreload 510334 137957911856960 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-10-09 12:12:31,235 autoreload 511516 126999416379200 Watching for file changes with StatReloader
+INFO 2025-10-09 12:12:33,641 autoreload 511516 126999416379200 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-10-09 12:12:34,508 autoreload 511646 137676418033472 Watching for file changes with StatReloader
+INFO 2025-10-09 12:12:36,992 autoreload 511646 137676418033472 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-10-09 12:12:37,837 autoreload 511763 136723249395520 Watching for file changes with StatReloader
+ERROR 2025-10-09 12:12:38,771 log 511763 136722834781760 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-09 12:12:38,772 basehttp 511763 136722834781760 "POST /api/v1/journals/create HTTP/1.1" 500 203
+ERROR 2025-10-09 12:12:40,812 log 511763 136722834781760 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-09 12:12:40,813 basehttp 511763 136722834781760 "POST /api/v1/journals/create HTTP/1.1" 500 203
+INFO 2025-10-09 12:12:52,384 autoreload 511763 136723249395520 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-10-09 12:12:53,070 autoreload 511955 138541472642880 Watching for file changes with StatReloader
+INFO 2025-10-09 12:12:58,441 autoreload 511955 138541472642880 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-10-09 12:12:59,354 autoreload 512134 138697199327040 Watching for file changes with StatReloader
+INFO 2025-10-09 12:13:08,828 autoreload 512134 138697199327040 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-10-09 12:13:09,668 autoreload 512260 136363202217792 Watching for file changes with StatReloader
+INFO 2025-10-09 12:13:11,066 autoreload 512260 136363202217792 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-10-09 12:13:11,992 autoreload 512344 131062073292608 Watching for file changes with StatReloader
+ERROR 2025-10-09 12:13:14,306 log 512344 131061665232448 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-09 12:13:14,306 basehttp 512344 131061665232448 "POST /api/v1/journals/create HTTP/1.1" 500 203
+INFO 2025-10-09 12:13:22,543 autoreload 512344 131062073292608 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-10-09 12:13:23,228 autoreload 512486 139706673420096 Watching for file changes with StatReloader
+ERROR 2025-10-09 12:13:24,916 log 512486 139706332862016 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-09 12:13:24,916 basehttp 512486 139706332862016 "POST /api/v1/journals/create HTTP/1.1" 500 203
+ERROR 2025-10-09 12:13:51,345 log 512486 139706332862016 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-09 12:13:51,345 basehttp 512486 139706332862016 "POST /api/v1/journals/create HTTP/1.1" 500 203
+INFO 2025-10-09 12:16:25,128 autoreload 512486 139706673420096 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-10-09 12:16:25,909 autoreload 513664 127412228200256 Watching for file changes with StatReloader
+INFO 2025-10-09 12:16:53,727 autoreload 513664 127412228200256 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-10-09 12:16:54,805 autoreload 513944 139855069652800 Watching for file changes with StatReloader
+INFO 2025-10-09 12:18:01,455 autoreload 513944 139855069652800 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-10-09 12:18:02,160 autoreload 514400 124296902264640 Watching for file changes with StatReloader
+INFO 2025-10-09 12:18:48,290 autoreload 514400 124296902264640 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-10-09 12:18:49,126 autoreload 514690 134540267104064 Watching for file changes with StatReloader
+INFO 2025-10-09 12:19:01,676 autoreload 514690 134540267104064 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-10-09 12:19:02,446 autoreload 514908 126794783299392 Watching for file changes with StatReloader
+INFO 2025-10-09 12:19:10,928 autoreload 514908 126794783299392 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-10-09 12:19:11,961 autoreload 515036 132033900828480 Watching for file changes with StatReloader
+INFO 2025-10-09 12:19:19,473 autoreload 515036 132033900828480 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-10-09 12:19:20,404 autoreload 515151 128630994270016 Watching for file changes with StatReloader
+INFO 2025-10-09 12:19:39,157 basehttp 515151 128630579525184 "POST /api/v1/journals/create HTTP/1.1" 201 718
+ERROR 2025-10-09 12:19:51,725 log 515151 128630579525184 Internal Server Error: /api/v1/journals/list
+ERROR 2025-10-09 12:19:51,725 basehttp 515151 128630579525184 "GET /api/v1/journals/list HTTP/1.1" 500 207
+ERROR 2025-10-09 12:19:53,166 log 515151 128630579525184 Internal Server Error: /api/v1/journals/list
+ERROR 2025-10-09 12:19:53,166 basehttp 515151 128630579525184 "GET /api/v1/journals/list HTTP/1.1" 500 207
+ERROR 2025-10-09 12:19:53,797 log 515151 128630579525184 Internal Server Error: /api/v1/journals/list
+ERROR 2025-10-09 12:19:53,797 basehttp 515151 128630579525184 "GET /api/v1/journals/list HTTP/1.1" 500 207
+ERROR 2025-10-09 12:19:54,233 log 515151 128630579525184 Internal Server Error: /api/v1/journals/list
+ERROR 2025-10-09 12:19:54,234 basehttp 515151 128630579525184 "GET /api/v1/journals/list HTTP/1.1" 500 207
+ERROR 2025-10-09 12:19:54,535 log 515151 128630579525184 Internal Server Error: /api/v1/journals/list
+ERROR 2025-10-09 12:19:54,535 basehttp 515151 128630579525184 "GET /api/v1/journals/list HTTP/1.1" 500 207
+ERROR 2025-10-09 12:19:54,966 log 515151 128630579525184 Internal Server Error: /api/v1/journals/list
+ERROR 2025-10-09 12:19:54,967 basehttp 515151 128630579525184 "GET /api/v1/journals/list HTTP/1.1" 500 207
+INFO 2025-10-09 12:21:40,590 autoreload 515151 128630994270016 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-10-09 12:21:41,472 autoreload 516454 129516232947520 Watching for file changes with StatReloader
+ERROR 2025-10-09 12:21:53,501 log 516454 129515892758080 Internal Server Error: /api/v1/journals/list
+ERROR 2025-10-09 12:21:53,501 basehttp 516454 129515892758080 "GET /api/v1/journals/list HTTP/1.1" 500 207
+ERROR 2025-10-09 12:21:54,335 log 516454 129515892758080 Internal Server Error: /api/v1/journals/list
+ERROR 2025-10-09 12:21:54,335 basehttp 516454 129515892758080 "GET /api/v1/journals/list HTTP/1.1" 500 207
+ERROR 2025-10-09 12:21:54,999 log 516454 129515892758080 Internal Server Error: /api/v1/journals/list
+ERROR 2025-10-09 12:21:54,999 basehttp 516454 129515892758080 "GET /api/v1/journals/list HTTP/1.1" 500 207
+ERROR 2025-10-09 12:22:15,612 log 516454 129515892758080 Internal Server Error: /api/v1/journals/list
+ERROR 2025-10-09 12:22:15,612 basehttp 516454 129515892758080 "GET /api/v1/journals/list HTTP/1.1" 500 207
+INFO 2025-10-09 12:22:22,159 autoreload 516833 123766842025792 Watching for file changes with StatReloader
+ERROR 2025-10-09 12:22:23,997 log 516833 123766502315584 Internal Server Error: /api/v1/journals/list
+ERROR 2025-10-09 12:22:23,997 basehttp 516833 123766502315584 "GET /api/v1/journals/list HTTP/1.1" 500 207
+INFO 2025-10-09 12:23:48,241 autoreload 516833 123766842025792 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-10-09 12:23:49,159 autoreload 517416 129797847930688 Watching for file changes with StatReloader
+INFO 2025-10-09 12:23:52,029 basehttp 517416 129797507765824 "GET /api/v1/journals/list HTTP/1.1" 200 584
+INFO 2025-10-09 12:32:57,529 basehttp 517416 129797497275968 "POST /api/v1/journals/create HTTP/1.1" 201 718
+INFO 2025-10-09 12:36:43,463 autoreload 517416 129797847930688 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-10-09 12:36:44,389 autoreload 521784 133580096014144 Watching for file changes with StatReloader
+INFO 2025-10-09 12:37:15,220 basehttp 521784 133579757049408 "POST /api/v1/journals/create HTTP/1.1" 201 718
+INFO 2025-10-09 12:43:55,697 basehttp 521784 133579745510976 "GET /api/v1/journals/list HTTP/1.1" 200 1380
+INFO 2025-10-09 12:45:20,363 autoreload 521784 133580096014144 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-10-09 12:45:21,338 autoreload 525260 125721178269504 Watching for file changes with StatReloader
+INFO 2025-10-09 12:45:39,748 basehttp 525260 125720839312960 "GET /api/v1/journals/list HTTP/1.1" 200 1815
+INFO 2025-10-09 12:48:38,684 basehttp 525260 125720829871680 "GET /api/v1/journals/list HTTP/1.1" 200 1815
+INFO 2025-10-09 12:50:41,820 autoreload 525260 125721178269504 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/urls.py changed, reloading.
+INFO 2025-10-09 12:50:42,663 autoreload 527251 139647685601088 Watching for file changes with StatReloader
+INFO 2025-10-09 12:50:46,043 autoreload 527251 139647685601088 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/urls.py changed, reloading.
+INFO 2025-10-09 12:50:46,962 autoreload 527352 130396483934016 Watching for file changes with StatReloader
+INFO 2025-10-09 12:50:48,311 autoreload 527352 130396483934016 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/urls.py changed, reloading.
+INFO 2025-10-09 12:50:49,235 autoreload 527419 137287499286336 Watching for file changes with StatReloader
+INFO 2025-10-09 12:50:51,570 autoreload 527419 137287499286336 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/urls.py changed, reloading.
+INFO 2025-10-09 12:50:52,550 autoreload 527495 137407286196032 Watching for file changes with StatReloader
+INFO 2025-10-09 12:50:54,948 autoreload 527495 137407286196032 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/urls.py changed, reloading.
+INFO 2025-10-09 12:50:55,845 autoreload 527697 139539144066880 Watching for file changes with StatReloader
+INFO 2025-10-09 12:51:09,101 basehttp 527697 139538803971648 "POST /api/v1/authentication/home HTTP/1.1" 200 776
+INFO 2025-10-09 12:51:12,037 basehttp 527697 139538803971648 "POST /api/v1/authentication/home HTTP/1.1" 200 776
+INFO 2025-10-09 12:51:13,850 basehttp 527697 139538803971648 "POST /api/v1/authentication/home HTTP/1.1" 200 776
+INFO 2025-10-09 12:51:14,748 basehttp 527697 139538803971648 "POST /api/v1/authentication/home HTTP/1.1" 200 776
+INFO 2025-10-09 12:51:15,555 basehttp 527697 139538803971648 "POST /api/v1/authentication/home HTTP/1.1" 200 776
+INFO 2025-10-09 12:54:04,387 basehttp 527697 139538722715200 "GET /api/v1/subscriptions/me HTTP/1.1" 201 395
+INFO 2025-10-09 12:54:11,472 basehttp 527697 139538722715200 "GET /api/v1/subscriptions/profile HTTP/1.1" 301 0
+INFO 2025-10-09 12:54:11,482 basehttp 527697 139538722715200 "GET /api/v1/subscriptions/profile/ HTTP/1.1" 200 625
+INFO 2025-10-09 12:54:26,132 autoreload 527697 139539144066880 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-10-09 12:54:26,992 autoreload 529072 130338369435456 Watching for file changes with StatReloader
+INFO 2025-10-09 12:55:25,493 autoreload 529072 130338369435456 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-10-09 12:55:26,568 autoreload 529494 126196248078144 Watching for file changes with StatReloader
+INFO 2025-10-09 12:56:31,255 autoreload 529494 126196248078144 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-10-09 12:56:31,963 autoreload 529933 132207170053952 Watching for file changes with StatReloader
+INFO 2025-10-09 12:57:58,970 autoreload 529933 132207170053952 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/serializers.py changed, reloading.
+INFO 2025-10-09 12:57:59,994 autoreload 530969 140454631905088 Watching for file changes with StatReloader
+INFO 2025-10-09 12:58:00,686 basehttp 530969 140454221837888 "GET /api/v1/subscriptions/profile HTTP/1.1" 301 0
+INFO 2025-10-09 12:58:00,700 basehttp 530969 140454221837888 "GET /api/v1/subscriptions/profile/ HTTP/1.1" 200 625
+INFO 2025-10-09 12:58:07,451 autoreload 530969 140454631905088 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/serializers.py changed, reloading.
+INFO 2025-10-09 12:58:08,431 autoreload 531089 131950984185664 Watching for file changes with StatReloader
+INFO 2025-10-09 12:58:29,188 autoreload 531089 131950984185664 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/serializers.py changed, reloading.
+INFO 2025-10-09 12:58:29,848 autoreload 531228 133108309415744 Watching for file changes with StatReloader
+INFO 2025-10-09 12:59:08,336 basehttp 531228 133107971249728 "GET /api/v1/subscriptions/profile HTTP/1.1" 301 0
+INFO 2025-10-09 12:59:08,348 basehttp 531228 133107971249728 "GET /api/v1/subscriptions/profile/ HTTP/1.1" 200 625
+INFO 2025-10-09 12:59:13,416 basehttp 531228 133107971249728 "POST /api/v1/authentication/home HTTP/1.1" 200 776
+INFO 2025-10-09 13:00:08,951 autoreload 532069 126105829623616 Watching for file changes with StatReloader
+INFO 2025-10-09 13:00:10,707 basehttp 532069 126105489495616 "POST /api/v1/authentication/home HTTP/1.1" 200 776
+INFO 2025-10-09 13:00:13,773 basehttp 532069 126105489495616 "GET /api/v1/journals/list HTTP/1.1" 200 1815
+INFO 2025-10-09 13:00:25,378 basehttp 532069 126105489495616 "POST /api/v1/journals/create HTTP/1.1" 201 718
+INFO 2025-10-09 13:01:32,296 basehttp 532069 126105407190592 "GET /api/v1/journals/list HTTP/1.1" 200 2362
+INFO 2025-10-09 13:01:39,605 basehttp 532069 126105407190592 "GET /api/v1/journals/list HTTP/1.1" 200 2362
+INFO 2025-10-09 13:01:40,371 basehttp 532069 126105407190592 "GET /api/v1/journals/list HTTP/1.1" 200 2362
+INFO 2025-10-09 13:01:40,936 basehttp 532069 126105407190592 "GET /api/v1/journals/list HTTP/1.1" 200 2362
+INFO 2025-10-09 13:01:41,525 basehttp 532069 126105407190592 "GET /api/v1/journals/list HTTP/1.1" 200 2362
+INFO 2025-10-09 13:01:42,112 basehttp 532069 126105407190592 "GET /api/v1/journals/list HTTP/1.1" 200 2362
+INFO 2025-10-09 13:01:42,596 basehttp 532069 126105407190592 "GET /api/v1/journals/list HTTP/1.1" 200 2362
+WARNING 2025-10-09 13:01:56,104 log 532069 126105407190592 Unauthorized: /api/v1/journals/list
+WARNING 2025-10-09 13:01:56,105 basehttp 532069 126105407190592 "GET /api/v1/journals/list HTTP/1.1" 401 58
+INFO 2025-10-09 13:02:00,839 basehttp 532069 126105407190592 "GET /api/v1/journals/list HTTP/1.1" 200 2362

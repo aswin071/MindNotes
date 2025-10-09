@@ -10,3 +10,28 @@ typing_extensions==4.7.1
 pymongo==4.6.0
 mongoengine==0.27.0
 djongo==1.3.6
+
+# Performance & Caching
+redis==5.0.1
+django-redis==5.4.0
+hiredis==2.3.2
+
+# Background Tasks
+celery==5.3.4
+django-celery-beat==2.5.0
+django-celery-results==2.5.1
+
+# Database Connection Pooling
+psycopg2-pool==1.1
+
+# Monitoring & Optimization
+django-debug-toolbar==4.2.0
+django-silk==5.0.4
+
+# Additional
+djangorestframework-simplejwt==5.3.0
+
+# File Storage (Cloud)
+django-storages==1.14.2
+boto3==1.34.0  # For AWS S3
+google-cloud-storage==2.14.0  # For Google Cloud Storage

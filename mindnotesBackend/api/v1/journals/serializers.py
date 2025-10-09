@@ -15,12 +15,44 @@ class TagSerializer(serializers.ModelSerializer):
 
 class PhotoEmbedSerializer(serializers.Serializer):
     """Serializer for embedded photo data"""
-    image_url = serializers.URLField(required=True, help_text="URL of uploaded image")
+    # image_file = serializers.ImageField(required=False, write_only=True)
+    image_url = serializers.ImageField(
+        required=False,
+        help_text="URL of uploaded image",
+        max_length=None,  # No URL length limit
+    )
     caption = serializers.CharField(max_length=255, required=False, allow_blank=True)
     order = serializers.IntegerField(default=0)
     width = serializers.IntegerField(required=False, allow_null=True)
     height = serializers.IntegerField(required=False, allow_null=True)
     file_size = serializers.IntegerField(required=False, allow_null=True)
+
+    def validate_image_url(self, value):
+        """Validate image file size and type"""
+        if hasattr(value, 'size'):
+            # File size limits
+            MAX_IMAGE_SIZE = 10 * 1024 * 1024  # 10MB
+            MIN_IMAGE_SIZE = 1024  # 1KB
+
+            if value.size > MAX_IMAGE_SIZE:
+                raise serializers.ValidationError(
+                    f'Image file too large. Max size is {MAX_IMAGE_SIZE / (1024 * 1024):.1f}MB'
+                )
+
+            if value.size < MIN_IMAGE_SIZE:
+                raise serializers.ValidationError(
+                    f'Image file too small. Min size is {MIN_IMAGE_SIZE / 1024:.1f}KB'
+                )
+
+            # Validate image type
+            ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/heic']
+            if hasattr(value, 'content_type'):
+                if value.content_type not in ALLOWED_IMAGE_TYPES:
+                    raise serializers.ValidationError(
+                        'Invalid image type. Allowed types: JPEG, PNG, WebP, HEIC'
+                    )
+
+        return value
 
 
 class VoiceNoteEmbedSerializer(serializers.Serializer):
@@ -31,6 +63,33 @@ class VoiceNoteEmbedSerializer(serializers.Serializer):
     transcription = serializers.CharField(required=False, allow_blank=True)
     transcription_language = serializers.CharField(default='en', max_length=10)
     is_transcribed = serializers.BooleanField(default=False)
+
+    def validate_audio_url(self, value):
+        """Validate audio file size and type"""
+        if hasattr(value, 'size'):
+            # File size limits for audio
+            MAX_AUDIO_SIZE = 50 * 1024 * 1024  # 50MB
+            MIN_AUDIO_SIZE = 1024  # 1KB
+
+            if value.size > MAX_AUDIO_SIZE:
+                raise serializers.ValidationError(
+                    f'Audio file too large. Max size is {MAX_AUDIO_SIZE / (1024 * 1024):.1f}MB'
+                )
+
+            if value.size < MIN_AUDIO_SIZE:
+                raise serializers.ValidationError(
+                    f'Audio file too small. Min size is {MIN_AUDIO_SIZE / 1024:.1f}KB'
+                )
+
+            # Validate audio type
+            ALLOWED_AUDIO_TYPES = ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/m4a', 'audio/webm', 'audio/ogg']
+            if hasattr(value, 'content_type'):
+                if value.content_type not in ALLOWED_AUDIO_TYPES:
+                    raise serializers.ValidationError(
+                        'Invalid audio type. Allowed types: MP3, WAV, M4A, WebM, OGG'
+                    )
+
+        return value
 
 
 class PromptResponseEmbedSerializer(serializers.Serializer):
