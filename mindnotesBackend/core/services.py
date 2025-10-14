@@ -843,3 +843,688 @@ class DashboardService:
             'focus_sessions_today': today_focus,
             'has_journaled_today': today_entries > 0,
         }
+
+
+class FocusService:
+    """
+    Service layer for Focus Programs feature
+    Handles business logic for program enrollment, daily progress, sessions, and analytics
+    """
+
+    @staticmethod
+    def get_available_programs(user):
+        """
+        Get all available focus programs based on user's subscription
+        Returns programs with enrollment status
+        """
+        from focus.models import FocusProgram, UserFocusProgram
+        from subscriptions.models import Subscription
+
+        # Check user's subscription status
+        is_pro = False
+        try:
+            subscription = Subscription.objects.get(user=user)
+            is_pro = subscription.is_pro()
+        except Subscription.DoesNotExist:
+            pass
+
+        # Get all programs
+        programs = FocusProgram.objects.filter(
+            is_active=True
+        ).order_by('order', 'duration_days')
+
+        program_list = []
+        for program in programs:
+            # Check if user is enrolled
+            enrollment = UserFocusProgram.objects.filter(
+                user=user,
+                program=program,
+                status__in=['not_started', 'in_progress', 'paused']
+            ).first()
+
+            # Check if user can access this program
+            can_access = True if not program.is_pro_only else is_pro
+
+            program_data = {
+                'id': program.id,
+                'name': program.name,
+                'program_type': program.program_type,
+                'description': program.description,
+                'duration_days': program.duration_days,
+                'objectives': program.objectives,
+                'is_pro_only': program.is_pro_only,
+                'can_access': can_access,
+                'icon': program.icon,
+                'color': program.color,
+                'cover_image': program.cover_image.url if program.cover_image else None,
+                'is_enrolled': enrollment is not None,
+                'enrollment_id': enrollment.id if enrollment else None,
+                'enrollment_status': enrollment.status if enrollment else None,
+                'current_day': enrollment.current_day if enrollment else None,
+            }
+            program_list.append(program_data)
+
+        return program_list
+
+    @staticmethod
+    def enroll_in_program(user, program_id):
+        """
+        Enroll user in a focus program
+        Creates UserFocusProgram and ProgramProgressMongo entries
+        """
+        from focus.models import FocusProgram, UserFocusProgram
+        from focus.mongo_models import ProgramProgressMongo
+        from subscriptions.models import Subscription
+        from django.utils import timezone
+
+        # Get the program
+        try:
+            program = FocusProgram.objects.get(id=program_id, is_active=True)
+        except FocusProgram.DoesNotExist:
+            raise ValueError("Program not found or inactive")
+
+        # Check if program requires pro subscription
+        if program.is_pro_only:
+            try:
+                subscription = Subscription.objects.get(user=user)
+                if not subscription.is_pro():
+                    raise PermissionError("This program requires an active Pro subscription")
+            except Subscription.DoesNotExist:
+                raise PermissionError("This program requires an active Pro subscription")
+
+        # Check if user is already enrolled in an active program
+        existing_enrollment = UserFocusProgram.objects.filter(
+            user=user,
+            program=program,
+            status__in=['in_progress', 'not_started', 'paused']
+        ).first()
+
+        if existing_enrollment:
+            return {
+                'enrolled': False,
+                'message': 'Already enrolled in this program',
+                'enrollment_id': existing_enrollment.id
+            }
+
+        # Create enrollment
+        user_program = UserFocusProgram.objects.create(
+            user=user,
+            program=program,
+            status='not_started',
+            current_day=1
+        )
+
+        # Create progress tracking in MongoDB
+        progress = ProgramProgressMongo(
+            user_id=user.id,
+            user_program_id=user_program.id,
+            program_id=program.id,
+            total_days=program.duration_days,
+            days_completed=0,
+            completion_percentage=0.0,
+            started_at=timezone.now()
+        )
+        progress.save()
+
+        return {
+            'enrolled': True,
+            'enrollment_id': user_program.id,
+            'program_name': program.name,
+            'total_days': program.duration_days
+        }
+
+    @staticmethod
+    def start_program(user, enrollment_id):
+        """
+        Start a program (change status from not_started to in_progress)
+        """
+        from focus.models import UserFocusProgram
+        from django.utils import timezone
+
+        try:
+            user_program = UserFocusProgram.objects.get(
+                id=enrollment_id,
+                user=user
+            )
+        except UserFocusProgram.DoesNotExist:
+            raise ValueError("Enrollment not found")
+
+        if user_program.status not in ['not_started', 'paused']:
+            raise ValueError("Program is already started or completed")
+
+        user_program.status = 'in_progress'
+        user_program.started_at = timezone.now()
+        user_program.save()
+
+        return {
+            'started': True,
+            'enrollment_id': user_program.id,
+            'current_day': user_program.current_day
+        }
+
+    @staticmethod
+    def get_program_details(user, enrollment_id):
+        """
+        Get detailed information about user's enrolled program
+        Includes progress, current day info, and statistics
+        """
+        from focus.models import UserFocusProgram, ProgramDay
+        from focus.mongo_models import ProgramProgressMongo, UserProgramDayMongo
+
+        try:
+            user_program = UserFocusProgram.objects.select_related('program').get(
+                id=enrollment_id,
+                user=user
+            )
+        except UserFocusProgram.DoesNotExist:
+            raise ValueError("Enrollment not found")
+
+        program = user_program.program
+
+        # Get progress from MongoDB
+        progress = ProgramProgressMongo.objects(
+            user_program_id=user_program.id
+        ).first()
+
+        if not progress:
+            # Create if doesn't exist
+            from django.utils import timezone
+            progress = ProgramProgressMongo(
+                user_id=user.id,
+                user_program_id=user_program.id,
+                program_id=program.id,
+                total_days=program.duration_days,
+                started_at=timezone.now()
+            )
+            progress.save()
+
+        # Get current day info
+        current_program_day = ProgramDay.objects.filter(
+            program=program,
+            day_number=user_program.current_day
+        ).first()
+
+        current_day_progress = None
+        if current_program_day:
+            current_day_progress = UserProgramDayMongo.objects(
+                user_id=user.id,
+                user_program_id=user_program.id,
+                program_day_id=current_program_day.id
+            ).first()
+
+        return {
+            'enrollment_id': user_program.id,
+            'program': {
+                'id': program.id,
+                'name': program.name,
+                'description': program.description,
+                'duration_days': program.duration_days,
+                'objectives': program.objectives,
+            },
+            'status': user_program.status,
+            'current_day': user_program.current_day,
+            'started_at': user_program.started_at,
+            'progress': {
+                'days_completed': progress.days_completed,
+                'completion_percentage': progress.completion_percentage,
+                'total_focus_minutes': progress.total_focus_minutes,
+                'total_sessions': progress.total_sessions,
+                'current_streak': progress.current_streak,
+                'longest_streak': progress.longest_streak,
+                'achievements': progress.achievements,
+            },
+            'current_day_info': {
+                'day_number': current_program_day.day_number if current_program_day else None,
+                'title': current_program_day.title if current_program_day else None,
+                'description': current_program_day.description if current_program_day else None,
+                'focus_duration': current_program_day.focus_duration if current_program_day else 25,
+                'tasks': current_program_day.tasks if current_program_day else [],
+                'tips': current_program_day.tips if current_program_day else [],
+                'reflection_prompts': current_program_day.reflection_prompts if current_program_day else [],
+                'is_completed': current_day_progress.is_completed if current_day_progress else False,
+                'tasks_progress': {
+                    'completed': current_day_progress.tasks_completed_count if current_day_progress else 0,
+                    'total': current_day_progress.tasks_total_count if current_day_progress else 0,
+                } if current_day_progress else None,
+            } if current_program_day else None,
+        }
+
+    @staticmethod
+    def get_day_details(user, enrollment_id, day_number):
+        """
+        Get detailed information for a specific program day
+        """
+        from focus.models import UserFocusProgram, ProgramDay
+        from focus.mongo_models import UserProgramDayMongo
+
+        try:
+            user_program = UserFocusProgram.objects.select_related('program').get(
+                id=enrollment_id,
+                user=user
+            )
+        except UserFocusProgram.DoesNotExist:
+            raise ValueError("Enrollment not found")
+
+        # Get program day template
+        try:
+            program_day = ProgramDay.objects.get(
+                program=user_program.program,
+                day_number=day_number
+            )
+        except ProgramDay.DoesNotExist:
+            raise ValueError(f"Day {day_number} not found for this program")
+
+        # Get or create user's progress for this day
+        user_day = UserProgramDayMongo.objects(
+            user_id=user.id,
+            user_program_id=user_program.id,
+            program_day_id=program_day.id
+        ).first()
+
+        if not user_day:
+            from focus.mongo_models import DailyTaskEmbed
+            from datetime import datetime
+
+            # Create new day progress
+            tasks = [
+                DailyTaskEmbed(task_text=task, order=i)
+                for i, task in enumerate(program_day.tasks)
+            ]
+
+            user_day = UserProgramDayMongo(
+                user_id=user.id,
+                user_program_id=user_program.id,
+                program_id=user_program.program.id,
+                program_day_id=program_day.id,
+                day_number=day_number,
+                tasks=tasks,
+                tasks_total_count=len(tasks),
+                target_focus_minutes=program_day.focus_duration,
+                started_at=datetime.utcnow()
+            )
+            user_day.save()
+
+        return {
+            'day_number': program_day.day_number,
+            'title': program_day.title,
+            'description': program_day.description,
+            'focus_duration': program_day.focus_duration,
+            'tips': program_day.tips,
+            'reflection_prompts': program_day.reflection_prompts,
+            'user_progress': {
+                'is_completed': user_day.is_completed,
+                'started_at': user_day.started_at,
+                'completed_at': user_day.completed_at,
+                'tasks': [
+                    {
+                        'text': task.task_text,
+                        'is_completed': task.is_completed,
+                        'completed_at': task.completed_at,
+                        'order': task.order
+                    }
+                    for task in user_day.tasks
+                ],
+                'tasks_completed': user_day.tasks_completed_count,
+                'tasks_total': user_day.tasks_total_count,
+                'focus_minutes': user_day.total_focus_minutes,
+                'target_focus_minutes': user_day.target_focus_minutes,
+                'reflections': [
+                    {
+                        'question': refl.question,
+                        'answer': refl.answer,
+                        'answered_at': refl.answered_at
+                    }
+                    for refl in user_day.reflections
+                ],
+                'difficulty_rating': user_day.difficulty_rating,
+                'satisfaction_rating': user_day.satisfaction_rating,
+                'notes': user_day.notes,
+            }
+        }
+
+    @staticmethod
+    def update_task_status(user, enrollment_id, day_number, task_index, is_completed):
+        """
+        Mark a task as completed or incomplete
+        """
+        from focus.models import UserFocusProgram, ProgramDay
+        from focus.mongo_models import UserProgramDayMongo
+        from datetime import datetime
+
+        try:
+            user_program = UserFocusProgram.objects.get(id=enrollment_id, user=user)
+        except UserFocusProgram.DoesNotExist:
+            raise ValueError("Enrollment not found")
+
+        # Get program day
+        program_day = ProgramDay.objects.filter(
+            program=user_program.program,
+            day_number=day_number
+        ).first()
+
+        if not program_day:
+            raise ValueError(f"Day {day_number} not found")
+
+        # Get user day progress
+        user_day = UserProgramDayMongo.objects(
+            user_id=user.id,
+            user_program_id=user_program.id,
+            program_day_id=program_day.id
+        ).first()
+
+        if not user_day:
+            raise ValueError("Day progress not found. Start the day first.")
+
+        # Update task status
+        if 0 <= task_index < len(user_day.tasks):
+            user_day.tasks[task_index].is_completed = is_completed
+            if is_completed:
+                user_day.tasks[task_index].completed_at = datetime.utcnow()
+            else:
+                user_day.tasks[task_index].completed_at = None
+
+            user_day.tasks_completed_count = sum(1 for task in user_day.tasks if task.is_completed)
+            user_day.updated_at = datetime.utcnow()
+            user_day.save()
+
+            # Check if day is now complete
+            user_day.check_completion()
+
+            return {
+                'success': True,
+                'tasks_completed': user_day.tasks_completed_count,
+                'tasks_total': user_day.tasks_total_count
+            }
+        else:
+            raise ValueError("Invalid task index")
+
+    @staticmethod
+    def start_focus_session(user, enrollment_id, day_number, duration_minutes, session_type='program'):
+        """
+        Start a new focus session for a program day
+        """
+        from focus.models import UserFocusProgram, ProgramDay
+        from focus.mongo_models import FocusSessionMongo, UserProgramDayMongo
+        from datetime import datetime
+
+        try:
+            user_program = UserFocusProgram.objects.get(id=enrollment_id, user=user)
+        except UserFocusProgram.DoesNotExist:
+            raise ValueError("Enrollment not found")
+
+        # Get program day
+        program_day = ProgramDay.objects.filter(
+            program=user_program.program,
+            day_number=day_number
+        ).first()
+
+        # Check if there's already an active session
+        active_session = FocusSessionMongo.objects(
+            user_id=user.id,
+            status='active',
+            is_active=True
+        ).first()
+
+        if active_session:
+            raise ValueError("You already have an active focus session. Please complete or cancel it first.")
+
+        # Create focus session
+        session = FocusSessionMongo(
+            user_id=user.id,
+            session_type=session_type,
+            status='active',
+            planned_duration_seconds=duration_minutes * 60,
+            program_id=user_program.program.id,
+            program_day_id=program_day.id if program_day else None,
+            user_program_id=user_program.id,
+            started_at=datetime.utcnow(),
+            last_tick_at=datetime.utcnow(),
+            is_active=True
+        )
+        session.save()
+
+        return {
+            'session_id': str(session.id),
+            'started_at': session.started_at,
+            'planned_duration_seconds': session.planned_duration_seconds,
+            'status': session.status
+        }
+
+    @staticmethod
+    def complete_focus_session(user, session_id, productivity_rating=None, notes=''):
+        """
+        Complete a focus session and update progress
+        """
+        from focus.models import UserFocusProgram
+        from focus.mongo_models import FocusSessionMongo, UserProgramDayMongo, ProgramProgressMongo
+        from datetime import datetime
+
+        try:
+            session = FocusSessionMongo.objects.get(id=session_id, user_id=user.id)
+        except FocusSessionMongo.DoesNotExist:
+            raise ValueError("Session not found")
+
+        if session.status != 'active':
+            raise ValueError("Session is not active")
+
+        # Complete session
+        session.status = 'completed'
+        session.ended_at = datetime.utcnow()
+        session.actual_duration_seconds = int((session.ended_at - session.started_at).total_seconds())
+        session.actual_duration_seconds -= session.total_pause_duration_seconds  # Subtract pause time
+        session.is_active = False
+
+        if productivity_rating:
+            session.productivity_rating = productivity_rating
+        if notes:
+            session.notes = notes
+
+        session.save()
+
+        # Update user program day progress
+        if session.user_program_id and session.program_day_id:
+            user_day = UserProgramDayMongo.objects(
+                user_id=user.id,
+                user_program_id=session.user_program_id,
+                program_day_id=session.program_day_id
+            ).first()
+
+            if user_day:
+                focus_minutes = session.actual_duration_seconds // 60
+                user_day.total_focus_minutes += focus_minutes
+                user_day.focus_sessions.append(str(session.id))
+                user_day.updated_at = datetime.utcnow()
+                user_day.save()
+
+                # Check if day is complete
+                user_day.check_completion()
+
+                # Update program progress
+                progress = ProgramProgressMongo.objects(
+                    user_program_id=session.user_program_id
+                ).first()
+
+                if progress:
+                    progress.total_focus_minutes += focus_minutes
+                    progress.total_sessions += 1
+                    progress.update_progress()
+                    progress.update_streak(True)
+
+                    # Check if day just completed
+                    if user_day.is_completed:
+                        progress.days_completed += 1
+                        progress.update_progress()
+
+                        # Update UserFocusProgram
+                        try:
+                            user_program = UserFocusProgram.objects.get(id=session.user_program_id)
+                            if user_day.day_number == user_program.current_day:
+                                user_program.current_day += 1
+                                user_program.save()
+
+                                # Check if program is complete
+                                if user_program.current_day > user_program.program.duration_days:
+                                    user_program.status = 'completed'
+                                    user_program.completed_at = datetime.utcnow()
+                                    progress.completed_at = datetime.utcnow()
+                                    progress.save()
+                                    user_program.save()
+                        except UserFocusProgram.DoesNotExist:
+                            pass
+
+        return {
+            'completed': True,
+            'session_id': str(session.id),
+            'actual_duration_minutes': session.actual_duration_seconds // 60,
+            'ended_at': session.ended_at
+        }
+
+    @staticmethod
+    def add_reflection(user, enrollment_id, day_number, question, answer):
+        """
+        Add a reflection response for a program day
+        """
+        from focus.models import UserFocusProgram, ProgramDay
+        from focus.mongo_models import UserProgramDayMongo
+
+        try:
+            user_program = UserFocusProgram.objects.get(id=enrollment_id, user=user)
+        except UserFocusProgram.DoesNotExist:
+            raise ValueError("Enrollment not found")
+
+        # Get program day
+        program_day = ProgramDay.objects.filter(
+            program=user_program.program,
+            day_number=day_number
+        ).first()
+
+        if not program_day:
+            raise ValueError(f"Day {day_number} not found")
+
+        # Get user day progress
+        user_day = UserProgramDayMongo.objects(
+            user_id=user.id,
+            user_program_id=user_program.id,
+            program_day_id=program_day.id
+        ).first()
+
+        if not user_day:
+            raise ValueError("Day progress not found. Start the day first.")
+
+        # Add reflection
+        user_day.add_reflection_response(question, answer, prompt_id=program_day.id)
+
+        # Check if all reflections are complete
+        if len(user_day.reflections) >= len(program_day.reflection_prompts):
+            user_day.reflections_completed = True
+            user_day.save()
+
+        # Check if day is now complete
+        user_day.check_completion()
+
+        return {
+            'success': True,
+            'reflections_count': len(user_day.reflections),
+            'day_completed': user_day.is_completed
+        }
+
+    @staticmethod
+    def get_weekly_review(user, enrollment_id, week_number):
+        """
+        Get weekly review summary for a program
+        """
+        from focus.models import UserFocusProgram
+        from focus.mongo_models import ProgramProgressMongo, UserProgramDayMongo
+
+        try:
+            user_program = UserFocusProgram.objects.select_related('program').get(
+                id=enrollment_id,
+                user=user
+            )
+        except UserFocusProgram.DoesNotExist:
+            raise ValueError("Enrollment not found")
+
+        # Calculate day range for the week
+        start_day = (week_number - 1) * 7 + 1
+        end_day = min(week_number * 7, user_program.program.duration_days)
+
+        # Get progress
+        progress = ProgramProgressMongo.objects(
+            user_program_id=user_program.id
+        ).first()
+
+        if not progress:
+            raise ValueError("Progress not found")
+
+        # Get all days for this week
+        week_days = UserProgramDayMongo.objects(
+            user_id=user.id,
+            user_program_id=user_program.id,
+            day_number__gte=start_day,
+            day_number__lte=end_day
+        )
+
+        # Calculate week statistics
+        days_completed = sum(1 for day in week_days if day.is_completed)
+        total_focus_minutes = sum(day.total_focus_minutes for day in week_days)
+        avg_difficulty = sum(day.difficulty_rating for day in week_days if day.difficulty_rating) / max(len([d for d in week_days if d.difficulty_rating]), 1)
+        avg_satisfaction = sum(day.satisfaction_rating for day in week_days if day.satisfaction_rating) / max(len([d for d in week_days if d.satisfaction_rating]), 1)
+
+        # Get weekly summary if exists
+        weekly_summary = next(
+            (ws for ws in progress.weekly_summaries if ws['week'] == week_number),
+            None
+        )
+
+        return {
+            'week_number': week_number,
+            'start_day': start_day,
+            'end_day': end_day,
+            'days_completed': days_completed,
+            'total_days': end_day - start_day + 1,
+            'completion_rate': (days_completed / (end_day - start_day + 1)) * 100,
+            'total_focus_minutes': total_focus_minutes,
+            'average_difficulty': round(avg_difficulty, 1) if avg_difficulty else None,
+            'average_satisfaction': round(avg_satisfaction, 1) if avg_satisfaction else None,
+            'current_streak': progress.current_streak,
+            'achievements_earned': [
+                ach for ach in progress.achievements
+                if ach.get('earned_at') and
+                   start_day <= ((ach.get('earned_at') - progress.started_at).days + 1) <= end_day
+            ],
+            'summary': weekly_summary['summary'] if weekly_summary else '',
+        }
+
+    @staticmethod
+    def get_program_history(user):
+        """
+        Get user's program history (all enrollments)
+        """
+        from focus.models import UserFocusProgram
+        from focus.mongo_models import ProgramProgressMongo
+
+        enrollments = UserFocusProgram.objects.filter(
+            user=user
+        ).select_related('program').order_by('-created_at')
+
+        history = []
+        for enrollment in enrollments:
+            progress = ProgramProgressMongo.objects(
+                user_program_id=enrollment.id
+            ).first()
+
+            history.append({
+                'enrollment_id': enrollment.id,
+                'program_name': enrollment.program.name,
+                'program_type': enrollment.program.program_type,
+                'status': enrollment.status,
+                'started_at': enrollment.started_at,
+                'completed_at': enrollment.completed_at,
+                'current_day': enrollment.current_day,
+                'total_days': enrollment.program.duration_days,
+                'completion_percentage': progress.completion_percentage if progress else 0,
+                'total_focus_minutes': progress.total_focus_minutes if progress else 0,
+                'current_streak': progress.current_streak if progress else 0,
+            })
+
+        return history
