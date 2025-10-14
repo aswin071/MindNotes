@@ -181,7 +181,7 @@ class GoogleSignupView(APIView):
 
 # ============ DASHBOARD API ============
 
-class DashboardView(APIView):
+class HomeView(APIView):
     """
     GET /api/v1/authentication/dashboard/
 

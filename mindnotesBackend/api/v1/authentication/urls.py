@@ -8,7 +8,7 @@ from .views import (
     RefreshTokenWrappedView,
     GoogleSignInView,
     GoogleSignupView,
-    DashboardView,
+    HomeView,
 )
 
 urlpatterns = [
@@ -24,7 +24,7 @@ urlpatterns = [
     path('login/google', GoogleSignInView.as_view(),                                                name='auth-login-google'),
 
     # Home Page
-    path('home', DashboardView.as_view(),                                                           name='home'),
+    path('home', HomeView.as_view(),                                                                name='home'),
 ]
 
 

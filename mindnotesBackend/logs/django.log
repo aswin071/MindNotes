@@ -535,3 +535,334 @@ INFO 2025-10-09 13:01:42,596 basehttp 532069 126105407190592 "GET /api/v1/journa
 WARNING 2025-10-09 13:01:56,104 log 532069 126105407190592 Unauthorized: /api/v1/journals/list
 WARNING 2025-10-09 13:01:56,105 basehttp 532069 126105407190592 "GET /api/v1/journals/list HTTP/1.1" 401 58
 INFO 2025-10-09 13:02:00,839 basehttp 532069 126105407190592 "GET /api/v1/journals/list HTTP/1.1" 200 2362
+INFO 2025-10-14 07:59:36,476 autoreload 373099 129280441403200 Watching for file changes with StatReloader
+INFO 2025-10-14 08:00:01,408 basehttp 373099 129280101570112 "POST /api/v1/authentication/signup HTTP/1.1" 201 1363
+INFO 2025-10-14 08:03:12,024 basehttp 373099 129280087930432 "GET /api/v1/journals/tags HTTP/1.1" 200 106
+WARNING 2025-10-14 08:03:50,930 log 373099 129280087930432 Method Not Allowed: /api/v1/journals/tags/create
+WARNING 2025-10-14 08:03:50,931 basehttp 373099 129280087930432 "GET /api/v1/journals/tags/create HTTP/1.1" 405 40
+WARNING 2025-10-14 08:03:53,869 log 373099 129280087930432 Bad Request: /api/v1/journals/tags/create
+WARNING 2025-10-14 08:03:53,869 basehttp 373099 129280087930432 "POST /api/v1/journals/tags/create HTTP/1.1" 400 144
+INFO 2025-10-14 08:04:10,251 basehttp 373099 129280087930432 "POST /api/v1/journals/tags/create HTTP/1.1" 201 241
+INFO 2025-10-14 08:04:40,878 basehttp 373099 129280087930432 "GET /api/v1/journals/tags HTTP/1.1" 200 246
+WARNING 2025-10-14 08:05:11,744 log 373099 129280087930432 Bad Request: /api/v1/authentication/signup
+WARNING 2025-10-14 08:05:11,744 basehttp 373099 129280087930432 "POST /api/v1/authentication/signup HTTP/1.1" 400 156
+WARNING 2025-10-14 08:07:21,078 log 373099 129280079537728 Bad Request: /api/v1/authentication/signup
+WARNING 2025-10-14 08:07:21,078 basehttp 373099 129280079537728 "POST /api/v1/authentication/signup HTTP/1.1" 400 156
+INFO 2025-10-14 08:07:48,221 basehttp 373099 129280079537728 "POST /api/v1/authentication/signup HTTP/1.1" 201 1363
+INFO 2025-10-14 08:08:21,810 basehttp 373099 129280079537728 "POST /api/v1/authentication/login HTTP/1.1" 200 1356
+INFO 2025-10-14 08:08:37,169 basehttp 373099 129280079537728 "GET /api/v1/journals/tags HTTP/1.1" 200 3081
+INFO 2025-10-14 08:12:05,045 basehttp 373099 129280071145024 "POST /api/v1/journals/tags/create HTTP/1.1" 201 244
+INFO 2025-10-14 08:12:10,832 basehttp 373099 129280071145024 "GET /api/v1/journals/tags HTTP/1.1" 200 3226
+INFO 2025-10-14 08:12:34,226 basehttp 373099 129280071145024 "POST /api/v1/authentication/login HTTP/1.1" 200 1052
+WARNING 2025-10-14 08:12:46,328 log 373099 129280071145024 Unauthorized: /api/v1/journals/tags
+WARNING 2025-10-14 08:12:46,328 basehttp 373099 129280071145024 "GET /api/v1/journals/tags HTTP/1.1" 401 183
+INFO 2025-10-14 08:13:09,079 basehttp 373099 129280071145024 "GET /api/v1/journals/tags HTTP/1.1" 200 246
+INFO 2025-10-14 08:13:12,536 basehttp 373099 129280071145024 "GET /api/v1/journals/tags HTTP/1.1" 200 246
+INFO 2025-10-14 08:13:57,579 basehttp 373099 129280071145024 "POST /api/v1/authentication/login HTTP/1.1" 200 1356
+WARNING 2025-10-14 08:14:02,525 log 373099 129280071145024 Unauthorized: /api/v1/journals/tags
+WARNING 2025-10-14 08:14:02,525 basehttp 373099 129280071145024 "GET /api/v1/journals/tags HTTP/1.1" 401 183
+WARNING 2025-10-14 08:14:03,634 log 373099 129280071145024 Unauthorized: /api/v1/journals/tags
+WARNING 2025-10-14 08:14:03,634 basehttp 373099 129280071145024 "GET /api/v1/journals/tags HTTP/1.1" 401 183
+WARNING 2025-10-14 08:14:04,317 log 373099 129280071145024 Unauthorized: /api/v1/journals/tags
+WARNING 2025-10-14 08:14:04,317 basehttp 373099 129280071145024 "GET /api/v1/journals/tags HTTP/1.1" 401 183
+WARNING 2025-10-14 08:14:04,935 log 373099 129280071145024 Unauthorized: /api/v1/journals/tags
+WARNING 2025-10-14 08:14:04,936 basehttp 373099 129280071145024 "GET /api/v1/journals/tags HTTP/1.1" 401 183
+WARNING 2025-10-14 08:14:05,353 log 373099 129280071145024 Unauthorized: /api/v1/journals/tags
+WARNING 2025-10-14 08:14:05,354 basehttp 373099 129280071145024 "GET /api/v1/journals/tags HTTP/1.1" 401 183
+WARNING 2025-10-14 08:14:05,732 log 373099 129280071145024 Unauthorized: /api/v1/journals/tags
+WARNING 2025-10-14 08:14:05,732 basehttp 373099 129280071145024 "GET /api/v1/journals/tags HTTP/1.1" 401 183
+WARNING 2025-10-14 08:14:06,757 log 373099 129280071145024 Unauthorized: /api/v1/journals/tags
+WARNING 2025-10-14 08:14:06,757 basehttp 373099 129280071145024 "GET /api/v1/journals/tags HTTP/1.1" 401 183
+WARNING 2025-10-14 08:16:42,309 log 373099 129279723566656 Not Found: /api/signin
+WARNING 2025-10-14 08:16:42,309 basehttp 373099 129279723566656 "POST /api/signin HTTP/1.1" 404 3065
+INFO 2025-10-14 08:18:43,458 basehttp 373099 129279715173952 "GET /api/v1/subscriptions/profile HTTP/1.1" 301 0
+INFO 2025-10-14 08:18:43,493 basehttp 373099 129279715173952 "GET /api/v1/subscriptions/profile/ HTTP/1.1" 200 629
+INFO 2025-10-14 08:24:14,638 basehttp 373099 129279706781248 "GET /api/v1/journals/tags HTTP/1.1" 200 3226
+INFO 2025-10-14 08:24:37,662 basehttp 373099 129279706781248 "POST /api/v1/journals/create HTTP/1.1" 201 726
+INFO 2025-10-14 08:28:38,621 basehttp 373099 129279698388544 "GET /api/v1/journals/list HTTP/1.1" 200 737
+INFO 2025-10-14 08:42:25,368 autoreload 373099 129280441403200 /home/aswin/MindNotes/mindnotesBackend/api/v1/prompts/urls.py changed, reloading.
+INFO 2025-10-14 08:42:26,257 autoreload 452423 131611815008064 Watching for file changes with StatReloader
+INFO 2025-10-14 08:46:17,350 autoreload 452423 131611815008064 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-10-14 08:46:18,484 autoreload 459163 134557408966464 Watching for file changes with StatReloader
+INFO 2025-10-14 08:46:32,170 autoreload 459163 134557408966464 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-10-14 08:46:32,949 autoreload 459804 129897415214912 Watching for file changes with StatReloader
+INFO 2025-10-14 08:46:50,665 autoreload 459804 129897415214912 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-10-14 08:46:51,568 autoreload 460470 139161255696192 Watching for file changes with StatReloader
+INFO 2025-10-14 08:46:54,046 autoreload 460470 139161255696192 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-10-14 08:46:55,005 autoreload 460540 129991509546816 Watching for file changes with StatReloader
+INFO 2025-10-14 08:47:06,572 autoreload 460540 129991509546816 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-10-14 08:47:07,586 autoreload 461186 140067342112576 Watching for file changes with StatReloader
+INFO 2025-10-14 08:47:15,195 autoreload 461186 140067342112576 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-10-14 08:47:15,890 autoreload 461395 135948529157952 Watching for file changes with StatReloader
+INFO 2025-10-14 08:47:57,006 autoreload 461395 135948529157952 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-10-14 08:47:57,878 autoreload 462584 136248389265216 Watching for file changes with StatReloader
+INFO 2025-10-14 08:48:10,365 autoreload 462584 136248389265216 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-10-14 08:48:11,262 autoreload 463208 131951799572288 Watching for file changes with StatReloader
+INFO 2025-10-14 08:48:14,645 autoreload 463208 131951799572288 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-10-14 08:48:15,896 autoreload 463384 137597615339328 Watching for file changes with StatReloader
+INFO 2025-10-14 08:48:18,276 autoreload 463384 137597615339328 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-10-14 08:48:19,292 autoreload 463452 123946045122368 Watching for file changes with StatReloader
+INFO 2025-10-14 08:50:28,054 autoreload 463452 123946045122368 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-10-14 08:50:28,934 autoreload 467918 131294096193344 Watching for file changes with StatReloader
+INFO 2025-10-14 08:51:57,042 autoreload 467918 131294096193344 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-10-14 08:51:57,788 autoreload 470366 133475202225984 Watching for file changes with StatReloader
+INFO 2025-10-14 08:52:25,444 autoreload 471142 138687715854144 Watching for file changes with StatReloader
+INFO 2025-10-14 08:58:27,389 basehttp 471142 138687375472192 "GET /api/v1/prompts/today HTTP/1.1" 200 1871
+INFO 2025-10-14 08:59:00,205 autoreload 471142 138687715854144 /home/aswin/MindNotes/mindnotesBackend/api/v1/prompts/views.py changed, reloading.
+INFO 2025-10-14 08:59:01,200 autoreload 483241 132441496516416 Watching for file changes with StatReloader
+INFO 2025-10-14 08:59:16,204 basehttp 483241 132441087931968 "GET /api/v1/prompts/today HTTP/1.1" 200 1869
+INFO 2025-10-14 08:59:24,568 basehttp 483241 132441087931968 "GET /api/v1/prompts/today HTTP/1.1" 200 1869
+INFO 2025-10-14 09:00:07,423 basehttp 483241 132441087931968 "POST /api/v1/authentication/login HTTP/1.1" 200 1052
+INFO 2025-10-14 09:00:27,141 basehttp 483241 132441087931968 "GET /api/v1/prompts/today HTTP/1.1" 200 1846
+INFO 2025-10-14 09:06:29,892 autoreload 483241 132441496516416 /home/aswin/MindNotes/mindnotesBackend/api/v1/prompts/urls.py changed, reloading.
+INFO 2025-10-14 09:06:30,857 autoreload 497421 138283866122048 Watching for file changes with StatReloader
+INFO 2025-10-14 09:06:36,253 autoreload 497421 138283866122048 /home/aswin/MindNotes/mindnotesBackend/api/v1/prompts/urls.py changed, reloading.
+INFO 2025-10-14 09:06:37,134 autoreload 497497 139729816360768 Watching for file changes with StatReloader
+INFO 2025-10-14 09:06:40,484 autoreload 497497 139729816360768 /home/aswin/MindNotes/mindnotesBackend/api/v1/prompts/urls.py changed, reloading.
+INFO 2025-10-14 09:06:41,430 autoreload 497545 129530167605056 Watching for file changes with StatReloader
+INFO 2025-10-14 09:06:45,811 autoreload 497545 129530167605056 /home/aswin/MindNotes/mindnotesBackend/api/v1/prompts/urls.py changed, reloading.
+INFO 2025-10-14 09:06:46,691 autoreload 498089 137783013001024 Watching for file changes with StatReloader
+WARNING 2025-10-14 09:08:24,411 log 498089 137782738544192 Unauthorized: /api/v1/prompts/history
+WARNING 2025-10-14 09:08:24,411 basehttp 498089 137782738544192 "GET /api/v1/prompts/history HTTP/1.1" 401 58
+INFO 2025-10-14 09:10:08,400 basehttp 498089 137782730151488 "POST /api/v1/authentication/login HTTP/1.1" 200 1356
+INFO 2025-10-14 09:10:27,515 basehttp 498089 137782730151488 "GET /api/v1/prompts/today HTTP/1.1" 200 1869
+WARNING 2025-10-14 09:11:00,555 log 498089 137782730151488 Method Not Allowed: /api/v1/prompts/respond
+WARNING 2025-10-14 09:11:00,555 basehttp 498089 137782730151488 "GET /api/v1/prompts/respond HTTP/1.1" 405 40
+INFO 2025-10-14 09:11:03,871 basehttp 498089 137782730151488 "POST /api/v1/prompts/respond HTTP/1.1" 201 303
+INFO 2025-10-14 09:12:07,041 basehttp 498089 137782720710208 "GET /api/v1/prompts/streak HTTP/1.1" 200 336
+INFO 2025-10-14 09:12:24,492 basehttp 498089 137782720710208 "GET /api/v1/prompts/history HTTP/1.1" 200 483
+INFO 2025-10-14 09:12:54,277 autoreload 498089 137783013001024 /home/aswin/MindNotes/mindnotesBackend/api/v1/prompts/views.py changed, reloading.
+INFO 2025-10-14 09:12:55,023 autoreload 509058 127013205579584 Watching for file changes with StatReloader
+INFO 2025-10-14 09:12:56,359 autoreload 509058 127013205579584 /home/aswin/MindNotes/mindnotesBackend/api/v1/prompts/views.py changed, reloading.
+INFO 2025-10-14 09:12:56,559 basehttp 509058 127012865300032 "GET /api/v1/prompts/history HTTP/1.1" 200 483
+INFO 2025-10-14 09:12:59,283 autoreload 509119 134494576060224 Watching for file changes with StatReloader
+INFO 2025-10-14 09:13:04,681 autoreload 509119 134494576060224 /home/aswin/MindNotes/mindnotesBackend/api/v1/prompts/views.py changed, reloading.
+INFO 2025-10-14 09:13:05,663 autoreload 509678 128104615229248 Watching for file changes with StatReloader
+INFO 2025-10-14 09:13:06,950 basehttp 509678 128104275629632 "GET /api/v1/prompts/history HTTP/1.1" 200 381
+INFO 2025-10-14 09:13:17,228 basehttp 509678 128104275629632 "GET /api/v1/prompts/today HTTP/1.1" 200 1869
+INFO 2025-10-14 09:20:09,592 basehttp 509678 128104265139776 "GET /api/v1/prompts/history HTTP/1.1" 200 381
+INFO 2025-10-14 09:20:23,520 basehttp 509678 128104265139776 "GET /api/v1/prompts/streak HTTP/1.1" 200 336
+INFO 2025-10-14 10:36:12,534 autoreload 663607 124914480011072 Watching for file changes with StatReloader
+INFO 2025-10-14 10:36:17,966 basehttp 663607 124914205976128 "POST /api/v1/prompts/respond HTTP/1.1" 201 309
+INFO 2025-10-14 10:36:22,649 basehttp 663607 124914205976128 "GET /api/v1/prompts/today HTTP/1.1" 200 1868
+WARNING 2025-10-14 10:36:45,927 log 663607 124914205976128 Bad Request: /api/v1/prompts/respond
+WARNING 2025-10-14 10:36:45,927 basehttp 663607 124914205976128 "POST /api/v1/prompts/respond HTTP/1.1" 400 118
+INFO 2025-10-14 10:37:28,605 basehttp 663607 124914205976128 "POST /api/v1/prompts/respond HTTP/1.1" 201 305
+INFO 2025-10-14 10:37:41,599 basehttp 663607 124914205976128 "GET /api/v1/prompts/history HTTP/1.1" 200 889
+INFO 2025-10-14 10:38:06,827 basehttp 663607 124914205976128 "POST /api/v1/authentication/login HTTP/1.1" 200 1052
+INFO 2025-10-14 10:38:22,332 basehttp 663607 124914205976128 "GET /api/v1/prompts/history HTTP/1.1" 200 122
+INFO 2025-10-14 10:38:25,484 basehttp 663607 124914205976128 "GET /api/v1/prompts/today HTTP/1.1" 200 1846
+INFO 2025-10-14 11:30:32,213 autoreload 663607 124914480011072 /home/aswin/MindNotes/mindnotesBackend/focus/mongo_models.py changed, reloading.
+INFO 2025-10-14 11:30:33,024 autoreload 764611 132732709222208 Watching for file changes with StatReloader
+INFO 2025-10-14 11:32:22,509 autoreload 764611 132732709222208 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-10-14 11:32:23,467 autoreload 767818 123343685556032 Watching for file changes with StatReloader
+INFO 2025-10-14 11:34:32,544 autoreload 767818 123343685556032 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/urls.py changed, reloading.
+INFO 2025-10-14 11:34:33,501 autoreload 772078 130679850821440 Watching for file changes with StatReloader
+INFO 2025-10-14 11:54:47,095 basehttp 772078 130679510128192 "GET /api/v1/focus/programs HTTP/1.1" 301 0
+INFO 2025-10-14 11:54:47,111 basehttp 772078 130679510128192 "GET /api/v1/focus/programs/ HTTP/1.1" 200 1062
+INFO 2025-10-14 11:55:04,717 autoreload 772078 130679850821440 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 11:55:05,650 autoreload 810007 131019609962304 Watching for file changes with StatReloader
+INFO 2025-10-14 11:55:07,997 autoreload 810007 131019609962304 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 11:55:08,935 autoreload 810058 125749483222848 Watching for file changes with StatReloader
+INFO 2025-10-14 11:55:26,342 autoreload 810058 125749483222848 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 11:55:27,231 autoreload 810714 131873652692800 Watching for file changes with StatReloader
+INFO 2025-10-14 11:55:32,460 autoreload 810714 131873652692800 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 11:55:33,049 autoreload 810787 140642009470784 Watching for file changes with StatReloader
+INFO 2025-10-14 11:55:35,385 autoreload 810787 140642009470784 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 11:55:36,341 autoreload 810826 135581361067840 Watching for file changes with StatReloader
+INFO 2025-10-14 11:55:39,704 autoreload 810826 135581361067840 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 11:55:40,742 autoreload 810889 128890192922432 Watching for file changes with StatReloader
+INFO 2025-10-14 11:55:41,211 basehttp 810889 128889853040192 "GET /api/v1/focus/programs HTTP/1.1" 301 0
+INFO 2025-10-14 11:55:41,224 basehttp 810889 128889853040192 "GET /api/v1/focus/programs/ HTTP/1.1" 200 1228
+INFO 2025-10-14 11:56:23,279 autoreload 812268 124048294520640 Watching for file changes with StatReloader
+INFO 2025-10-14 11:57:44,134 autoreload 812268 124048294520640 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/urls.py changed, reloading.
+INFO 2025-10-14 11:57:44,654 autoreload 814732 137234294081344 Watching for file changes with StatReloader
+INFO 2025-10-14 11:57:48,006 autoreload 814732 137234294081344 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/urls.py changed, reloading.
+INFO 2025-10-14 11:57:48,960 autoreload 815384 139158500235072 Watching for file changes with StatReloader
+INFO 2025-10-14 11:57:50,262 autoreload 815384 139158500235072 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/urls.py changed, reloading.
+INFO 2025-10-14 11:57:50,741 autoreload 815419 139397592061760 Watching for file changes with StatReloader
+INFO 2025-10-14 11:57:52,067 autoreload 815419 139397592061760 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/urls.py changed, reloading.
+INFO 2025-10-14 11:57:53,025 autoreload 815452 140710931244864 Watching for file changes with StatReloader
+INFO 2025-10-14 11:57:54,347 autoreload 815452 140710931244864 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/urls.py changed, reloading.
+INFO 2025-10-14 11:57:55,347 autoreload 815490 125557670266688 Watching for file changes with StatReloader
+INFO 2025-10-14 11:57:57,685 autoreload 815490 125557670266688 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/urls.py changed, reloading.
+INFO 2025-10-14 11:57:58,638 autoreload 815539 127653695309632 Watching for file changes with StatReloader
+INFO 2025-10-14 11:57:59,972 autoreload 815539 127653695309632 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/urls.py changed, reloading.
+INFO 2025-10-14 11:58:00,912 autoreload 815579 126061627107136 Watching for file changes with StatReloader
+INFO 2025-10-14 11:58:04,270 autoreload 815579 126061627107136 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/urls.py changed, reloading.
+INFO 2025-10-14 11:58:05,242 autoreload 815619 130313993402176 Watching for file changes with StatReloader
+INFO 2025-10-14 11:58:08,599 autoreload 815619 130313993402176 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/urls.py changed, reloading.
+INFO 2025-10-14 11:58:09,563 autoreload 816164 128427315803968 Watching for file changes with StatReloader
+INFO 2025-10-14 11:58:10,876 autoreload 816164 128427315803968 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/urls.py changed, reloading.
+INFO 2025-10-14 11:58:11,932 autoreload 816224 132031064557376 Watching for file changes with StatReloader
+INFO 2025-10-14 11:58:13,293 autoreload 816224 132031064557376 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/urls.py changed, reloading.
+INFO 2025-10-14 11:58:14,290 autoreload 816262 123155042228032 Watching for file changes with StatReloader
+INFO 2025-10-14 11:58:16,705 autoreload 816262 123155042228032 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/urls.py changed, reloading.
+INFO 2025-10-14 11:58:17,528 autoreload 816315 135930671712064 Watching for file changes with StatReloader
+INFO 2025-10-14 11:58:19,873 autoreload 816315 135930671712064 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/urls.py changed, reloading.
+INFO 2025-10-14 11:58:20,820 autoreload 816364 132093123221312 Watching for file changes with StatReloader
+WARNING 2025-10-14 11:58:25,887 log 816364 132092780865088 Method Not Allowed: /api/v1/focus/sessions/start
+WARNING 2025-10-14 11:58:25,887 basehttp 816364 132092780865088 "GET /api/v1/focus/sessions/start HTTP/1.1" 405 40
+WARNING 2025-10-14 11:58:32,863 log 816364 132092780865088 Bad Request: /api/v1/focus/sessions/start
+WARNING 2025-10-14 11:58:32,863 basehttp 816364 132092780865088 "POST /api/v1/focus/sessions/start HTTP/1.1" 400 133
+WARNING 2025-10-14 11:58:49,885 log 816364 132092780865088 Bad Request: /api/v1/focus/sessions/start
+WARNING 2025-10-14 11:58:49,886 basehttp 816364 132092780865088 "POST /api/v1/focus/sessions/start HTTP/1.1" 400 73
+WARNING 2025-10-14 11:58:55,981 log 816364 132092780865088 Bad Request: /api/v1/focus/sessions/start
+WARNING 2025-10-14 11:58:55,981 basehttp 816364 132092780865088 "POST /api/v1/focus/sessions/start HTTP/1.1" 400 32
+INFO 2025-10-14 12:05:06,254 autoreload 816364 132093123221312 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:05:07,227 autoreload 829422 138157181179712 Watching for file changes with StatReloader
+INFO 2025-10-14 12:05:13,694 autoreload 829422 138157181179712 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:05:14,588 autoreload 829511 134183884842816 Watching for file changes with StatReloader
+INFO 2025-10-14 12:05:20,037 autoreload 829511 134183884842816 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:05:21,030 autoreload 829614 138170885830464 Watching for file changes with StatReloader
+INFO 2025-10-14 12:05:22,181 autoreload 829614 138170885830464 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:05:22,805 autoreload 829658 129169025464128 Watching for file changes with StatReloader
+INFO 2025-10-14 12:05:29,199 autoreload 829658 129169025464128 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:05:30,187 autoreload 830544 131840866936640 Watching for file changes with StatReloader
+INFO 2025-10-14 12:05:32,604 autoreload 830544 131840866936640 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:05:33,479 autoreload 830594 138069165299520 Watching for file changes with StatReloader
+INFO 2025-10-14 12:05:36,832 autoreload 830594 138069165299520 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:05:37,789 autoreload 830649 126090975033152 Watching for file changes with StatReloader
+INFO 2025-10-14 12:05:40,236 autoreload 830649 126090975033152 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:05:41,107 autoreload 830688 127645690652480 Watching for file changes with StatReloader
+INFO 2025-10-14 12:05:43,563 autoreload 830688 127645690652480 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:05:44,441 autoreload 830738 133638378063680 Watching for file changes with StatReloader
+INFO 2025-10-14 12:05:48,818 autoreload 830738 133638378063680 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:05:49,831 autoreload 831404 133191680403264 Watching for file changes with StatReloader
+INFO 2025-10-14 12:05:51,260 autoreload 831404 133191680403264 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:05:52,181 autoreload 831439 134200904644416 Watching for file changes with StatReloader
+INFO 2025-10-14 12:06:02,730 autoreload 831439 134200904644416 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:06:03,520 autoreload 831569 139599464970048 Watching for file changes with StatReloader
+INFO 2025-10-14 12:06:06,939 autoreload 831569 139599464970048 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:06:07,860 autoreload 832114 124146848020288 Watching for file changes with StatReloader
+WARNING 2025-10-14 12:06:12,140 log 832156 127538436114240 Not Found: /api/v1/focus/programs/enroll/
+WARNING 2025-10-14 12:06:12,334 log 832156 127538436114240 Not Found: /api/v1/focus/programs/enroll/
+WARNING 2025-10-14 12:06:12,525 log 832156 127538436114240 Not Found: /api/v1/focus/programs/enroll/
+WARNING 2025-10-14 12:06:12,721 log 832156 127538436114240 Not Found: /api/v1/focus/programs/enroll/
+WARNING 2025-10-14 12:06:12,907 log 832156 127538436114240 Not Found: /api/v1/focus/programs/enroll/
+WARNING 2025-10-14 12:06:13,095 log 832156 127538436114240 Not Found: /api/v1/focus/programs/enroll/
+WARNING 2025-10-14 12:06:13,284 log 832156 127538436114240 Not Found: /api/v1/focus/programs/enroll/
+WARNING 2025-10-14 12:06:13,475 log 832156 127538436114240 Not Found: /api/v1/focus/programs/enroll/
+WARNING 2025-10-14 12:06:13,661 log 832156 127538436114240 Not Found: /api/v1/focus/programs/
+WARNING 2025-10-14 12:06:14,093 log 832156 127538436114240 Not Found: /api/v1/focus/programs/enroll/
+INFO 2025-10-14 12:06:17,350 autoreload 832114 124146848020288 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:06:18,139 autoreload 832239 136811350161216 Watching for file changes with StatReloader
+INFO 2025-10-14 12:06:20,489 autoreload 832239 136811350161216 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:06:21,443 autoreload 832294 134984322697024 Watching for file changes with StatReloader
+INFO 2025-10-14 12:06:23,781 autoreload 832294 134984322697024 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:06:24,812 autoreload 832336 124372746413888 Watching for file changes with StatReloader
+INFO 2025-10-14 12:06:27,228 autoreload 832336 124372746413888 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:06:28,023 autoreload 832877 125471028320064 Watching for file changes with StatReloader
+INFO 2025-10-14 12:06:30,379 autoreload 832877 125471028320064 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:06:31,303 autoreload 832928 128302136444736 Watching for file changes with StatReloader
+INFO 2025-10-14 12:06:37,529 autoreload 832928 128302136444736 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:06:38,096 autoreload 832996 128432225867584 Watching for file changes with StatReloader
+INFO 2025-10-14 12:06:42,492 autoreload 832996 128432225867584 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:06:43,384 autoreload 833054 123866920605504 Watching for file changes with StatReloader
+INFO 2025-10-14 12:06:57,944 autoreload 833054 123866920605504 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:06:58,742 autoreload 833802 129589604616000 Watching for file changes with StatReloader
+INFO 2025-10-14 12:07:02,181 autoreload 833802 129589604616000 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:07:03,205 autoreload 833862 124162315843392 Watching for file changes with StatReloader
+INFO 2025-10-14 12:07:05,637 autoreload 833862 124162315843392 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:07:06,511 autoreload 834402 129096876365632 Watching for file changes with StatReloader
+WARNING 2025-10-14 12:07:10,264 log 834435 138768979658560 Not Found: /api/v1/focus/programs/enroll/
+WARNING 2025-10-14 12:07:10,457 log 834435 138768979658560 Not Found: /api/v1/focus/programs/enroll/
+WARNING 2025-10-14 12:07:10,642 log 834435 138768979658560 Not Found: /api/v1/focus/programs/enroll/
+WARNING 2025-10-14 12:07:10,839 log 834435 138768979658560 Not Found: /api/v1/focus/programs/enroll/
+WARNING 2025-10-14 12:07:11,038 log 834435 138768979658560 Not Found: /api/v1/focus/programs/enroll/
+WARNING 2025-10-14 12:07:11,259 log 834435 138768979658560 Not Found: /api/v1/focus/programs/enroll/
+WARNING 2025-10-14 12:07:11,471 log 834435 138768979658560 Not Found: /api/v1/focus/programs/enroll/
+WARNING 2025-10-14 12:07:11,672 log 834435 138768979658560 Not Found: /api/v1/focus/programs/enroll/
+WARNING 2025-10-14 12:07:11,869 log 834435 138768979658560 Not Found: /api/v1/focus/programs/
+WARNING 2025-10-14 12:07:12,301 log 834435 138768979658560 Not Found: /api/v1/focus/programs/enroll/
+INFO 2025-10-14 12:07:13,943 autoreload 834402 129096876365632 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:07:14,800 autoreload 834503 136942097008448 Watching for file changes with StatReloader
+INFO 2025-10-14 12:07:19,177 autoreload 834503 136942097008448 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:07:20,090 autoreload 834567 131902178879296 Watching for file changes with StatReloader
+INFO 2025-10-14 12:07:30,576 autoreload 834567 131902178879296 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:07:31,406 autoreload 835169 125172501911360 Watching for file changes with StatReloader
+INFO 2025-10-14 12:07:45,996 autoreload 835169 125172501911360 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:07:46,740 autoreload 835815 129901825156928 Watching for file changes with StatReloader
+INFO 2025-10-14 12:08:15,559 autoreload 835815 129901825156928 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:08:16,570 autoreload 836559 132463703775040 Watching for file changes with StatReloader
+INFO 2025-10-14 12:08:19,939 autoreload 836559 132463703775040 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:08:20,857 autoreload 836619 140092659136320 Watching for file changes with StatReloader
+INFO 2025-10-14 12:08:24,303 autoreload 836619 140092659136320 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:08:25,195 autoreload 836686 140497199712064 Watching for file changes with StatReloader
+INFO 2025-10-14 12:08:27,549 autoreload 836686 140497199712064 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:08:28,576 autoreload 837231 135130912368448 Watching for file changes with StatReloader
+INFO 2025-10-14 12:08:35,058 autoreload 837231 135130912368448 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:08:35,835 autoreload 837313 127835693061952 Watching for file changes with StatReloader
+INFO 2025-10-14 12:08:39,200 autoreload 837313 127835693061952 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:08:40,115 autoreload 837366 133064376559424 Watching for file changes with StatReloader
+INFO 2025-10-14 12:08:46,504 autoreload 837366 133064376559424 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:08:47,434 autoreload 837967 126509787637568 Watching for file changes with StatReloader
+INFO 2025-10-14 12:08:52,833 autoreload 837967 126509787637568 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:08:53,680 autoreload 838119 125384519030592 Watching for file changes with StatReloader
+INFO 2025-10-14 12:08:56,042 autoreload 838119 125384519030592 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:08:56,985 autoreload 838173 134950180677440 Watching for file changes with StatReloader
+INFO 2025-10-14 12:09:01,346 autoreload 838173 134950180677440 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:09:02,292 autoreload 838231 135722847012672 Watching for file changes with StatReloader
+INFO 2025-10-14 12:09:03,639 autoreload 838231 135722847012672 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:09:04,552 autoreload 838280 127519367386944 Watching for file changes with StatReloader
+INFO 2025-10-14 12:09:08,961 autoreload 838280 127519367386944 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:09:09,834 autoreload 838832 126205853779776 Watching for file changes with StatReloader
+INFO 2025-10-14 12:09:13,179 autoreload 838832 126205853779776 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:09:14,135 autoreload 838888 134798680241984 Watching for file changes with StatReloader
+INFO 2025-10-14 12:09:16,495 autoreload 838888 134798680241984 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:09:17,416 autoreload 838925 128073472976704 Watching for file changes with StatReloader
+INFO 2025-10-14 12:09:19,768 autoreload 838925 128073472976704 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:09:20,816 autoreload 838978 140466767206208 Watching for file changes with StatReloader
+INFO 2025-10-14 12:09:22,156 autoreload 838978 140466767206208 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:09:23,109 autoreload 839019 137938088920896 Watching for file changes with StatReloader
+INFO 2025-10-14 12:09:26,478 autoreload 839019 137938088920896 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:09:27,396 autoreload 839566 129180184794944 Watching for file changes with StatReloader
+INFO 2025-10-14 12:09:33,820 autoreload 839566 129180184794944 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:09:34,652 autoreload 839652 124717808162624 Watching for file changes with StatReloader
+INFO 2025-10-14 12:09:37,119 autoreload 839652 124717808162624 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:09:37,947 autoreload 839698 128843329533760 Watching for file changes with StatReloader
+INFO 2025-10-14 12:09:41,325 autoreload 839698 128843329533760 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:09:42,231 autoreload 839739 133396667242304 Watching for file changes with StatReloader
+INFO 2025-10-14 12:09:47,652 autoreload 839739 133396667242304 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:09:48,514 autoreload 840419 137279685138240 Watching for file changes with StatReloader
+INFO 2025-10-14 12:09:49,888 autoreload 840419 137279685138240 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:09:50,796 autoreload 840455 139758286448448 Watching for file changes with StatReloader
+INFO 2025-10-14 12:10:02,282 autoreload 840455 139758286448448 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:10:03,105 autoreload 840554 132103356536640 Watching for file changes with StatReloader
+INFO 2025-10-14 12:10:06,251 autoreload 840554 132103356536640 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:10:06,879 autoreload 841100 125259868464960 Watching for file changes with StatReloader
+INFO 2025-10-14 12:10:10,293 autoreload 841100 125259868464960 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:10:11,309 autoreload 841158 132096548255552 Watching for file changes with StatReloader
+INFO 2025-10-14 12:10:12,629 autoreload 841158 132096548255552 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:10:13,580 autoreload 841183 127226653177664 Watching for file changes with StatReloader
+INFO 2025-10-14 12:10:20,020 autoreload 841183 127226653177664 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:10:20,992 autoreload 841278 136604807784256 Watching for file changes with StatReloader
+INFO 2025-10-14 12:10:22,365 autoreload 841278 136604807784256 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:10:23,183 autoreload 841304 131443728783168 Watching for file changes with StatReloader
+INFO 2025-10-14 12:10:25,567 autoreload 841304 131443728783168 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:10:26,487 autoreload 841859 124370791884608 Watching for file changes with StatReloader
+INFO 2025-10-14 12:10:28,890 autoreload 841859 124370791884608 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:10:29,756 autoreload 841911 123892532791104 Watching for file changes with StatReloader
+INFO 2025-10-14 12:10:34,117 autoreload 841911 123892532791104 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:10:35,044 autoreload 841983 132954324252480 Watching for file changes with StatReloader
+INFO 2025-10-14 12:10:37,396 autoreload 841983 132954324252480 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:10:38,323 autoreload 842012 131727265097536 Watching for file changes with StatReloader
+INFO 2025-10-14 12:10:40,715 autoreload 842012 131727265097536 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:10:41,607 autoreload 842065 137182718236480 Watching for file changes with StatReloader
+INFO 2025-10-14 12:10:54,126 autoreload 842065 137182718236480 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:10:54,903 autoreload 842990 124330101344064 Watching for file changes with StatReloader
+INFO 2025-10-14 12:10:57,239 autoreload 842990 124330101344064 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:10:58,204 autoreload 843051 137208544503616 Watching for file changes with StatReloader
+INFO 2025-10-14 12:10:59,576 autoreload 843051 137208544503616 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:11:00,523 autoreload 843090 123843527894848 Watching for file changes with StatReloader
+INFO 2025-10-14 12:11:03,868 autoreload 843090 123843527894848 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:11:04,801 autoreload 843146 126774753855296 Watching for file changes with StatReloader
+INFO 2025-10-14 12:11:08,177 autoreload 843146 126774753855296 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:11:09,101 autoreload 843762 132699380143936 Watching for file changes with StatReloader
+INFO 2025-10-14 12:11:13,509 autoreload 843762 132699380143936 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/views.py changed, reloading.
+INFO 2025-10-14 12:11:14,412 autoreload 843819 126580964357952 Watching for file changes with StatReloader
+WARNING 2025-10-14 12:11:16,084 log 843819 126580623398464 Bad Request: /api/v1/focus/sessions/start
+WARNING 2025-10-14 12:11:16,084 basehttp 843819 126580623398464 "POST /api/v1/focus/sessions/start HTTP/1.1" 400 129
+INFO 2025-10-14 12:37:53,521 autoreload 843819 126580964357952 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/urls.py changed, reloading.
+INFO 2025-10-14 12:40:40,980 autoreload 891371 126641633732416 Watching for file changes with StatReloader
+INFO 2025-10-14 12:40:43,345 basehttp 891371 126641292957248 "GET /api/v1/focus/history HTTP/1.1" 200 86
