@@ -1,0 +1,18 @@
+[phases.setup]
+nixPkgs = ["python310"]
+
+[phases.install]
+cmds = [
+  "cd mindnotesBackend",
+  "pip install --upgrade pip",
+  "pip install -r requirements.txt"
+]
+
+[phases.build]
+cmds = [
+  "cd mindnotesBackend",
+  "python manage.py collectstatic --noinput || true"
+]
+
+[start]
+cmd = "cd mindnotesBackend && gunicorn mindnotesBackend.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --timeout 120"
