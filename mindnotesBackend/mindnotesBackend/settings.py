@@ -209,20 +209,33 @@ SIMPLE_JWT = {
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '')
 
 # MongoDB Configuration
-MONGODB_URI = os.getenv('MONGODB_URL')
-MONGODB_DB_NAME = os.getenv('MONGODB_DATABASE')
+# Support both URI format (Railway/Atlas) and individual params (local)
+MONGODB_URI = os.getenv('MONGODB_URL') or os.getenv('MONGO_URL') or os.getenv('MONGODB_URI')
+MONGODB_DB_NAME = os.getenv('MONGODB_DATABASE') or 'mindnotes'
 
-# MongoDB Database Configuration
-MONGODB_DATABASES = {
-    'default': {
-        'name': os.getenv('MONGODB_DATABASE'),
-        'host': os.getenv('MONGODB_HOST'),
-        'port': int(os.getenv('MONGODB_PORT','27017')),
+# Build MongoDB connection from URI or individual params
+if MONGODB_URI:
+    # Use URI format (Railway/Atlas/production)
+    MONGODB_CONNECTION = {
+        'host': MONGODB_URI,
+        'connect': True,
+    }
+    # Extract DB name from URI if not explicitly set
+    if not MONGODB_DB_NAME and '/' in MONGODB_URI:
+        try:
+            MONGODB_DB_NAME = MONGODB_URI.split('/')[-1].split('?')[0]
+        except:
+            MONGODB_DB_NAME = 'mindnotes'
+else:
+    # Use individual parameters (local development)
+    MONGODB_CONNECTION = {
+        'host': os.getenv('MONGODB_HOST', 'localhost'),
+        'port': int(os.getenv('MONGODB_PORT', '27017')),
         'username': os.getenv('MONGODB_USER', ''),
         'password': os.getenv('MONGODB_PASSWORD', ''),
         'authentication_source': 'admin',
+        'connect': True,
     }
-}
 
 # MongoEngine will be connected later with connection pooling parameters
 
@@ -344,22 +357,24 @@ if CELERY_BROKER_URL:
 # Celery Beat Schedule (for periodic tasks)
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
-# MongoDB Connection Pooling
+# MongoDB Connection with Railway/Atlas support
 try:
     mongoengine.connect(
-        db=MONGODB_DATABASES['default']['name'],
-        host=MONGODB_DATABASES['default']['host'],
-        port=MONGODB_DATABASES['default']['port'],
-        username=MONGODB_DATABASES['default']['username'],
-        password=MONGODB_DATABASES['default']['password'],
-        authentication_source=MONGODB_DATABASES['default']['authentication_source'],
+        db=MONGODB_DB_NAME,
+        **MONGODB_CONNECTION,
         maxPoolSize=50,
         minPoolSize=10,
         maxIdleTimeMS=30000,
         serverSelectionTimeoutMS=5000,
+        retryWrites=True,
+        w='majority'
     )
+    print(f"✅ MongoDB connected successfully to database: {MONGODB_DB_NAME}")
 except Exception as e:
-    print(f"MongoDB connection error: {e}")
+    print(f"❌ MongoDB connection error: {e}")
+    if DEBUG:
+        import traceback
+        traceback.print_exc()  # Print full traceback in development
 
 # DRF Throttling
 REST_FRAMEWORK['DEFAULT_THROTTLE_CLASSES'] = [
