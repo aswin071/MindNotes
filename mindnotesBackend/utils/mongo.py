@@ -10,11 +10,17 @@ def get_mongo_db():
     Get MongoDB database connection using pymongo
     For direct MongoDB operations when MongoEngine is not suitable
     """
-    uri = settings.MONGODB_URI
-    if not uri:
-        raise RuntimeError('MONGODB_URI not configured')
-    client = MongoClient(uri, appname='mindnotes')
-    return client[settings.MONGODB_DB_NAME]
+    # Use MongoEngine's existing connection instead of creating new client
+    from mongoengine.connection import get_db
+    try:
+        return get_db()
+    except Exception:
+        # Fallback to creating new connection
+        uri = settings.MONGODB_URI
+        if not uri:
+            raise RuntimeError('MONGODB_URI not configured')
+        client = MongoClient(uri, appname='mindnotes', retryWrites=True, w='majority')
+        return client[settings.MONGODB_DB_NAME]
 
 
 def get_mongo_collection(collection_name: str):
