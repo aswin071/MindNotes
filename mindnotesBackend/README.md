@@ -274,3 +274,6 @@ This project is licensed under the MIT License.
 ---
 
 **Built with ❤️ for mental wellness and productivity**
+
+
+#####python manage.py init_mongodb

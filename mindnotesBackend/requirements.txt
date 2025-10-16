@@ -40,3 +40,4 @@ google-cloud-storage==2.14.0  # For Google Cloud Storage
 gunicorn==21.2.0
 whitenoise==6.6.0  # For serving static files
 django-cors-headers==4.3.1  # For CORS support
+dj-database-url==2.1.0  # For parsing DATABASE_URL

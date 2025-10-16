@@ -209,8 +209,8 @@ SIMPLE_JWT = {
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '')
 
 # MongoDB Configuration
-MONGODB_URI = os.getenv('MONGODB_URI', 'mongodb://localhost:27017/mindnotes')
-MONGODB_DB_NAME = os.getenv('MONGODB_DB_NAME', 'mindnotes')
+MONGODB_URI = os.getenv('MONGODB_URI')
+MONGODB_DB_NAME = os.getenv('MONGODB_DB_NAME')
 
 # MongoDB Database Configuration
 MONGODB_DATABASES = {
