@@ -209,15 +209,15 @@ SIMPLE_JWT = {
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '')
 
 # MongoDB Configuration
-MONGODB_URI = os.getenv('MONGODB_URI')
-MONGODB_DB_NAME = os.getenv('MONGODB_DB_NAME')
+MONGODB_URI = os.getenv('MONGODB_URL')
+MONGODB_DB_NAME = os.getenv('MONGODB_DATABASE')
 
 # MongoDB Database Configuration
 MONGODB_DATABASES = {
     'default': {
-        'name': os.getenv('MONGODB_DB', 'mindnotes'),
-        'host': os.getenv('MONGODB_HOST', 'localhost'),
-        'port': int(os.getenv('MONGODB_PORT', '27017')),
+        'name': os.getenv('MONGODB_DATABASE'),
+        'host': os.getenv('MONGODB_HOST'),
+        'port': int(os.getenv('MONGODB_PORT')),
         'username': os.getenv('MONGODB_USER', ''),
         'password': os.getenv('MONGODB_PASSWORD', ''),
         'authentication_source': 'admin',
