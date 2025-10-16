@@ -1,14 +1,16 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:15
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: mindnotes_postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=mindnotes
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      POSTGRES_DB: mindnotes
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
     healthcheck:
@@ -17,46 +19,140 @@ services:
       timeout: 5s
       retries: 5
 
+  # MongoDB Database
   mongodb:
-    image: mongo:7
+    image: mongo:7-jammy
+    container_name: mindnotes_mongodb
     volumes:
       - mongodb_data:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=admin123
-      - MONGO_INITDB_DATABASE=mindnotes
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: mindnotes
     ports:
       - "27017:27017"
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/mindnotes --quiet
       interval: 10s
       timeout: 5s
       retries: 5
 
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: mindnotes_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - redis_data:/data
+
+  # Django Web Application
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    container_name: mindnotes_web
+    command: gunicorn mindnotesBackend.wsgi:application --bind 0.0.0.0:8000 --workers 3 --reload
     volumes:
       - .:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
     ports:
       - "8000:8000"
+    env_file:
+      - .env
     environment:
-      - DEBUG=1
-      - POSTGRES_DB=mindnotes
+      - DEBUG=True
+      - POSTGRES_DATABASE=mindnotes
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_HOST=db
+      - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
-      - MONGODB_DB=mindnotes
+      - MONGODB_DB_NAME=mindnotes
       - MONGODB_HOST=mongodb
       - MONGODB_PORT=27017
+      - MONGODB_USER=admin
+      - MONGODB_PASSWORD=admin123
       - MONGODB_URI=mongodb://admin:admin123@mongodb:27017/mindnotes?authSource=admin
+      - REDIS_URL=redis://redis:6379/1
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
     depends_on:
-      db:
+      postgres:
         condition: service_healthy
       mongodb:
         condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # Celery Worker
+  celery_worker:
+    build: .
+    container_name: mindnotes_celery_worker
+    command: celery -A mindnotesBackend worker --loglevel=info
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    environment:
+      - DEBUG=True
+      - POSTGRES_DATABASE=mindnotes
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - MONGODB_DB_NAME=mindnotes
+      - MONGODB_HOST=mongodb
+      - MONGODB_PORT=27017
+      - MONGODB_USER=admin
+      - MONGODB_PASSWORD=admin123
+      - MONGODB_URI=mongodb://admin:admin123@mongodb:27017/mindnotes?authSource=admin
+      - REDIS_URL=redis://redis:6379/1
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - postgres
+      - mongodb
+      - redis
+      - web
+
+  # Celery Beat (Periodic Tasks)
+  celery_beat:
+    build: .
+    container_name: mindnotes_celery_beat
+    command: celery -A mindnotesBackend beat --loglevel=info
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    environment:
+      - DEBUG=True
+      - POSTGRES_DATABASE=mindnotes
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - MONGODB_DB_NAME=mindnotes
+      - MONGODB_HOST=mongodb
+      - MONGODB_PORT=27017
+      - MONGODB_USER=admin
+      - MONGODB_PASSWORD=admin123
+      - MONGODB_URI=mongodb://admin:admin123@mongodb:27017/mindnotes?authSource=admin
+      - REDIS_URL=redis://redis:6379/1
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - postgres
+      - mongodb
+      - redis
+      - web
 
 volumes:
   postgres_data:
   mongodb_data:
+  redis_data:
+  static_volume:
+  media_volume:

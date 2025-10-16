@@ -866,3 +866,16 @@ WARNING 2025-10-14 12:11:16,084 basehttp 843819 126580623398464 "POST /api/v1/fo
 INFO 2025-10-14 12:37:53,521 autoreload 843819 126580964357952 /home/aswin/MindNotes/mindnotesBackend/api/v1/focus/urls.py changed, reloading.
 INFO 2025-10-14 12:40:40,980 autoreload 891371 126641633732416 Watching for file changes with StatReloader
 INFO 2025-10-14 12:40:43,345 basehttp 891371 126641292957248 "GET /api/v1/focus/history HTTP/1.1" 200 86
+INFO 2025-10-16 04:24:03,834 autoreload 41417 128449251497792 Watching for file changes with StatReloader
+INFO 2025-10-16 04:42:15,655 autoreload 41417 128449251497792 /home/aswin/MindNotes/mindnotesBackend/mindnotesBackend/settings.py changed, reloading.
+INFO 2025-10-16 04:42:16,662 autoreload 67613 128676647225152 Watching for file changes with StatReloader
+INFO 2025-10-16 04:42:24,117 autoreload 67613 128676647225152 /home/aswin/MindNotes/mindnotesBackend/mindnotesBackend/settings.py changed, reloading.
+INFO 2025-10-16 04:42:24,889 autoreload 68181 129162014160704 Watching for file changes with StatReloader
+INFO 2025-10-16 04:42:33,114 autoreload 68181 129162014160704 /home/aswin/MindNotes/mindnotesBackend/mindnotesBackend/settings.py changed, reloading.
+INFO 2025-10-16 04:42:33,606 autoreload 68226 128912453056320 Watching for file changes with StatReloader
+INFO 2025-10-16 04:42:41,827 autoreload 68226 128912453056320 /home/aswin/MindNotes/mindnotesBackend/mindnotesBackend/settings.py changed, reloading.
+INFO 2025-10-16 04:42:42,324 autoreload 68710 136261709526848 Watching for file changes with StatReloader
+INFO 2025-10-16 05:00:50,330 autoreload 68710 136261709526848 /home/aswin/MindNotes/mindnotesBackend/mindnotesBackend/settings.py changed, reloading.
+INFO 2025-10-16 05:00:51,053 autoreload 94246 125137388750656 Watching for file changes with StatReloader
+INFO 2025-10-16 05:36:28,077 autoreload 145629 132687697835840 Watching for file changes with StatReloader
+INFO 2025-10-16 05:36:42,288 autoreload 146158 128493327628096 Watching for file changes with StatReloader
