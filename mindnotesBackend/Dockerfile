@@ -5,25 +5,28 @@ FROM python:3.10-slim
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    DEBIAN_FRONTEND=noninteractive
 
 # Set work directory
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update --allow-releaseinfo-change && \
+    apt-get install -y --no-install-recommends --allow-unauthenticated \
     gcc \
     postgresql-client \
     libpq-dev \
     libjpeg-dev \
     zlib1g-dev \
-    libpng-dev \
-    && rm -rf /var/lib/apt/lists/*
+    libpng-dev && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get clean
 
 # Install Python dependencies
 COPY requirements.txt .
 RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+    pip install --no-cache-dir -r requirements.txt
 
 # Copy project files
 COPY . .
@@ -31,11 +34,11 @@ COPY . .
 # Create necessary directories
 RUN mkdir -p /app/staticfiles /app/media /app/logs
 
-# Collect static files
+# Collect static files (skip errors if no static files yet)
 RUN python manage.py collectstatic --noinput || true
 
-# Expose port
-EXPOSE 8000
+# Expose port (Railway uses $PORT env variable)
+EXPOSE ${PORT:-8000}
 
-# Run gunicorn
-CMD ["gunicorn", "mindnotesBackend.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3", "--timeout", "120", "--log-level", "info"]
+# Run gunicorn - Railway sets PORT dynamically
+CMD gunicorn mindnotesBackend.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 3 --timeout 120 --log-level info --access-logfile - --error-logfile -

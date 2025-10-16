@@ -37,13 +37,20 @@ POSTGRES_PORT = os.getenv('POSTGRES_PORT')
 POSTGRES_USER = os.getenv('POSTGRES_USER')
 POSTGRES_PASSWORD = os.getenv('POSTGRES_PASSWORD')
 
-# Railway and production settings
+# Production settings
 RAILWAY_ENVIRONMENT = os.getenv('RAILWAY_ENVIRONMENT')
+RENDER_EXTERNAL_HOSTNAME = os.getenv('RENDER_EXTERNAL_HOSTNAME')
+
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '.railway.app',  # Allow all Railway domains
+    '.onrender.com',  # Allow all Render domains
 ]
+
+# Add Render hostname if provided
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # Add custom domain if provided
 CUSTOM_DOMAIN = os.getenv('CUSTOM_DOMAIN')
@@ -218,6 +225,8 @@ MONGODB_DATABASES = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://localhost:5173",  # Vite dev server
+    "http://127.0.0.1:5173",  # Vite dev server
 ]
 
 # Add frontend URL from environment variable for production
