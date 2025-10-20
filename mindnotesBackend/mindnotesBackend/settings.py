@@ -227,10 +227,8 @@ if MONGODB_URI:
     MONGODB_CONNECTION = {
         'host': MONGODB_URI,
         'connect': True,
-        # SSL/TLS settings for MongoDB Atlas
-        'tlsAllowInvalidCertificates': False,
-        'ssl': True,
-        'ssl_cert_reqs': 0,  # Disable certificate verification for Python 3.10 compatibility
+        # TLS/SSL settings for MongoDB Atlas (pymongo 4.x compatible)
+        'tlsAllowInvalidCertificates': True,  # Allow invalid certs for deployment compatibility
     }
     # Extract DB name from URI if not explicitly set
     if not MONGODB_DB_NAME and '/' in MONGODB_URI:
