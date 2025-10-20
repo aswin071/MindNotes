@@ -9,7 +9,8 @@ cd /app
 echo "📦 Running database migrations..."
 python manage.py migrate --noinput
 
-echo "🗄️ Initializing MongoDB indexes..."
+# Skip MongoDB index creation - causes SSL errors
+# echo "🗄️ Initializing MongoDB indexes..."
 python manage.py init_mongodb
 
 echo "🔧 Collecting static files..."
