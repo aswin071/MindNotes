@@ -367,9 +367,22 @@ try:
         maxIdleTimeMS=30000,
         serverSelectionTimeoutMS=5000,
         retryWrites=True,
-        w='majority'
+        w='majority',
+        # Critical: Ensure connection is reused and authentication persists
+        alias='default',
+        uuidRepresentation='standard'
     )
     print(f"✅ MongoDB connected successfully to database: {MONGODB_DB_NAME}")
+
+    # Initialize indexes after successful connection
+    try:
+        from utils.mongo import ensure_mongo_indexes
+        print("Initializing MongoDB...")
+        ensure_mongo_indexes()
+    except Exception as index_error:
+        print(f"Warning: Index creation deferred: {index_error}")
+        # Continue even if indexes fail - they can be created later
+
 except Exception as e:
     print(f"❌ MongoDB connection error: {e}")
     if DEBUG:
