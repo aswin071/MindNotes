@@ -32,7 +32,7 @@ RUN pip install --upgrade pip && \
 COPY . .
 
 # Make startup script executable
-RUN chmod +x /app/startup.sh
+RUN chmod +x startup.sh && ls -la startup.sh
 
 # Create necessary directories
 RUN mkdir -p /app/staticfiles /app/media /app/logs
@@ -41,4 +41,4 @@ RUN mkdir -p /app/staticfiles /app/media /app/logs
 EXPOSE ${PORT:-8000}
 
 # Use startup script to run migrations and start server
-CMD ["./startup.sh"]
+CMD ["/bin/sh", "/app/startup.sh"]
