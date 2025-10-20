@@ -213,6 +213,14 @@ GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '')
 MONGODB_URI = os.getenv('MONGODB_URL') or os.getenv('MONGO_URL') or os.getenv('MONGODB_URI')
 MONGODB_DB_NAME = os.getenv('MONGODB_DATABASE') or 'mindnotes'
 
+# Debug logging for Railway deployment
+print(f"🔍 MongoDB Configuration:")
+print(f"   - MONGODB_URL env var: {'SET' if os.getenv('MONGODB_URL') else 'NOT SET'}")
+print(f"   - MONGO_URL env var: {'SET' if os.getenv('MONGO_URL') else 'NOT SET'}")
+print(f"   - Using URI: {'YES' if MONGODB_URI else 'NO (will use individual params)'}")
+if not MONGODB_URI:
+    print(f"   - MONGODB_HOST: {os.getenv('MONGODB_HOST', 'NOT SET - will default to localhost')}")
+
 # Build MongoDB connection from URI or individual params
 if MONGODB_URI:
     # Use URI format (Railway/Atlas/production)
@@ -228,8 +236,9 @@ if MONGODB_URI:
             MONGODB_DB_NAME = 'mindnotes'
 else:
     # Use individual parameters (local development)
+    # WARNING: If MONGODB_HOST is not set, defaults to 'localhost'
     MONGODB_CONNECTION = {
-        'host': os.getenv('MONGODB_HOST'),
+        'host': os.getenv('MONGODB_HOST', 'localhost'),
         'port': int(os.getenv('MONGODB_PORT', '27017')),
         'username': os.getenv('MONGODB_USER', ''),
         'password': os.getenv('MONGODB_PASSWORD', ''),
