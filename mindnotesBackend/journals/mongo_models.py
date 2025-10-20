@@ -97,6 +97,7 @@ class JournalEntryMongo(Document):
     
     meta = {
         'collection': 'journal_entries',
+        'db_alias': 'default',  # Use the default MongoDB connection
         'indexes': [
             'user_id',
             'entry_date',

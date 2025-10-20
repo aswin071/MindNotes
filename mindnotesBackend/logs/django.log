@@ -898,3 +898,40 @@ INFO 2025-10-20 13:54:53,346 basehttp 564490 128645773907520 "POST /api/v1/authe
 WARNING 2025-10-20 13:54:55,961 log 564490 128645773907520 Unauthorized: /api/v1/journals/create
 WARNING 2025-10-20 13:54:55,962 basehttp 564490 128645773907520 "POST /api/v1/journals/create HTTP/1.1" 401 183
 INFO 2025-10-20 13:55:14,833 basehttp 564490 128645773907520 "POST /api/v1/journals/create HTTP/1.1" 201 669
+INFO 2025-10-20 14:08:23,433 autoreload 570900 140223661889344 Watching for file changes with StatReloader
+INFO 2025-10-20 14:10:50,668 autoreload 572301 128223211657024 Watching for file changes with StatReloader
+INFO 2025-10-20 14:18:16,863 autoreload 575946 135321466529600 Watching for file changes with StatReloader
+INFO 2025-10-20 14:18:32,177 basehttp 575946 135321353705024 "POST /api/v1/authentication/login HTTP/1.1" 200 1352
+ERROR 2025-10-20 14:18:43,880 log 575946 135321353705024 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-20 14:18:43,880 basehttp 575946 135321353705024 "POST /api/v1/journals/create HTTP/1.1" 500 162
+ERROR 2025-10-20 14:18:45,594 log 575946 135321353705024 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-20 14:18:45,594 basehttp 575946 135321353705024 "POST /api/v1/journals/create HTTP/1.1" 500 162
+ERROR 2025-10-20 14:18:46,941 log 575946 135321353705024 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-20 14:18:46,941 basehttp 575946 135321353705024 "POST /api/v1/journals/create HTTP/1.1" 500 162
+ERROR 2025-10-20 14:18:47,934 log 575946 135321353705024 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-20 14:18:47,935 basehttp 575946 135321353705024 "POST /api/v1/journals/create HTTP/1.1" 500 162
+ERROR 2025-10-20 14:18:48,390 log 575946 135321353705024 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-20 14:18:48,390 basehttp 575946 135321353705024 "POST /api/v1/journals/create HTTP/1.1" 500 162
+ERROR 2025-10-20 14:20:44,656 log 575946 135321344263744 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-20 14:20:44,656 basehttp 575946 135321344263744 "POST /api/v1/journals/create HTTP/1.1" 500 162
+INFO 2025-10-20 14:21:31,905 autoreload 575946 135321466529600 /home/aswin/MindNotes/mindnotesBackend/journals/mongo_models.py changed, reloading.
+INFO 2025-10-20 14:21:32,512 autoreload 577332 127561021478720 Watching for file changes with StatReloader
+ERROR 2025-10-20 14:21:42,563 log 577332 127560909837888 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-20 14:21:42,563 basehttp 577332 127560909837888 "POST /api/v1/journals/create HTTP/1.1" 500 162
+ERROR 2025-10-20 14:21:43,355 log 577332 127560909837888 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-20 14:21:43,356 basehttp 577332 127560909837888 "POST /api/v1/journals/create HTTP/1.1" 500 162
+ERROR 2025-10-20 14:21:43,825 log 577332 127560909837888 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-20 14:21:43,825 basehttp 577332 127560909837888 "POST /api/v1/journals/create HTTP/1.1" 500 162
+INFO 2025-10-20 14:21:49,800 autoreload 577468 127922967258944 Watching for file changes with StatReloader
+ERROR 2025-10-20 14:21:51,416 log 577468 127922782336576 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-20 14:21:51,416 basehttp 577468 127922782336576 "POST /api/v1/journals/create HTTP/1.1" 500 162
+ERROR 2025-10-20 14:21:52,538 log 577468 127922782336576 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-20 14:21:52,538 basehttp 577468 127922782336576 "POST /api/v1/journals/create HTTP/1.1" 500 162
+ERROR 2025-10-20 14:21:53,056 log 577468 127922782336576 Internal Server Error: /api/v1/journals/create
+ERROR 2025-10-20 14:21:53,057 basehttp 577468 127922782336576 "POST /api/v1/journals/create HTTP/1.1" 500 162
+INFO 2025-10-20 14:28:03,972 autoreload 580145 126748761225024 Watching for file changes with StatReloader
+INFO 2025-10-20 14:28:06,371 basehttp 580145 126748388206144 "POST /api/v1/journals/create HTTP/1.1" 201 669
+INFO 2025-10-20 14:31:40,244 basehttp 580145 126747974563392 "POST /api/v1/journals/create HTTP/1.1" 201 669
+INFO 2025-10-20 14:32:00,357 autoreload 581672 136977041938240 Watching for file changes with StatReloader
+INFO 2025-10-20 14:32:02,699 basehttp 581672 136976702371392 "POST /api/v1/journals/create HTTP/1.1" 201 669
+INFO 2025-10-20 14:32:18,752 basehttp 581672 136976702371392 "POST /api/v1/journals/create HTTP/1.1" 201 669
