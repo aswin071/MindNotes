@@ -379,9 +379,7 @@ try:
         retryWrites=True,
         w='majority',
         alias='default',
-        uuidRepresentation='standard',
-        tlsInsecure=True,
-        tls=True,
+        uuidRepresentation='standard'
     )
     print(f"✅ MongoDB connected successfully to database: {MONGODB_DB_NAME}")
     print("⚠️  MongoDB indexes will be created automatically on first use")
