@@ -375,11 +375,13 @@ try:
         maxPoolSize=50,
         minPoolSize=10,
         maxIdleTimeMS=30000,
-        serverSelectionTimeoutMS=5000,
+        serverSelectionTimeoutMS=10000,
         retryWrites=True,
         w='majority',
         alias='default',
-        uuidRepresentation='standard'
+        uuidRepresentation='standard',
+        tls=True,
+        tlsInsecure=True  # Bypass SSL certificate validation (fixes Docker SSL handshake issues)
     )
     print(f"✅ MongoDB connected successfully to database: {MONGODB_DB_NAME}")
     print("⚠️  MongoDB indexes will be created automatically on first use")
