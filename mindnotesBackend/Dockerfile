@@ -31,14 +31,14 @@ RUN pip install --upgrade pip && \
 # Copy project files
 COPY . .
 
+# Make startup script executable
+RUN chmod +x /app/startup.sh
+
 # Create necessary directories
 RUN mkdir -p /app/staticfiles /app/media /app/logs
 
-# Collect static files (skip errors if no static files yet)
-RUN python manage.py collectstatic --noinput || true
-
-# Expose port (Railway uses $PORT env variable)
+# Expose port (Railway/Render use $PORT env variable)
 EXPOSE ${PORT:-8000}
 
-# Run gunicorn - Railway sets PORT dynamically
-CMD gunicorn mindnotesBackend.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 3 --timeout 120 --log-level info --access-logfile - --error-logfile -
+# Use startup script to run migrations and start server
+CMD ["./startup.sh"]
