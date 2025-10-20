@@ -224,11 +224,10 @@ if not MONGODB_URI:
 # Build MongoDB connection from URI or individual params
 if MONGODB_URI:
     # Use URI format (Railway/Atlas/production)
+    # Note: Don't add TLS params here if they're in the URI itself
     MONGODB_CONNECTION = {
         'host': MONGODB_URI,
         'connect': True,
-        # TLS/SSL settings for MongoDB Atlas (pymongo 4.x compatible)
-        'tlsAllowInvalidCertificates': True,  # Allow invalid certs for deployment compatibility
     }
     # Extract DB name from URI if not explicitly set
     if not MONGODB_DB_NAME and '/' in MONGODB_URI:
