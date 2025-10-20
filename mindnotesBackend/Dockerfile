@@ -11,7 +11,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 # Set work directory
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies including SSL/TLS requirements for MongoDB Atlas
 RUN apt-get update --allow-releaseinfo-change && \
     apt-get install -y --no-install-recommends --allow-unauthenticated \
     gcc \
@@ -19,7 +19,11 @@ RUN apt-get update --allow-releaseinfo-change && \
     libpq-dev \
     libjpeg-dev \
     zlib1g-dev \
-    libpng-dev && \
+    libpng-dev \
+    ca-certificates \
+    libssl-dev \
+    openssl && \
+    update-ca-certificates && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
 

@@ -890,3 +890,11 @@ INFO 2025-10-16 12:35:58,217 basehttp 854480 129473869510208 "POST /api/v1/authe
 INFO 2025-10-16 12:36:18,016 basehttp 854480 129473869510208 "POST /api/v1/journals/create HTTP/1.1" 201 726
 INFO 2025-10-16 12:39:52,992 autoreload 862439 130377129379648 Watching for file changes with StatReloader
 INFO 2025-10-16 12:46:22,992 autoreload 878164 125022776403776 Watching for file changes with StatReloader
+INFO 2025-10-20 13:54:01,929 autoreload 564490 128646112294720 Watching for file changes with StatReloader
+WARNING 2025-10-20 13:54:47,172 log 564490 128645773907520 Bad Request: /api/v1/authentication/login
+WARNING 2025-10-20 13:54:47,172 basehttp 564490 128645773907520 "POST /api/v1/authentication/login HTTP/1.1" 400 156
+INFO 2025-10-20 13:54:50,507 basehttp 564490 128645773907520 "POST /api/v1/authentication/signup HTTP/1.1" 201 1359
+INFO 2025-10-20 13:54:53,346 basehttp 564490 128645773907520 "POST /api/v1/authentication/login HTTP/1.1" 200 1352
+WARNING 2025-10-20 13:54:55,961 log 564490 128645773907520 Unauthorized: /api/v1/journals/create
+WARNING 2025-10-20 13:54:55,962 basehttp 564490 128645773907520 "POST /api/v1/journals/create HTTP/1.1" 401 183
+INFO 2025-10-20 13:55:14,833 basehttp 564490 128645773907520 "POST /api/v1/journals/create HTTP/1.1" 201 669
