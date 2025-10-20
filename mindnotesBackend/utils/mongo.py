@@ -37,6 +37,13 @@ def ensure_mongo_indexes():
     This should be called during application startup
     """
     try:
+        # Verify MongoEngine connection is alive
+        from mongoengine.connection import get_connection
+        conn = get_connection()
+
+        # Test connection by pinging
+        conn.admin.command('ping')
+
         # Import all MongoDB models to ensure they're registered
         from journals.mongo_models import JournalEntryMongo
         from moods.mongo_models import MoodEntryMongo
@@ -44,8 +51,8 @@ def ensure_mongo_indexes():
         from prompts.mongo_models import DailyPromptSetMongo, PromptResponseMongo
         from analytics.mongo_models import UserAnalyticsMongo, DailyActivityLogMongo
         from exports.mongo_models import ExportRequestMongo
-        
-        # Create indexes for all models
+
+        # Create indexes for all models using the existing connection
         JournalEntryMongo.ensure_indexes()
         MoodEntryMongo.ensure_indexes()
         FocusSessionMongo.ensure_indexes()
@@ -54,10 +61,13 @@ def ensure_mongo_indexes():
         UserAnalyticsMongo.ensure_indexes()
         DailyActivityLogMongo.ensure_indexes()
         ExportRequestMongo.ensure_indexes()
-        
-        print("MongoDB indexes created successfully")
+
+        print("MongoDB indexes created successfully!")
     except Exception as e:
         print(f"Error creating MongoDB indexes: {e}")
+        # Don't raise - allow app to continue even if index creation fails
+        import traceback
+        traceback.print_exc()
 
 
 def get_mongo_stats():

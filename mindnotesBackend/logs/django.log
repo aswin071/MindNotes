@@ -889,3 +889,4 @@ INFO 2025-10-16 12:34:55,624 autoreload 854480 129474282088256 Watching for file
 INFO 2025-10-16 12:35:58,217 basehttp 854480 129473869510208 "POST /api/v1/authentication/login HTTP/1.1" 200 1052
 INFO 2025-10-16 12:36:18,016 basehttp 854480 129473869510208 "POST /api/v1/journals/create HTTP/1.1" 201 726
 INFO 2025-10-16 12:39:52,992 autoreload 862439 130377129379648 Watching for file changes with StatReloader
+INFO 2025-10-16 12:46:22,992 autoreload 878164 125022776403776 Watching for file changes with StatReloader
