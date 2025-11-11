@@ -935,3 +935,791 @@ INFO 2025-10-20 14:31:40,244 basehttp 580145 126747974563392 "POST /api/v1/journ
 INFO 2025-10-20 14:32:00,357 autoreload 581672 136977041938240 Watching for file changes with StatReloader
 INFO 2025-10-20 14:32:02,699 basehttp 581672 136976702371392 "POST /api/v1/journals/create HTTP/1.1" 201 669
 INFO 2025-10-20 14:32:18,752 basehttp 581672 136976702371392 "POST /api/v1/journals/create HTTP/1.1" 201 669
+INFO 2025-11-11 09:21:06,632 autoreload 475980 132686656837440 Watching for file changes with StatReloader
+WARNING 2025-11-11 09:21:31,975 log 475980 132686461523520 Bad Request: /api/v1/authentication/signup
+WARNING 2025-11-11 09:21:31,976 basehttp 475980 132686461523520 "POST /api/v1/authentication/signup HTTP/1.1" 400 187
+INFO 2025-11-11 09:21:47,227 basehttp 475980 132686461523520 "POST /api/v1/authentication/signup HTTP/1.1" 201 1414
+INFO 2025-11-11 09:22:38,886 basehttp 475980 132686461523520 "POST /api/v1/authentication/login HTTP/1.1" 200 1407
+INFO 2025-11-11 09:28:11,487 autoreload 475980 132686656837440 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 09:28:12,732 autoreload 477766 123549236041536 Watching for file changes with StatReloader
+ERROR 2025-11-11 09:28:14,505 exceptions 477766 123549038138944 API Exception: InvalidToken - {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]} | Path: /api/v1/authentication/home | Method: POST
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 414, in initial
+    self.perform_authentication(request)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 324, in perform_authentication
+    request.user
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 227, in user
+    self._authenticate()
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 380, in _authenticate
+    user_auth_tuple = authenticator.authenticate(self)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 49, in authenticate
+    validated_token = self.get_validated_token(raw_token)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 113, in get_validated_token
+    raise InvalidToken(
+rest_framework_simplejwt.exceptions.InvalidToken: {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]}
+WARNING 2025-11-11 09:28:14,514 log 477766 123549038138944 Unauthorized: /api/v1/authentication/home
+WARNING 2025-11-11 09:28:14,515 basehttp 477766 123549038138944 "POST /api/v1/authentication/home HTTP/1.1" 401 666
+ERROR 2025-11-11 09:28:16,100 exceptions 477766 123549038138944 API Exception: InvalidToken - {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]} | Path: /api/v1/authentication/home | Method: POST
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 414, in initial
+    self.perform_authentication(request)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 324, in perform_authentication
+    request.user
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 227, in user
+    self._authenticate()
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 380, in _authenticate
+    user_auth_tuple = authenticator.authenticate(self)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 49, in authenticate
+    validated_token = self.get_validated_token(raw_token)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 113, in get_validated_token
+    raise InvalidToken(
+rest_framework_simplejwt.exceptions.InvalidToken: {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]}
+WARNING 2025-11-11 09:28:16,100 log 477766 123549038138944 Unauthorized: /api/v1/authentication/home
+WARNING 2025-11-11 09:28:16,101 basehttp 477766 123549038138944 "POST /api/v1/authentication/home HTTP/1.1" 401 666
+INFO 2025-11-11 09:28:36,468 autoreload 477766 123549236041536 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 09:28:37,470 autoreload 477975 138644119562048 Watching for file changes with StatReloader
+INFO 2025-11-11 09:29:19,435 autoreload 477975 138644119562048 /home/aswin/MindNotes/mindnotesBackend/api/v1/authentication/serializers.py changed, reloading.
+INFO 2025-11-11 09:29:20,291 autoreload 478437 123303405557568 Watching for file changes with StatReloader
+ERROR 2025-11-11 09:29:24,996 exceptions 478437 123303074199104 API Exception: InvalidToken - {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]} | Path: /api/v1/authentication/home | Method: POST
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 414, in initial
+    self.perform_authentication(request)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 324, in perform_authentication
+    request.user
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 227, in user
+    self._authenticate()
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 380, in _authenticate
+    user_auth_tuple = authenticator.authenticate(self)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 49, in authenticate
+    validated_token = self.get_validated_token(raw_token)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 113, in get_validated_token
+    raise InvalidToken(
+rest_framework_simplejwt.exceptions.InvalidToken: {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]}
+WARNING 2025-11-11 09:29:24,997 log 478437 123303074199104 Unauthorized: /api/v1/authentication/home
+WARNING 2025-11-11 09:29:24,997 basehttp 478437 123303074199104 "POST /api/v1/authentication/home HTTP/1.1" 401 666
+ERROR 2025-11-11 09:29:41,363 exceptions 478437 123303074199104 API Exception: InvalidToken - {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]} | Path: /api/v1/authentication/home | Method: POST
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 414, in initial
+    self.perform_authentication(request)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 324, in perform_authentication
+    request.user
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 227, in user
+    self._authenticate()
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 380, in _authenticate
+    user_auth_tuple = authenticator.authenticate(self)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 49, in authenticate
+    validated_token = self.get_validated_token(raw_token)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 113, in get_validated_token
+    raise InvalidToken(
+rest_framework_simplejwt.exceptions.InvalidToken: {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]}
+WARNING 2025-11-11 09:29:41,364 log 478437 123303074199104 Unauthorized: /api/v1/authentication/home
+WARNING 2025-11-11 09:29:41,364 basehttp 478437 123303074199104 "POST /api/v1/authentication/home HTTP/1.1" 401 666
+ERROR 2025-11-11 09:29:42,215 exceptions 478437 123303074199104 API Exception: InvalidToken - {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]} | Path: /api/v1/authentication/home | Method: POST
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 414, in initial
+    self.perform_authentication(request)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 324, in perform_authentication
+    request.user
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 227, in user
+    self._authenticate()
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 380, in _authenticate
+    user_auth_tuple = authenticator.authenticate(self)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 49, in authenticate
+    validated_token = self.get_validated_token(raw_token)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 113, in get_validated_token
+    raise InvalidToken(
+rest_framework_simplejwt.exceptions.InvalidToken: {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]}
+WARNING 2025-11-11 09:29:42,215 log 478437 123303074199104 Unauthorized: /api/v1/authentication/home
+WARNING 2025-11-11 09:29:42,215 basehttp 478437 123303074199104 "POST /api/v1/authentication/home HTTP/1.1" 401 666
+ERROR 2025-11-11 09:30:23,636 exceptions 478437 123303074199104 API Exception: InvalidToken - {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]} | Path: /api/v1/authentication/home | Method: POST
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 414, in initial
+    self.perform_authentication(request)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 324, in perform_authentication
+    request.user
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 227, in user
+    self._authenticate()
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 380, in _authenticate
+    user_auth_tuple = authenticator.authenticate(self)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 49, in authenticate
+    validated_token = self.get_validated_token(raw_token)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 113, in get_validated_token
+    raise InvalidToken(
+rest_framework_simplejwt.exceptions.InvalidToken: {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]}
+WARNING 2025-11-11 09:30:23,636 log 478437 123303074199104 Unauthorized: /api/v1/authentication/home
+WARNING 2025-11-11 09:30:23,637 basehttp 478437 123303074199104 "POST /api/v1/authentication/home HTTP/1.1" 401 666
+ERROR 2025-11-11 09:30:54,592 exceptions 478437 123303074199104 API Exception: InvalidToken - {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]} | Path: /api/v1/authentication/home | Method: POST
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 414, in initial
+    self.perform_authentication(request)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 324, in perform_authentication
+    request.user
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 227, in user
+    self._authenticate()
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 380, in _authenticate
+    user_auth_tuple = authenticator.authenticate(self)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 49, in authenticate
+    validated_token = self.get_validated_token(raw_token)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 113, in get_validated_token
+    raise InvalidToken(
+rest_framework_simplejwt.exceptions.InvalidToken: {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]}
+WARNING 2025-11-11 09:30:54,593 log 478437 123303074199104 Unauthorized: /api/v1/authentication/home
+WARNING 2025-11-11 09:30:54,593 basehttp 478437 123303074199104 "POST /api/v1/authentication/home HTTP/1.1" 401 666
+ERROR 2025-11-11 09:30:55,507 exceptions 478437 123303074199104 API Exception: InvalidToken - {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]} | Path: /api/v1/authentication/home | Method: POST
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 414, in initial
+    self.perform_authentication(request)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 324, in perform_authentication
+    request.user
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 227, in user
+    self._authenticate()
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 380, in _authenticate
+    user_auth_tuple = authenticator.authenticate(self)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 49, in authenticate
+    validated_token = self.get_validated_token(raw_token)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 113, in get_validated_token
+    raise InvalidToken(
+rest_framework_simplejwt.exceptions.InvalidToken: {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]}
+WARNING 2025-11-11 09:30:55,507 log 478437 123303074199104 Unauthorized: /api/v1/authentication/home
+WARNING 2025-11-11 09:30:55,507 basehttp 478437 123303074199104 "POST /api/v1/authentication/home HTTP/1.1" 401 666
+WARNING 2025-11-11 09:32:01,621 log 478437 123303064757824 Bad Request: /api/v1/authentication/login
+WARNING 2025-11-11 09:32:01,621 basehttp 478437 123303064757824 "POST /api/v1/authentication/login HTTP/1.1" 400 156
+ERROR 2025-11-11 09:32:02,710 exceptions 478437 123303064757824 API Exception: InvalidToken - {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]} | Path: /api/v1/authentication/home | Method: POST
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 414, in initial
+    self.perform_authentication(request)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 324, in perform_authentication
+    request.user
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 227, in user
+    self._authenticate()
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 380, in _authenticate
+    user_auth_tuple = authenticator.authenticate(self)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 49, in authenticate
+    validated_token = self.get_validated_token(raw_token)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 113, in get_validated_token
+    raise InvalidToken(
+rest_framework_simplejwt.exceptions.InvalidToken: {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]}
+WARNING 2025-11-11 09:32:02,711 log 478437 123303064757824 Unauthorized: /api/v1/authentication/home
+WARNING 2025-11-11 09:32:02,711 basehttp 478437 123303064757824 "POST /api/v1/authentication/home HTTP/1.1" 401 666
+ERROR 2025-11-11 09:32:03,887 exceptions 478437 123303064757824 API Exception: InvalidToken - {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]} | Path: /api/v1/authentication/home | Method: POST
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 414, in initial
+    self.perform_authentication(request)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 324, in perform_authentication
+    request.user
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 227, in user
+    self._authenticate()
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 380, in _authenticate
+    user_auth_tuple = authenticator.authenticate(self)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 49, in authenticate
+    validated_token = self.get_validated_token(raw_token)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 113, in get_validated_token
+    raise InvalidToken(
+rest_framework_simplejwt.exceptions.InvalidToken: {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]}
+WARNING 2025-11-11 09:32:03,888 log 478437 123303064757824 Unauthorized: /api/v1/authentication/home
+WARNING 2025-11-11 09:32:03,888 basehttp 478437 123303064757824 "POST /api/v1/authentication/home HTTP/1.1" 401 666
+INFO 2025-11-11 09:32:33,409 basehttp 478437 123303056365120 "POST /api/v1/authentication/signup HTTP/1.1" 201 1422
+INFO 2025-11-11 09:32:48,016 basehttp 478437 123303056365120 "POST /api/v1/authentication/signup HTTP/1.1" 201 1422
+INFO 2025-11-11 09:33:00,718 basehttp 478437 123303056365120 "POST /api/v1/authentication/signup HTTP/1.1" 201 1422
+ERROR 2025-11-11 09:33:10,872 log 478437 123303043774016 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 09:33:10,874 basehttp 478437 123303043774016 "POST /api/v1/authentication/home HTTP/1.1" 500 778
+ERROR 2025-11-11 09:33:20,338 exceptions 478437 123303043774016 API Exception: InvalidToken - {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]} | Path: /api/v1/authentication/home | Method: POST
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 414, in initial
+    self.perform_authentication(request)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 324, in perform_authentication
+    request.user
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 227, in user
+    self._authenticate()
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/request.py", line 380, in _authenticate
+    user_auth_tuple = authenticator.authenticate(self)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 49, in authenticate
+    validated_token = self.get_validated_token(raw_token)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework_simplejwt/authentication.py", line 113, in get_validated_token
+    raise InvalidToken(
+rest_framework_simplejwt.exceptions.InvalidToken: {'detail': ErrorDetail(string='Given token not valid for any token type', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid'), 'messages': [{'token_class': ErrorDetail(string='AccessToken', code='token_not_valid'), 'token_type': ErrorDetail(string='access', code='token_not_valid'), 'message': ErrorDetail(string='Token has wrong type', code='token_not_valid')}]}
+WARNING 2025-11-11 09:33:20,338 log 478437 123303043774016 Unauthorized: /api/v1/authentication/home
+WARNING 2025-11-11 09:33:20,338 basehttp 478437 123303043774016 "POST /api/v1/authentication/home HTTP/1.1" 401 666
+ERROR 2025-11-11 09:33:47,944 log 478437 123303043774016 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 09:33:47,946 basehttp 478437 123303043774016 "POST /api/v1/authentication/home HTTP/1.1" 500 778
+ERROR 2025-11-11 09:34:01,995 log 478437 123303043774016 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 09:34:01,996 basehttp 478437 123303043774016 "POST /api/v1/authentication/home HTTP/1.1" 500 778
+ERROR 2025-11-11 09:34:27,564 log 478437 123303043774016 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 09:34:27,565 basehttp 478437 123303043774016 "POST /api/v1/authentication/home HTTP/1.1" 500 778
+INFO 2025-11-11 09:34:36,874 autoreload 480495 137014422792000 Watching for file changes with StatReloader
+ERROR 2025-11-11 09:34:49,208 log 480495 137014087251520 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 09:34:49,208 basehttp 480495 137014087251520 "POST /api/v1/authentication/home HTTP/1.1" 500 778
+INFO 2025-11-11 09:36:03,940 autoreload 480495 137014422792000 /home/aswin/MindNotes/mindnotesBackend/mindnotesBackend/settings.py changed, reloading.
+INFO 2025-11-11 09:36:04,881 autoreload 480928 136661414360896 Watching for file changes with StatReloader
+INFO 2025-11-11 09:36:06,293 autoreload 480928 136661414360896 /home/aswin/MindNotes/mindnotesBackend/mindnotesBackend/settings.py changed, reloading.
+INFO 2025-11-11 09:36:06,873 autoreload 480963 132089191671616 Watching for file changes with StatReloader
+INFO 2025-11-11 09:36:08,411 basehttp 480963 132088852895296 "POST /api/v1/authentication/home HTTP/1.1" 200 817
+INFO 2025-11-11 09:37:29,883 autoreload 480963 132089191671616 /home/aswin/MindNotes/mindnotesBackend/api/v1/authentication/serializers.py changed, reloading.
+INFO 2025-11-11 09:37:30,789 autoreload 481373 130075705857856 Watching for file changes with StatReloader
+INFO 2025-11-11 09:37:31,322 basehttp 481373 130075299149376 "POST /api/v1/authentication/home HTTP/1.1" 200 607
+INFO 2025-11-11 09:47:05,731 basehttp 481373 130075289708096 "POST /api/v1/journals/create HTTP/1.1" 201 652
+WARNING 2025-11-11 09:47:25,246 log 481373 130075289708096 Bad Request: /api/v1/journals/create
+WARNING 2025-11-11 09:47:25,246 basehttp 481373 130075289708096 "POST /api/v1/journals/create HTTP/1.1" 400 221
+INFO 2025-11-11 09:47:45,219 basehttp 481373 130075289708096 "POST /api/v1/journals/create HTTP/1.1" 201 652
+INFO 2025-11-11 09:48:36,315 basehttp 481373 130075289708096 "GET /api/v1/journals/list HTTP/1.1" 200 1344
+INFO 2025-11-11 09:51:31,053 autoreload 481373 130075705857856 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 09:51:32,263 autoreload 485396 132348745762624 Watching for file changes with StatReloader
+INFO 2025-11-11 09:52:01,164 autoreload 485396 132348745762624 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/urls.py changed, reloading.
+INFO 2025-11-11 09:52:02,161 autoreload 485527 125633720043328 Watching for file changes with StatReloader
+INFO 2025-11-11 09:53:48,400 autoreload 485527 125633720043328 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/urls.py changed, reloading.
+INFO 2025-11-11 09:53:49,069 autoreload 486043 137480661043008 Watching for file changes with StatReloader
+INFO 2025-11-11 09:53:52,385 autoreload 486043 137480661043008 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/urls.py changed, reloading.
+INFO 2025-11-11 09:53:53,379 autoreload 486090 124415005550400 Watching for file changes with StatReloader
+INFO 2025-11-11 09:53:57,774 autoreload 486090 124415005550400 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 09:53:58,647 autoreload 486143 134743415568192 Watching for file changes with StatReloader
+INFO 2025-11-11 09:54:04,004 autoreload 486143 134743415568192 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 09:54:04,986 autoreload 486204 129833041307456 Watching for file changes with StatReloader
+INFO 2025-11-11 09:54:10,460 autoreload 486204 129833041307456 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 09:54:11,436 autoreload 486265 133329856100160 Watching for file changes with StatReloader
+INFO 2025-11-11 09:54:13,862 autoreload 486265 133329856100160 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 09:54:14,867 autoreload 486294 140018213099328 Watching for file changes with StatReloader
+INFO 2025-11-11 09:54:16,024 autoreload 486294 140018213099328 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 09:54:16,554 autoreload 486428 124939545171776 Watching for file changes with StatReloader
+INFO 2025-11-11 09:54:22,973 autoreload 486428 124939545171776 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 09:54:23,822 autoreload 486485 135459208374080 Watching for file changes with StatReloader
+INFO 2025-11-11 09:54:26,218 autoreload 486485 135459208374080 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 09:54:27,256 autoreload 486531 136206608164672 Watching for file changes with StatReloader
+INFO 2025-11-11 09:54:28,607 autoreload 486531 136206608164672 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 09:54:29,641 autoreload 486554 125033769748288 Watching for file changes with StatReloader
+INFO 2025-11-11 09:54:30,989 autoreload 486554 125033769748288 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 09:54:31,944 autoreload 486602 128135862298432 Watching for file changes with StatReloader
+INFO 2025-11-11 09:54:34,289 autoreload 486602 128135862298432 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 09:54:35,186 autoreload 486640 135725063710528 Watching for file changes with StatReloader
+INFO 2025-11-11 09:54:39,538 autoreload 486640 135725063710528 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 09:54:40,472 autoreload 486691 127971956442944 Watching for file changes with StatReloader
+INFO 2025-11-11 09:54:42,870 autoreload 486691 127971956442944 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 09:54:43,766 autoreload 486726 134136265164608 Watching for file changes with StatReloader
+ERROR 2025-11-11 09:55:58,427 log 486726 134135855183424 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 09:55:58,427 basehttp 486726 134135855183424 "POST /api/v1/journals/detail HTTP/1.1" 500 231
+INFO 2025-11-11 09:56:11,821 autoreload 486726 134136265164608 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 09:56:12,869 autoreload 487515 124178255497024 Watching for file changes with StatReloader
+INFO 2025-11-11 09:56:40,682 autoreload 487515 124178255497024 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 09:56:41,856 autoreload 487725 128949218170688 Watching for file changes with StatReloader
+ERROR 2025-11-11 09:57:32,658 log 487725 128948809758272 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 09:57:32,658 basehttp 487725 128948809758272 "POST /api/v1/journals/detail HTTP/1.1" 500 231
+ERROR 2025-11-11 09:59:53,629 log 487725 128948801365568 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 09:59:53,630 basehttp 487725 128948801365568 "POST /api/v1/journals/detail HTTP/1.1" 500 223
+INFO 2025-11-11 10:01:21,740 autoreload 487725 128949218170688 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:01:22,826 autoreload 489326 133427270272832 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:01:37,566 log 489326 133426931291712 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:01:37,566 basehttp 489326 133426931291712 "POST /api/v1/journals/detail HTTP/1.1" 500 231
+ERROR 2025-11-11 10:01:38,647 log 489326 133426931291712 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:01:38,647 basehttp 489326 133426931291712 "POST /api/v1/journals/detail HTTP/1.1" 500 231
+ERROR 2025-11-11 10:01:39,829 log 489326 133426931291712 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:01:39,829 basehttp 489326 133426931291712 "POST /api/v1/journals/detail HTTP/1.1" 500 231
+ERROR 2025-11-11 10:01:40,289 log 489326 133426931291712 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:01:40,290 basehttp 489326 133426931291712 "POST /api/v1/journals/detail HTTP/1.1" 500 231
+INFO 2025-11-11 10:01:55,714 autoreload 489326 133427270272832 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:01:56,767 autoreload 489511 138658622900032 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:02:09,565 log 489511 138658284295744 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:02:09,565 basehttp 489511 138658284295744 "POST /api/v1/journals/detail HTTP/1.1" 500 231
+ERROR 2025-11-11 10:02:10,451 log 489511 138658284295744 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:02:10,451 basehttp 489511 138658284295744 "POST /api/v1/journals/detail HTTP/1.1" 500 231
+ERROR 2025-11-11 10:02:11,612 log 489511 138658284295744 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:02:11,613 basehttp 489511 138658284295744 "POST /api/v1/journals/detail HTTP/1.1" 500 231
+ERROR 2025-11-11 10:03:49,150 log 489511 138658274854464 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:03:49,151 basehttp 489511 138658274854464 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:04:01,609 log 489511 138658274854464 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:04:01,609 basehttp 489511 138658274854464 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:04:24,857 log 489511 138658274854464 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:04:24,858 basehttp 489511 138658274854464 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+INFO 2025-11-11 10:04:45,346 autoreload 489511 138658622900032 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:04:46,428 autoreload 490415 136680806074176 Watching for file changes with StatReloader
+INFO 2025-11-11 10:04:56,882 autoreload 490415 136680806074176 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:04:57,917 autoreload 490507 134209721534272 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:05:13,073 log 490507 134209382897216 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:05:13,073 basehttp 490507 134209382897216 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:05:13,865 log 490507 134209382897216 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:05:13,866 basehttp 490507 134209382897216 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:05:14,599 log 490507 134209382897216 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:05:14,599 basehttp 490507 134209382897216 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:06:01,643 log 490507 134209382897216 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:06:01,643 basehttp 490507 134209382897216 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:06:02,520 log 490507 134209382897216 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:06:02,520 basehttp 490507 134209382897216 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:06:03,691 log 490507 134209382897216 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:06:03,692 basehttp 490507 134209382897216 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:06:04,330 log 490507 134209382897216 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:06:04,331 basehttp 490507 134209382897216 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+INFO 2025-11-11 10:06:25,873 autoreload 490507 134209721534272 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:06:26,891 autoreload 491042 135832662632256 Watching for file changes with StatReloader
+INFO 2025-11-11 10:06:29,333 autoreload 491042 135832662632256 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:06:30,157 autoreload 491095 139513589614400 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:06:32,284 log 491095 139513251223104 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:06:32,284 basehttp 491095 139513251223104 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+INFO 2025-11-11 10:06:41,749 autoreload 491095 139513589614400 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+ERROR 2025-11-11 10:06:41,767 log 491095 139513251223104 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:06:41,768 basehttp 491095 139513251223104 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:06:43,384 log 491095 139513251223104 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:06:43,384 basehttp 491095 139513251223104 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:06:44,277 log 491095 139513251223104 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:06:44,278 basehttp 491095 139513251223104 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+INFO 2025-11-11 10:06:45,253 autoreload 491214 126539787396928 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:06:45,799 log 491214 126539448964672 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:06:45,799 basehttp 491214 126539448964672 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+INFO 2025-11-11 10:08:28,527 autoreload 491214 126539787396928 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/serializers.py changed, reloading.
+INFO 2025-11-11 10:08:29,352 autoreload 491694 135485335947072 Watching for file changes with StatReloader
+INFO 2025-11-11 10:09:28,652 autoreload 491694 135485335947072 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:09:29,845 autoreload 492008 125168932218688 Watching for file changes with StatReloader
+INFO 2025-11-11 10:09:40,321 autoreload 492008 125168932218688 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:09:41,296 autoreload 492170 137247275317056 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:10:01,537 log 492170 137247003760192 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:10:01,538 basehttp 492170 137247003760192 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:11:25,622 log 492170 137246994318912 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:11:25,622 basehttp 492170 137246994318912 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+INFO 2025-11-11 10:11:29,746 autoreload 492170 137247275317056 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:11:30,903 autoreload 492728 123319812966208 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:12:24,167 log 492728 123319473395264 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:12:24,167 basehttp 492728 123319473395264 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+INFO 2025-11-11 10:13:03,071 autoreload 492728 123319812966208 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:13:03,987 autoreload 493144 139017535530816 Watching for file changes with StatReloader
+INFO 2025-11-11 10:13:17,581 autoreload 493144 139017535530816 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:13:18,452 autoreload 493329 135229770549056 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:13:28,306 log 493329 135229432387136 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:13:28,306 basehttp 493329 135229432387136 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:13:29,092 log 493329 135229432387136 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:13:29,092 basehttp 493329 135229432387136 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:13:30,725 log 493329 135229432387136 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:13:30,726 basehttp 493329 135229432387136 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:13:31,524 log 493329 135229432387136 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:13:31,524 basehttp 493329 135229432387136 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+INFO 2025-11-11 10:13:43,249 autoreload 493537 128548051687232 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:13:46,700 log 493537 128547712128576 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:13:46,700 basehttp 493537 128547712128576 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+INFO 2025-11-11 10:14:55,898 autoreload 493537 128548051687232 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:14:56,865 autoreload 493910 129896241280832 Watching for file changes with StatReloader
+INFO 2025-11-11 10:15:26,662 autoreload 493910 129896241280832 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:15:27,626 autoreload 494138 133416004278080 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:15:40,283 log 494138 133415666439744 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:15:40,283 basehttp 494138 133415666439744 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:16:47,510 log 494138 133415656998464 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:16:47,510 basehttp 494138 133415656998464 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+INFO 2025-11-11 10:16:56,502 autoreload 494138 133416004278080 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:16:57,497 autoreload 495037 124174114514752 Watching for file changes with StatReloader
+INFO 2025-11-11 10:17:00,636 autoreload 495037 124174114514752 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:17:01,304 autoreload 495085 138632558311232 Watching for file changes with StatReloader
+INFO 2025-11-11 10:17:03,664 autoreload 495085 138632558311232 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:17:04,579 autoreload 495128 134765405099840 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:17:04,996 exceptions 495128 134765065795136 API Exception: TypeError - BaseList.__init__() missing 2 required positional arguments: 'instance' and 'name' | Path: /api/v1/journals/detail | Method: POST
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py", line 527, in post
+    entry_data = JournalService.get_entry_detail(entry_id, user)
+  File "/home/aswin/MindNotes/mindnotesBackend/core/services.py", line 178, in get_entry_detail
+    tags_list = Tag.objects.filter(
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/query.py", line 941, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/query.py", line 961, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/query.py", line 968, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1416, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1435, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1318, in build_filter
+    value = self.resolve_lookup_value(value, can_reuse, allow_joins)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1123, in resolve_lookup_value
+    return type_(values)
+TypeError: BaseList.__init__() missing 2 required positional arguments: 'instance' and 'name'
+ERROR 2025-11-11 10:17:05,005 log 495128 134765065795136 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:17:05,006 basehttp 495128 134765065795136 "POST /api/v1/journals/detail HTTP/1.1" 500 193
+ERROR 2025-11-11 10:17:05,534 exceptions 495128 134765065795136 API Exception: TypeError - BaseList.__init__() missing 2 required positional arguments: 'instance' and 'name' | Path: /api/v1/journals/detail | Method: POST
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py", line 527, in post
+    entry_data = JournalService.get_entry_detail(entry_id, user)
+  File "/home/aswin/MindNotes/mindnotesBackend/core/services.py", line 178, in get_entry_detail
+    tags_list = Tag.objects.filter(
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/query.py", line 941, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/query.py", line 961, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/query.py", line 968, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1416, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1435, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1318, in build_filter
+    value = self.resolve_lookup_value(value, can_reuse, allow_joins)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1123, in resolve_lookup_value
+    return type_(values)
+TypeError: BaseList.__init__() missing 2 required positional arguments: 'instance' and 'name'
+ERROR 2025-11-11 10:17:05,535 log 495128 134765065795136 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:17:05,535 basehttp 495128 134765065795136 "POST /api/v1/journals/detail HTTP/1.1" 500 193
+ERROR 2025-11-11 10:17:06,663 exceptions 495128 134765065795136 API Exception: TypeError - BaseList.__init__() missing 2 required positional arguments: 'instance' and 'name' | Path: /api/v1/journals/detail | Method: POST
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py", line 527, in post
+    entry_data = JournalService.get_entry_detail(entry_id, user)
+  File "/home/aswin/MindNotes/mindnotesBackend/core/services.py", line 178, in get_entry_detail
+    tags_list = Tag.objects.filter(
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/query.py", line 941, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/query.py", line 961, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/query.py", line 968, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1416, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1435, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1318, in build_filter
+    value = self.resolve_lookup_value(value, can_reuse, allow_joins)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1123, in resolve_lookup_value
+    return type_(values)
+TypeError: BaseList.__init__() missing 2 required positional arguments: 'instance' and 'name'
+ERROR 2025-11-11 10:17:06,663 log 495128 134765065795136 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:17:06,663 basehttp 495128 134765065795136 "POST /api/v1/journals/detail HTTP/1.1" 500 193
+INFO 2025-11-11 10:17:14,054 autoreload 495128 134765405099840 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:17:14,902 autoreload 495214 140683764664128 Watching for file changes with StatReloader
+INFO 2025-11-11 10:17:19,258 autoreload 495214 140683764664128 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:17:20,227 autoreload 495356 131568013317952 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:17:20,795 log 495356 131567598958144 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:17:20,795 basehttp 495356 131567598958144 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:17:21,997 log 495356 131567598958144 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:17:21,997 basehttp 495356 131567598958144 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:17:22,519 log 495356 131567598958144 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:17:22,520 basehttp 495356 131567598958144 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:17:22,983 log 495356 131567598958144 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:17:22,984 basehttp 495356 131567598958144 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+INFO 2025-11-11 10:17:32,762 autoreload 495356 131568013317952 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:17:33,503 autoreload 495455 127419903272768 Watching for file changes with StatReloader
+INFO 2025-11-11 10:18:09,493 autoreload 495455 127419903272768 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:18:10,330 autoreload 495607 132286253369152 Watching for file changes with StatReloader
+INFO 2025-11-11 10:18:29,007 autoreload 495607 132286253369152 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:18:29,637 autoreload 495804 125347339843392 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:22:49,706 log 495804 125346999952960 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:22:49,707 basehttp 495804 125346999952960 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+INFO 2025-11-11 10:23:08,938 autoreload 495804 125347339843392 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:23:09,823 autoreload 497007 136863914067776 Watching for file changes with StatReloader
+INFO 2025-11-11 10:23:15,253 autoreload 497007 136863914067776 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:23:16,129 autoreload 497141 140145942230848 Watching for file changes with StatReloader
+INFO 2025-11-11 10:23:22,277 autoreload 497224 138914483857216 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:23:23,734 log 497224 138914073409088 Internal Server Error: /api/v1/journals/detail
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+ERROR 2025-11-11 10:23:23,734 basehttp 497224 138914073409088 "POST /api/v1/journals/detail HTTP/1.1" 500 92802
+INFO 2025-11-11 10:23:31,830 autoreload 497224 138914483857216 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:23:32,565 autoreload 497330 128669835708224 Watching for file changes with StatReloader
+INFO 2025-11-11 10:23:36,894 autoreload 497330 128669835708224 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:23:37,904 autoreload 497385 137589583574848 Watching for file changes with StatReloader
+INFO 2025-11-11 10:23:39,252 autoreload 497385 137589583574848 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:23:40,200 autoreload 497430 125016119289664 Watching for file changes with StatReloader
+INFO 2025-11-11 10:23:41,258 basehttp 497430 125015779956288 "POST /api/v1/journals/detail HTTP/1.1" 200 76
+INFO 2025-11-11 10:23:53,789 autoreload 497430 125016119289664 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:23:54,483 autoreload 497515 124354575066944 Watching for file changes with StatReloader
+INFO 2025-11-11 10:23:56,804 autoreload 497515 124354575066944 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:23:57,770 autoreload 497575 135500272432960 Watching for file changes with StatReloader
+INFO 2025-11-11 10:24:04,180 autoreload 497575 135500272432960 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:24:05,082 autoreload 497629 129636439381824 Watching for file changes with StatReloader
+INFO 2025-11-11 10:24:06,395 autoreload 497629 129636439381824 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:24:07,423 autoreload 497673 134081897142080 Watching for file changes with StatReloader
+INFO 2025-11-11 10:24:09,073 basehttp 497673 134081557820992 "POST /api/v1/journals/detail HTTP/1.1" 200 76
+INFO 2025-11-11 10:24:16,960 autoreload 497673 134081897142080 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:24:17,702 autoreload 497830 126270503421760 Watching for file changes with StatReloader
+INFO 2025-11-11 10:24:20,042 autoreload 497830 126270503421760 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:24:21,012 autoreload 497875 129236458641216 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:24:23,190 log 497875 129236120098368 Internal Server Error: /api/v1/journals/detail
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+ERROR 2025-11-11 10:24:23,191 basehttp 497875 129236120098368 "POST /api/v1/journals/detail HTTP/1.1" 500 92802
+INFO 2025-11-11 10:24:31,547 autoreload 497875 129236458641216 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:24:32,275 autoreload 497985 128819877390144 Watching for file changes with StatReloader
+INFO 2025-11-11 10:24:33,857 basehttp 497985 128819538679360 "POST /api/v1/journals/detail HTTP/1.1" 200 76
+INFO 2025-11-11 10:24:41,792 autoreload 497985 128819877390144 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:24:42,563 autoreload 498064 135481498801984 Watching for file changes with StatReloader
+INFO 2025-11-11 10:24:45,890 autoreload 498064 135481498801984 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:24:46,846 autoreload 498114 125691418486592 Watching for file changes with StatReloader
+INFO 2025-11-11 10:24:51,203 autoreload 498114 125691418486592 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:24:52,123 autoreload 498165 137533617174336 Watching for file changes with StatReloader
+INFO 2025-11-11 10:25:07,718 autoreload 498165 137533617174336 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:25:08,440 autoreload 498279 126096314828608 Watching for file changes with StatReloader
+INFO 2025-11-11 10:25:11,762 autoreload 498279 126096314828608 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:25:12,729 autoreload 498329 132804901472064 Watching for file changes with StatReloader
+INFO 2025-11-11 10:25:15,039 autoreload 498329 132804901472064 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:25:16,224 autoreload 498414 132066201118528 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:25:40,968 log 498414 132065861817920 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:25:40,968 basehttp 498414 132065861817920 "POST /api/v1/journals/detail HTTP/1.1" 500 157
+INFO 2025-11-11 10:25:52,361 autoreload 498414 132066201118528 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:25:52,991 autoreload 498659 123352953513792 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:25:56,159 log 498659 123352613639744 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:25:56,159 basehttp 498659 123352613639744 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+INFO 2025-11-11 10:26:17,775 autoreload 498659 123352953513792 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:26:18,321 autoreload 499267 134815764133696 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:26:19,454 log 499267 134815425222208 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:26:19,454 basehttp 499267 134815425222208 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+INFO 2025-11-11 10:27:05,555 autoreload 499267 134815764133696 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:27:06,232 autoreload 499474 133864201938752 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:27:06,668 log 499474 133863795848768 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:27:06,668 basehttp 499474 133863795848768 "POST /api/v1/journals/detail HTTP/1.1" 500 157
+ERROR 2025-11-11 10:27:07,623 log 499474 133863795848768 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:27:07,624 basehttp 499474 133863795848768 "POST /api/v1/journals/detail HTTP/1.1" 500 157
+ERROR 2025-11-11 10:27:08,183 log 499474 133863795848768 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:27:08,183 basehttp 499474 133863795848768 "POST /api/v1/journals/detail HTTP/1.1" 500 157
+ERROR 2025-11-11 10:27:08,639 log 499474 133863795848768 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:27:08,639 basehttp 499474 133863795848768 "POST /api/v1/journals/detail HTTP/1.1" 500 157
+INFO 2025-11-11 10:27:12,625 autoreload 499474 133864201938752 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:27:13,630 autoreload 499550 128835711002432 Watching for file changes with StatReloader
+INFO 2025-11-11 10:27:14,991 autoreload 499550 128835711002432 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:27:15,863 autoreload 499620 123914997589824 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:27:56,187 log 499620 123914658764352 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:27:56,187 basehttp 499620 123914658764352 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+INFO 2025-11-11 10:28:34,658 autoreload 499620 123914997589824 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:28:35,489 autoreload 500123 123161723094848 Watching for file changes with StatReloader
+INFO 2025-11-11 10:29:09,394 autoreload 500123 123161723094848 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:29:10,451 autoreload 500277 129547322242880 Watching for file changes with StatReloader
+INFO 2025-11-11 10:29:32,225 autoreload 500277 129547322242880 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:29:33,432 autoreload 500724 135575952750400 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:29:39,175 log 500724 135575541642816 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:29:39,175 basehttp 500724 135575541642816 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:29:42,982 log 500724 135575541642816 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:29:42,982 basehttp 500724 135575541642816 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:29:45,526 log 500724 135575541642816 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:29:45,526 basehttp 500724 135575541642816 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:29:49,234 log 500724 135575541642816 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:29:49,234 basehttp 500724 135575541642816 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+ERROR 2025-11-11 10:29:49,695 log 500724 135575541642816 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:29:49,695 basehttp 500724 135575541642816 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+INFO 2025-11-11 10:30:01,910 autoreload 501021 135977635063616 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:30:03,961 log 501021 135977295664704 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:30:03,962 basehttp 501021 135977295664704 "POST /api/v1/journals/detail HTTP/1.1" 500 205
+INFO 2025-11-11 10:30:44,026 autoreload 501021 135977635063616 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:30:44,924 autoreload 501329 140682436802368 Watching for file changes with StatReloader
+INFO 2025-11-11 10:31:02,650 autoreload 501329 140682436802368 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:31:03,331 autoreload 501438 132339063064384 Watching for file changes with StatReloader
+INFO 2025-11-11 10:31:13,921 autoreload 501438 132339063064384 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:31:14,746 autoreload 501526 135940931405632 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:31:36,873 log 501526 135940593407552 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:31:36,873 basehttp 501526 135940593407552 "POST /api/v1/journals/detail HTTP/1.1" 500 159
+ERROR 2025-11-11 10:31:37,999 log 501526 135940593407552 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:31:37,999 basehttp 501526 135940593407552 "POST /api/v1/journals/detail HTTP/1.1" 500 159
+ERROR 2025-11-11 10:31:38,330 log 501526 135940593407552 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:31:38,330 basehttp 501526 135940593407552 "POST /api/v1/journals/detail HTTP/1.1" 500 159
+INFO 2025-11-11 10:32:14,275 autoreload 501526 135940931405632 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:32:15,292 autoreload 501916 133627210954560 Watching for file changes with StatReloader
+INFO 2025-11-11 10:32:32,601 basehttp 501916 133626872714816 "POST /api/v1/journals/detail HTTP/1.1" 200 1022
+INFO 2025-11-11 10:33:05,130 basehttp 501916 133626872714816 "POST /api/v1/journals/detail HTTP/1.1" 200 1202
+INFO 2025-11-11 10:34:14,074 autoreload 501916 133627210954560 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:34:14,867 autoreload 502502 126626877945664 Watching for file changes with StatReloader
+INFO 2025-11-11 10:34:24,410 autoreload 502502 126626877945664 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/serializers.py changed, reloading.
+INFO 2025-11-11 10:34:25,271 autoreload 502676 134820640294720 Watching for file changes with StatReloader
+INFO 2025-11-11 10:36:51,478 autoreload 502676 134820640294720 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:36:52,473 autoreload 503662 134618528597824 Watching for file changes with StatReloader
+INFO 2025-11-11 10:36:53,045 basehttp 503662 134618190173760 "POST /api/v1/journals/detail HTTP/1.1" 200 1259
+INFO 2025-11-11 10:37:04,103 autoreload 503662 134618528597824 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:37:04,977 autoreload 503765 130485914015552 Watching for file changes with StatReloader
+INFO 2025-11-11 10:37:17,612 autoreload 503765 130485914015552 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/views.py changed, reloading.
+INFO 2025-11-11 10:37:18,385 autoreload 503959 132334305982272 Watching for file changes with StatReloader
+INFO 2025-11-11 10:40:19,107 basehttp 503959 132334033561152 "POST /api/v1/journals/detail HTTP/1.1" 200 1259
+INFO 2025-11-11 10:40:32,427 basehttp 503959 132334033561152 "POST /api/v1/journals/detail HTTP/1.1" 200 1257
+INFO 2025-11-11 10:46:22,838 autoreload 503959 132334305982272 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:46:23,739 autoreload 506321 127790083692352 Watching for file changes with StatReloader
+ERROR 2025-11-11 10:46:24,630 log 506321 127789745821248 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:46:24,630 basehttp 506321 127789745821248 "POST /api/v1/journals/detail HTTP/1.1" 500 382
+ERROR 2025-11-11 10:46:25,733 log 506321 127789745821248 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:46:25,734 basehttp 506321 127789745821248 "POST /api/v1/journals/detail HTTP/1.1" 500 382
+ERROR 2025-11-11 10:46:26,449 log 506321 127789745821248 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:46:26,450 basehttp 506321 127789745821248 "POST /api/v1/journals/detail HTTP/1.1" 500 382
+ERROR 2025-11-11 10:46:27,195 log 506321 127789745821248 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:46:27,195 basehttp 506321 127789745821248 "POST /api/v1/journals/detail HTTP/1.1" 500 382
+ERROR 2025-11-11 10:46:27,925 log 506321 127789745821248 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:46:27,925 basehttp 506321 127789745821248 "POST /api/v1/journals/detail HTTP/1.1" 500 382
+ERROR 2025-11-11 10:46:28,510 log 506321 127789745821248 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:46:28,510 basehttp 506321 127789745821248 "POST /api/v1/journals/detail HTTP/1.1" 500 382
+ERROR 2025-11-11 10:46:29,207 log 506321 127789745821248 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:46:29,207 basehttp 506321 127789745821248 "POST /api/v1/journals/detail HTTP/1.1" 500 382
+ERROR 2025-11-11 10:46:29,915 log 506321 127789745821248 Internal Server Error: /api/v1/journals/detail
+ERROR 2025-11-11 10:46:29,915 basehttp 506321 127789745821248 "POST /api/v1/journals/detail HTTP/1.1" 500 382
+INFO 2025-11-11 10:47:13,094 autoreload 506321 127790083692352 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:47:14,053 autoreload 506575 134406111115072 Watching for file changes with StatReloader
+INFO 2025-11-11 10:47:23,999 basehttp 506575 134405699925568 "POST /api/v1/journals/detail HTTP/1.1" 200 1259
+INFO 2025-11-11 10:48:39,145 autoreload 506575 134406111115072 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 10:48:40,200 autoreload 507068 139649099151168 Watching for file changes with StatReloader
+INFO 2025-11-11 10:48:59,034 autoreload 507068 139649099151168 /home/aswin/MindNotes/mindnotesBackend/api/v1/journals/serializers.py changed, reloading.
+INFO 2025-11-11 10:49:00,227 autoreload 507161 126759220397888 Watching for file changes with StatReloader
+INFO 2025-11-11 10:49:52,550 basehttp 507161 126758882367040 "POST /api/v1/journals/detail HTTP/1.1" 200 1231
+ERROR 2025-11-11 11:34:19,664 exceptions 507161 126758871877184 API Exception: MethodNotAllowed - Method "POST" not allowed. | Path: /api/v1/authentication/profile | Method: POST
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 167, in http_method_not_allowed
+    raise exceptions.MethodNotAllowed(request.method)
+rest_framework.exceptions.MethodNotAllowed: Method "POST" not allowed.
+WARNING 2025-11-11 11:34:19,664 log 507161 126758871877184 Method Not Allowed: /api/v1/authentication/profile
+WARNING 2025-11-11 11:34:19,665 basehttp 507161 126758871877184 "POST /api/v1/authentication/profile HTTP/1.1" 405 157
+INFO 2025-11-11 11:34:28,900 basehttp 507161 126758871877184 "GET /api/v1/authentication/profile HTTP/1.1" 200 905
+ERROR 2025-11-11 11:36:33,975 exceptions 507161 126758863484480 API Exception: MethodNotAllowed - Method "POST" not allowed. | Path: /api/v1/prompts/today | Method: POST
+Traceback (most recent call last):
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/aswin/MindNotes/env/lib/python3.10/site-packages/rest_framework/views.py", line 167, in http_method_not_allowed
+    raise exceptions.MethodNotAllowed(request.method)
+rest_framework.exceptions.MethodNotAllowed: Method "POST" not allowed.
+WARNING 2025-11-11 11:36:33,975 log 507161 126758863484480 Method Not Allowed: /api/v1/prompts/today
+WARNING 2025-11-11 11:36:33,975 basehttp 507161 126758863484480 "POST /api/v1/prompts/today HTTP/1.1" 405 157
+ERROR 2025-11-11 11:36:43,945 log 507161 126758863484480 Internal Server Error: /api/v1/prompts/today
+ERROR 2025-11-11 11:36:43,945 basehttp 507161 126758863484480 "GET /api/v1/prompts/today HTTP/1.1" 500 130
+ERROR 2025-11-11 11:36:45,030 log 507161 126758863484480 Internal Server Error: /api/v1/prompts/today
+ERROR 2025-11-11 11:36:45,030 basehttp 507161 126758863484480 "GET /api/v1/prompts/today HTTP/1.1" 500 130
+ERROR 2025-11-11 11:36:45,705 log 507161 126758863484480 Internal Server Error: /api/v1/prompts/today
+ERROR 2025-11-11 11:36:45,705 basehttp 507161 126758863484480 "GET /api/v1/prompts/today HTTP/1.1" 500 130
+INFO 2025-11-11 11:41:31,769 autoreload 526093 136257834395456 Watching for file changes with StatReloader
+INFO 2025-11-11 11:47:20,310 autoreload 526093 136257834395456 /home/aswin/MindNotes/mindnotesBackend/prompts/models.py changed, reloading.
+INFO 2025-11-11 11:47:21,145 autoreload 527975 137604802533184 Watching for file changes with StatReloader
+ERROR 2025-11-11 11:47:56,577 log 527975 137604465415744 Internal Server Error: /api/v1/prompts/today
+ERROR 2025-11-11 11:47:56,577 basehttp 527975 137604465415744 "GET /api/v1/prompts/today HTTP/1.1" 500 130
+ERROR 2025-11-11 11:47:58,261 log 527975 137604465415744 Internal Server Error: /api/v1/prompts/today
+ERROR 2025-11-11 11:47:58,262 basehttp 527975 137604465415744 "GET /api/v1/prompts/today HTTP/1.1" 500 130
+ERROR 2025-11-11 11:49:32,571 log 527975 137604455974464 Internal Server Error: /api/v1/prompts/today
+ERROR 2025-11-11 11:49:32,571 basehttp 527975 137604455974464 "GET /api/v1/prompts/today HTTP/1.1" 500 130
+INFO 2025-11-11 11:50:39,430 autoreload 527975 137604802533184 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-11-11 11:50:40,397 autoreload 529128 140410835302208 Watching for file changes with StatReloader
+INFO 2025-11-11 11:50:53,914 autoreload 529128 140410835302208 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-11-11 11:50:54,847 autoreload 529227 125932304709440 Watching for file changes with StatReloader
+INFO 2025-11-11 11:51:02,312 autoreload 529227 125932304709440 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-11-11 11:51:03,057 autoreload 529308 128061989570368 Watching for file changes with StatReloader
+INFO 2025-11-11 11:51:26,823 autoreload 529308 128061989570368 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-11-11 11:51:27,620 autoreload 529417 136479398315840 Watching for file changes with StatReloader
+INFO 2025-11-11 11:51:46,278 autoreload 529417 136479398315840 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-11-11 11:51:46,888 autoreload 529623 125043202910016 Watching for file changes with StatReloader
+INFO 2025-11-11 11:52:00,401 autoreload 529623 125043202910016 /home/aswin/MindNotes/mindnotesBackend/api/v1/prompts/views.py changed, reloading.
+INFO 2025-11-11 11:52:01,338 autoreload 529727 138459160581952 Watching for file changes with StatReloader
+INFO 2025-11-11 11:52:09,773 autoreload 529727 138459160581952 /home/aswin/MindNotes/mindnotesBackend/api/v1/prompts/views.py changed, reloading.
+INFO 2025-11-11 11:52:10,810 autoreload 529825 136592642787136 Watching for file changes with StatReloader
+INFO 2025-11-11 11:52:22,258 autoreload 529825 136592642787136 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-11-11 11:52:23,171 autoreload 529916 123360128735040 Watching for file changes with StatReloader
+INFO 2025-11-11 11:52:50,053 autoreload 529916 123360128735040 /home/aswin/MindNotes/mindnotesBackend/core/prompt_service.py changed, reloading.
+INFO 2025-11-11 11:52:51,198 autoreload 530134 125055700191040 Watching for file changes with StatReloader
+ERROR 2025-11-11 11:54:13,003 log 530134 125055287686720 Internal Server Error: /api/v1/prompts/today
+ERROR 2025-11-11 11:54:13,003 basehttp 530134 125055287686720 "GET /api/v1/prompts/today HTTP/1.1" 500 130
+ERROR 2025-11-11 11:54:14,538 log 530134 125055287686720 Internal Server Error: /api/v1/prompts/today
+ERROR 2025-11-11 11:54:14,538 basehttp 530134 125055287686720 "GET /api/v1/prompts/today HTTP/1.1" 500 130
+ERROR 2025-11-11 11:54:15,100 log 530134 125055287686720 Internal Server Error: /api/v1/prompts/today
+ERROR 2025-11-11 11:54:15,100 basehttp 530134 125055287686720 "GET /api/v1/prompts/today HTTP/1.1" 500 130
+ERROR 2025-11-11 11:54:15,414 log 530134 125055287686720 Internal Server Error: /api/v1/prompts/today
+ERROR 2025-11-11 11:54:15,415 basehttp 530134 125055287686720 "GET /api/v1/prompts/today HTTP/1.1" 500 130
+ERROR 2025-11-11 11:54:16,277 log 530134 125055287686720 Internal Server Error: /api/v1/prompts/today
+ERROR 2025-11-11 11:54:16,277 basehttp 530134 125055287686720 "GET /api/v1/prompts/today HTTP/1.1" 500 130
+ERROR 2025-11-11 11:54:17,341 log 530134 125055287686720 Internal Server Error: /api/v1/prompts/today
+ERROR 2025-11-11 11:54:17,342 basehttp 530134 125055287686720 "GET /api/v1/prompts/today HTTP/1.1" 500 130
+ERROR 2025-11-11 11:55:30,631 mongo_utils 530952 126477348976448 MongoDB operation 'generate_daily_prompts' failed with non-retryable error: An equivalent index already exists with the same name but different options. Requested index: { v: 2, key: { responded_at: 1 }, name: "responded_at_1", background: false, expireAfterSeconds: 31536000 }, existing index: { v: 2, key: { responded_at: 1 }, name: "responded_at_1", background: false }, full error: {'ok': 0.0, 'errmsg': 'An equivalent index already exists with the same name but different options. Requested index: { v: 2, key: { responded_at: 1 }, name: "responded_at_1", background: false, expireAfterSeconds: 31536000 }, existing index: { v: 2, key: { responded_at: 1 }, name: "responded_at_1", background: false }', 'code': 85, 'codeName': 'IndexOptionsConflict'}
+INFO 2025-11-11 11:56:07,449 autoreload 530134 125055700191040 /home/aswin/MindNotes/mindnotesBackend/prompts/mongo_models.py changed, reloading.
+INFO 2025-11-11 11:56:08,391 autoreload 531180 135481653155648 Watching for file changes with StatReloader
+ERROR 2025-11-11 11:56:45,478 mongo_utils 531480 128167518525248 MongoDB operation 'generate_daily_prompts' failed with non-retryable error: An equivalent index already exists with the same name but different options. Requested index: { v: 2, key: { responded_at: 1 }, name: "responded_at_1", background: false, expireAfterSeconds: 31536000 }, existing index: { v: 2, key: { responded_at: 1 }, name: "responded_at_1", background: false }, full error: {'ok': 0.0, 'errmsg': 'An equivalent index already exists with the same name but different options. Requested index: { v: 2, key: { responded_at: 1 }, name: "responded_at_1", background: false, expireAfterSeconds: 31536000 }, existing index: { v: 2, key: { responded_at: 1 }, name: "responded_at_1", background: false }', 'code': 85, 'codeName': 'IndexOptionsConflict'}
+ERROR 2025-11-11 11:57:21,787 mongo_utils 531628 126594939774784 MongoDB operation 'generate_daily_prompts' failed with non-retryable error: An equivalent index already exists with the same name but different options. Requested index: { v: 2, key: { responded_at: 1 }, name: "responded_at_1", background: false, expireAfterSeconds: 31536000 }, existing index: { v: 2, key: { responded_at: 1 }, name: "responded_at_1", background: false }, full error: {'ok': 0.0, 'errmsg': 'An equivalent index already exists with the same name but different options. Requested index: { v: 2, key: { responded_at: 1 }, name: "responded_at_1", background: false, expireAfterSeconds: 31536000 }, existing index: { v: 2, key: { responded_at: 1 }, name: "responded_at_1", background: false }', 'code': 85, 'codeName': 'IndexOptionsConflict'}
+INFO 2025-11-11 11:57:36,264 autoreload 531180 135481653155648 /home/aswin/MindNotes/mindnotesBackend/prompts/mongo_models.py changed, reloading.
+INFO 2025-11-11 11:57:37,368 autoreload 531699 126499407705920 Watching for file changes with StatReloader
+ERROR 2025-11-11 11:57:49,677 mongo_utils 531887 136803371464512 MongoDB operation 'generate_daily_prompts' failed with non-retryable error: An equivalent index already exists with the same name but different options. Requested index: { v: 2, key: { responded_at: 1 }, name: "responded_at_1", background: false, expireAfterSeconds: 31536000 }, existing index: { v: 2, key: { responded_at: 1 }, name: "responded_at_1", background: false }, full error: {'ok': 0.0, 'errmsg': 'An equivalent index already exists with the same name but different options. Requested index: { v: 2, key: { responded_at: 1 }, name: "responded_at_1", background: false, expireAfterSeconds: 31536000 }, existing index: { v: 2, key: { responded_at: 1 }, name: "responded_at_1", background: false }', 'code': 85, 'codeName': 'IndexOptionsConflict'}
+ERROR 2025-11-11 11:58:36,597 log 531699 126499000677952 Internal Server Error: /api/v1/prompts/today
+ERROR 2025-11-11 11:58:36,597 basehttp 531699 126499000677952 "GET /api/v1/prompts/today HTTP/1.1" 500 130
+ERROR 2025-11-11 11:58:43,569 log 531699 126499000677952 Internal Server Error: /api/v1/prompts/today
+ERROR 2025-11-11 11:58:43,569 basehttp 531699 126499000677952 "GET /api/v1/prompts/today HTTP/1.1" 500 130
+INFO 2025-11-11 11:58:51,465 autoreload 532299 133188346165056 Watching for file changes with StatReloader
+ERROR 2025-11-11 11:58:53,310 log 532299 133188006442560 Internal Server Error: /api/v1/prompts/today
+ERROR 2025-11-11 11:58:53,311 basehttp 532299 133188006442560 "GET /api/v1/prompts/today HTTP/1.1" 500 130
+ERROR 2025-11-11 12:09:25,913 log 532299 133187997001280 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 12:09:25,914 basehttp 532299 133187997001280 "POST /api/v1/authentication/home HTTP/1.1" 500 226
+ERROR 2025-11-11 12:09:29,061 log 532299 133187997001280 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 12:09:29,061 basehttp 532299 133187997001280 "POST /api/v1/authentication/home HTTP/1.1" 500 226
+ERROR 2025-11-11 12:09:29,940 log 532299 133187997001280 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 12:09:29,940 basehttp 532299 133187997001280 "POST /api/v1/authentication/home HTTP/1.1" 500 226
+ERROR 2025-11-11 12:09:30,298 log 532299 133187997001280 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 12:09:30,298 basehttp 532299 133187997001280 "POST /api/v1/authentication/home HTTP/1.1" 500 226
+ERROR 2025-11-11 12:09:30,794 log 532299 133187997001280 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 12:09:30,794 basehttp 532299 133187997001280 "POST /api/v1/authentication/home HTTP/1.1" 500 226
+ERROR 2025-11-11 12:09:31,502 log 532299 133187997001280 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 12:09:31,502 basehttp 532299 133187997001280 "POST /api/v1/authentication/home HTTP/1.1" 500 226
+ERROR 2025-11-11 12:09:31,836 log 532299 133187997001280 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 12:09:31,837 basehttp 532299 133187997001280 "POST /api/v1/authentication/home HTTP/1.1" 500 226
+ERROR 2025-11-11 12:09:32,171 log 532299 133187997001280 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 12:09:32,171 basehttp 532299 133187997001280 "POST /api/v1/authentication/home HTTP/1.1" 500 226
+ERROR 2025-11-11 12:09:32,557 log 532299 133187997001280 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 12:09:32,557 basehttp 532299 133187997001280 "POST /api/v1/authentication/home HTTP/1.1" 500 226
+ERROR 2025-11-11 12:09:33,005 log 532299 133187997001280 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 12:09:33,005 basehttp 532299 133187997001280 "POST /api/v1/authentication/home HTTP/1.1" 500 226
+ERROR 2025-11-11 12:09:33,460 log 532299 133187997001280 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 12:09:33,460 basehttp 532299 133187997001280 "POST /api/v1/authentication/home HTTP/1.1" 500 226
+ERROR 2025-11-11 12:09:35,102 log 532299 133187997001280 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 12:09:35,102 basehttp 532299 133187997001280 "POST /api/v1/authentication/home HTTP/1.1" 500 226
+ERROR 2025-11-11 12:09:35,869 log 532299 133187997001280 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 12:09:35,869 basehttp 532299 133187997001280 "POST /api/v1/authentication/home HTTP/1.1" 500 226
+ERROR 2025-11-11 12:09:36,384 log 532299 133187997001280 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 12:09:36,384 basehttp 532299 133187997001280 "POST /api/v1/authentication/home HTTP/1.1" 500 226
+ERROR 2025-11-11 12:09:36,845 log 532299 133187997001280 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 12:09:36,845 basehttp 532299 133187997001280 "POST /api/v1/authentication/home HTTP/1.1" 500 226
+ERROR 2025-11-11 12:09:37,168 log 532299 133187997001280 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 12:09:37,168 basehttp 532299 133187997001280 "POST /api/v1/authentication/home HTTP/1.1" 500 226
+INFO 2025-11-11 12:09:46,322 basehttp 532299 133187997001280 "GET /api/v1/authentication/profile HTTP/1.1" 200 905
+INFO 2025-11-11 12:09:47,060 basehttp 532299 133187997001280 "GET /api/v1/authentication/profile HTTP/1.1" 200 905
+ERROR 2025-11-11 12:09:50,061 log 532299 133187997001280 Internal Server Error: /api/v1/authentication/home
+ERROR 2025-11-11 12:09:50,061 basehttp 532299 133187997001280 "POST /api/v1/authentication/home HTTP/1.1" 500 226
+INFO 2025-11-11 12:11:24,334 autoreload 532299 133188346165056 /home/aswin/MindNotes/mindnotesBackend/core/services.py changed, reloading.
+INFO 2025-11-11 12:11:25,420 autoreload 536437 126842290358080 Watching for file changes with StatReloader
+INFO 2025-11-11 12:11:26,405 basehttp 536437 126841951606336 "POST /api/v1/authentication/home HTTP/1.1" 200 1605
+INFO 2025-11-11 12:12:26,721 basehttp 536437 126841942165056 "POST /api/v1/authentication/home HTTP/1.1" 200 1605
+INFO 2025-11-11 12:12:27,738 basehttp 536437 126841942165056 "POST /api/v1/authentication/home HTTP/1.1" 200 1605
+INFO 2025-11-11 12:12:32,412 basehttp 536437 126841942165056 "POST /api/v1/journals/create HTTP/1.1" 201 652
+INFO 2025-11-11 12:12:35,662 basehttp 536437 126841942165056 "POST /api/v1/journals/detail HTTP/1.1" 200 1231
+INFO 2025-11-11 12:12:39,222 basehttp 536437 126841942165056 "GET /api/v1/journals/list HTTP/1.1" 200 1988

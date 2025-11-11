@@ -147,7 +147,147 @@ class JournalService:
         return list(JournalEntryMongo.objects(
             user_id=user.id
         ).search_text(search_query).order_by('$text_score'))
-    
+
+    @staticmethod
+    def get_entry_detail(entry_id: str, user) -> Optional[Dict[str, Any]]:
+        """
+        Get complete journal entry details with related data
+        Returns structured dict ready for serializer
+        """
+        from journals.models import Tag
+
+        # Get entry from MongoDB
+        entry = JournalEntryMongo.objects(
+            id=entry_id,
+            user_id=user.id
+        ).first()
+
+        if not entry:
+            return None
+
+        # Convert to dict to safely access all fields
+        try:
+            entry_dict = entry.to_mongo().to_dict()
+        except Exception:
+            entry_dict = {}
+
+        # Get tags from PostgreSQL
+        tags = []
+        try:
+            tag_ids = entry_dict.get('tag_ids', [])
+            if tag_ids:
+                tags_list = Tag.objects.filter(
+                    id__in=tag_ids,
+                    user=user
+                ).values('id', 'name', 'color')
+                tags = list(tags_list)
+        except Exception:
+            tags = []
+
+        # Get associated mood
+        mood_info = None
+        try:
+            mood_entry = MoodEntryMongo.objects(journal_entry_id=str(entry.id)).first()
+            if mood_entry:
+                mood_info = {
+                    'id': str(mood_entry.id),
+                    'category_id': mood_entry.category_id,
+                    'category_name': mood_entry.category_name,
+                    'emoji': mood_entry.emoji,
+                    'intensity': mood_entry.intensity,
+                    'note': mood_entry.note,
+                    'factors': mood_entry.factors if mood_entry.factors else [],
+                    'recorded_at': mood_entry.recorded_at.isoformat() if mood_entry.recorded_at else None,
+                }
+        except Exception:
+            mood_info = None
+
+        # Prepare photos - use dict access for safety
+        photos_data = []
+        try:
+            photos_list = entry_dict.get('photos', [])
+            for photo in photos_list:
+                photos_data.append({
+                    'image_url': photo.get('image_url', ''),
+                    'caption': photo.get('caption', ''),
+                    'order': photo.get('order', 0),
+                    'width': photo.get('width'),
+                    'height': photo.get('height'),
+                    'file_size': photo.get('file_size'),
+                })
+        except Exception:
+            photos_data = []
+
+        # Prepare voice notes - use dict access for safety
+        voice_notes_data = []
+        try:
+            voice_list = entry_dict.get('voice_notes', [])
+            for voice in voice_list:
+                voice_notes_data.append({
+                    'audio_url': voice.get('audio_url', ''),
+                    'duration': voice.get('duration', 0),
+                    'file_size': voice.get('file_size'),
+                    'transcription': voice.get('transcription', ''),
+                    'is_transcribed': voice.get('is_transcribed', False),
+                })
+        except Exception:
+            voice_notes_data = []
+
+        # Prepare prompt responses - use dict access for safety
+        prompt_responses_data = []
+        try:
+            responses_list = entry_dict.get('prompt_responses', [])
+            for prompt_resp in responses_list:
+                prompt_responses_data.append({
+                    'prompt_id': prompt_resp.get('prompt_id'),
+                    'question': prompt_resp.get('question', ''),
+                    'answer': prompt_resp.get('answer', ''),
+                })
+        except Exception:
+            prompt_responses_data = []
+
+        # Build structured response
+        try:
+            # Format entry date for display
+            formatted_date = None
+            if entry.entry_date:
+                formatted_date = entry.entry_date.strftime('%B %d, %Y at %I:%M %p')
+
+            result = {
+                'id': str(entry.id),
+                'user_id': str(entry.user_id),
+                'title': entry.title or '',
+                'content': entry.content or '',
+                'entry_type': entry.entry_type,
+                'entry_date': entry.entry_date.isoformat() if entry.entry_date else None,
+                'formatted_entry_date': formatted_date,
+                'privacy': entry.privacy,
+                'is_favorite': entry.is_favorite,
+                'is_archived': entry.is_archived,
+                'tags': tags,
+                'location_name': entry.location_name or '',
+                'latitude': float(entry.latitude) if entry.latitude else None,
+                'longitude': float(entry.longitude) if entry.longitude else None,
+                'weather': entry.weather or '',
+                'temperature': entry.temperature,
+                'word_count': entry.word_count,
+                'character_count': entry.character_count,
+                'reading_time_minutes': entry.reading_time_minutes,
+                'photos': photos_data,
+                'photos_count': len(photos_data),
+                'voice_notes': voice_notes_data,
+                'voice_notes_count': len(voice_notes_data),
+                'prompt_responses': prompt_responses_data,
+                'mood': mood_info,
+                'version': entry.version,
+                'edit_history_count': len(entry_dict.get('edit_history', [])),
+                'created_at': entry.created_at.isoformat() if entry.created_at else None,
+                'updated_at': entry.updated_at.isoformat() if entry.updated_at else None,
+            }
+            return result
+        except Exception:
+            raise
+
     @staticmethod
     def update_entry(entry_id: str, user, data: Dict[str, Any]) -> Optional[JournalEntryMongo]:
         """
@@ -582,6 +722,9 @@ class DashboardService:
         # 5. RECENT ACTIVITY (optional - for future enhancements)
         today_stats = DashboardService._get_today_stats(user)
 
+        # 6. RECENT JOURNAL ENTRIES (for Daily Reflection section)
+        recent_entries = DashboardService._get_recent_entries(user)
+
         return {
             # Header section
             'greeting': greeting,
@@ -610,6 +753,9 @@ class DashboardService:
 
             # Today's activity stats
             'today_stats': today_stats,
+
+            # Recent journal entries for Daily Reflection
+            'recent_entries': recent_entries,
 
             # Metadata
             'fetched_at': datetime.utcnow().isoformat(),
@@ -843,6 +989,71 @@ class DashboardService:
             'focus_sessions_today': today_focus,
             'has_journaled_today': today_entries > 0,
         }
+
+    @staticmethod
+    def _get_recent_entries(user, limit: int = 5) -> List[Dict[str, Any]]:
+        """
+        Get recent journal entries for Daily Reflection section
+        Returns the most recent entries with basic info
+        """
+        from journals.models import Tag
+
+        # Get recent entries from MongoDB
+        entries = JournalEntryMongo.objects(
+            user_id=user.id
+        ).order_by('-entry_date').limit(limit)
+
+        result = []
+        for entry in entries:
+            # Convert to dict to safely access embedded lists
+            try:
+                entry_dict = entry.to_mongo().to_dict()
+            except Exception:
+                entry_dict = {}
+
+            # Get tag details from PostgreSQL
+            tags = []
+            tag_ids = entry_dict.get('tag_ids', [])
+            if tag_ids:
+                tag_objs = Tag.objects.filter(id__in=tag_ids, user=user)
+                tags = [{'id': tag.id, 'name': tag.name, 'color': tag.color} for tag in tag_objs]
+
+            # Get mood info if exists
+            mood_info = None
+            try:
+                mood_entry = MoodEntryMongo.objects(journal_entry_id=str(entry.id)).first()
+                if mood_entry:
+                    mood_info = {
+                        'emoji': mood_entry.emoji,
+                        'category_name': mood_entry.category_name,
+                        'intensity': mood_entry.intensity,
+                    }
+            except Exception:
+                mood_info = None
+
+            # Truncate content for preview
+            content = entry.content or ''
+            content_preview = content[:150] + '...' if len(content) > 150 else content
+
+            # Check for photos and voice notes from dict
+            photos_list = entry_dict.get('photos', [])
+            voice_notes_list = entry_dict.get('voice_notes', [])
+
+            result.append({
+                'id': str(entry.id),
+                'title': entry.title or '',
+                'content_preview': content_preview,
+                'entry_type': entry.entry_type,
+                'entry_date': entry.entry_date.isoformat() if entry.entry_date else None,
+                'tags': tags,
+                'mood': mood_info,
+                'has_photos': len(photos_list) > 0,
+                'has_voice': len(voice_notes_list) > 0,
+                'is_favorite': entry.is_favorite,
+                'word_count': entry.word_count,
+            })
+
+        return result
 
 
 class FocusService:

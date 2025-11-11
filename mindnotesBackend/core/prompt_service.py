@@ -11,12 +11,15 @@ from django.db.models import Q
 
 from prompts.models import DailyPrompt, PromptCategory
 from prompts.mongo_models import DailyPromptSetMongo, PromptResponseMongo
+from core.mongo_utils import retry_db_operation
+from core.exceptions import PromptGenerationException
 
 
 class PromptService:
     """Service for managing daily prompt generation and rotation"""
 
     @staticmethod
+    @retry_db_operation
     def generate_daily_prompts(user, target_date: Optional[date] = None) -> DailyPromptSetMongo:
         """
         Generate 5 diverse prompts for a user on a specific date
@@ -51,7 +54,7 @@ class PromptService:
             is_active=True
         ).exclude(
             id__in=used_prompt_ids
-        ).select_related('category')
+        ).select_related('category').prefetch_related('tags')
 
         available_count = available_prompts.count()
 
@@ -66,7 +69,7 @@ class PromptService:
                 is_active=True
             ).exclude(
                 id__in=used_prompt_ids
-            ).select_related('category')
+            ).select_related('category').prefetch_related('tags')
 
         # Convert to list for sampling
         prompts_list = list(available_prompts)
@@ -77,6 +80,9 @@ class PromptService:
         # Prepare prompt data for MongoDB
         prompts_data = []
         for prompt in selected_prompts:
+            # Get tags as list of tag objects
+            tags_list = list(prompt.tags.all().values_list('name', flat=True))
+
             prompts_data.append({
                 'id': prompt.id,
                 'question': prompt.question,
@@ -84,7 +90,7 @@ class PromptService:
                 'category': prompt.category.name if prompt.category else 'General',
                 'category_icon': prompt.category.icon if prompt.category else '📝',
                 'category_color': prompt.category.color if prompt.category else '#3B82F6',
-                'tags': prompt.tags or [],
+                'tags': tags_list,
                 'difficulty': prompt.difficulty,
             })
 
@@ -162,6 +168,7 @@ class PromptService:
         return prompt_set
 
     @staticmethod
+    @retry_db_operation
     def submit_prompt_response(user, prompt_id: int, response_text: str,
                               time_spent: int = 0, mood: Optional[int] = None) -> Dict:
         """
@@ -220,12 +227,15 @@ class PromptService:
         cache_key = f'daily_prompts_{user.id}_{today}'
         cache.delete(cache_key)
 
+        # Get tags as list
+        tags_list = list(prompt.tags.all().values_list('name', flat=True))
+
         return {
             'response_id': str(prompt_response.id),
             'completed_count': prompt_set.completed_count,
             'total_prompts': len(prompt_set.prompts),
             'is_fully_completed': prompt_set.is_fully_completed,
-            'tags': prompt.tags,
+            'tags': tags_list,
         }
 
     @staticmethod
@@ -415,19 +425,25 @@ class PromptService:
         return template
 
     @staticmethod
-    def _create_prompt_if_unique(question: str, category, difficulty: str, tags: List[str]) -> Optional[DailyPrompt]:
+    def _create_prompt_if_unique(question: str, category, difficulty: str, tags_names: List[str] = None) -> Optional[DailyPrompt]:
         """Create prompt only if question doesn't already exist"""
         if DailyPrompt.objects.filter(question=question).exists():
             return None
 
-        return DailyPrompt.objects.create(
+        # Create prompt first (without tags since it's ManyToMany)
+        prompt = DailyPrompt.objects.create(
             category=category,
             question=question,
             description="Dynamic prompt - generated for continuous variety",
-            tags=tags,
             difficulty=difficulty,
             is_active=True
         )
+
+        # Note: tags_names parameter is kept for backward compatibility
+        # Tags are user-specific in the Tag model, so we can't assign generic tags
+        # to DailyPrompt. Tags will be handled per-user when needed.
+
+        return prompt
 
     @staticmethod
     def _generate_dynamic_prompts(user, count: int = 20):
@@ -465,11 +481,11 @@ class PromptService:
             category = random.choice(categories) if categories[0] is not None else None
             difficulty = random.choice(difficulty_levels)
 
-            # Get tags based on category
-            tags = PromptService._get_tags_for_category(category.name) if category else []
+            # Get tags based on category (note: tags will be set after prompt creation)
+            tags_names = PromptService._get_tags_for_category(category.name) if category else []
 
             # Create prompt if unique
-            prompt = PromptService._create_prompt_if_unique(question, category, difficulty, tags)
+            prompt = PromptService._create_prompt_if_unique(question, category, difficulty, tags_names)
             if prompt:
                 created_prompts.append(prompt)
 

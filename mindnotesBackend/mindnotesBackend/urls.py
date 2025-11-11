@@ -18,9 +18,18 @@ from django.urls import (
     include,
     path
 )
+from core.views import health_check, readiness_check, liveness_check
 
 urlpatterns = [
+    # Health checks (unauthenticated for load balancers)
+    path('health/', health_check, name='health_check'),
+    path('ready/', readiness_check, name='readiness_check'),
+    path('alive/', liveness_check, name='liveness_check'),
+
+    # Admin
     path('admin-site-mindnotes/', admin.site.urls),
+
+    # API endpoints
     path('api/v1/authentication/', include('api.v1.authentication.urls')),
     path('api/v1/journals/', include('api.v1.journals.urls')),
     path('api/v1/focus/', include('api.v1.focus.urls')),

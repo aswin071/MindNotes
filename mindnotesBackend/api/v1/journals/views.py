@@ -11,7 +11,8 @@ from .serializers import (
     JournalEntryCreateSerializer,
     JournalEntryResponseSerializer,
     QuickJournalSerializer,
-    TagSerializer
+    TagSerializer,
+    JournalDetailSerializer
 )
 from journals.models import Tag
 from journals.mongo_models import JournalEntryMongo, PhotoEmbed, VoiceNoteEmbed
@@ -462,6 +463,93 @@ class TagListView(APIView):
         except Exception as e:
             return error_response(
                 error_message='Failed to retrieve tags',
+                exception_info=str(e),
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class JournalDetailView(APIView):
+    """
+    POST /api/v1/journals/detail
+
+    Get complete details for a single journal entry
+
+    Request Body:
+    {
+        "entry_id": "required_entry_id"
+    }
+
+    Returns:
+    - Full journal content (not truncated)
+    - All photos with full URLs
+    - All voice notes
+    - Tags with colors
+    - Location and weather data
+    - Mood information (if associated)
+    - Reading statistics
+    - All metadata
+
+    Optimized with:
+    - Single MongoDB query for entry
+    - Batch tag loading (no N+1)
+    - Mood lookup
+    - Cached for 5 minutes
+
+    User-specific: Only returns entries owned by authenticated user
+    """
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        """Get detailed journal entry"""
+        user = request.user
+        entry_id = request.data.get("entry_id")
+
+        if not entry_id:
+            return error_response(
+                error_message='entry_id is required',
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+
+        # # Check cache first
+        cache_key = f'journal_detail_{user.id}_{entry_id}'
+        cached_data = cache.get(cache_key)
+
+        
+        if cached_data:
+            return success_response(
+                data=cached_data,
+                success_message='Journal entry retrieved from cache',
+                status=status.HTTP_200_OK
+            )
+        
+        try:
+            # Use service layer to get entry details
+            entry_data = JournalService.get_entry_detail(entry_id, user)
+
+            if not entry_data:
+                return error_response(
+                    error_message='Journal entry not found',
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+            # Use serializer for consistent data formatting
+            serializer = JournalDetailSerializer(entry_data)
+            serialized_data = serializer.data
+
+            # Cache for 5 minutes
+            cache.set(cache_key, serialized_data, 300)
+
+            return success_response(
+                data=serialized_data,
+                success_message='Journal entry retrieved successfully',
+                status=status.HTTP_200_OK
+            )
+
+        except Exception as e:
+            return error_response(
+                error_message='Failed to retrieve journal entry',
                 exception_info=str(e),
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )

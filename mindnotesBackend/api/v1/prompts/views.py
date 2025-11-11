@@ -132,10 +132,12 @@ class PromptResponseView(APIView):
 
                 # Add matching tags
                 from journals.models import Tag
-                if prompt.tags:
+                prompt_tag_ids = list(prompt.tags.all().values_list('id', flat=True))
+                if prompt_tag_ids:
+                    # Get the tag IDs that belong to this user and match the prompt tags
                     matching_tags = Tag.objects.filter(
                         user=user,
-                        name__in=prompt.tags
+                        id__in=prompt_tag_ids
                     ).values_list('id', flat=True)
                     journal_data['tag_ids'] = list(matching_tags)
 
@@ -265,9 +267,8 @@ class PromptHistoryView(APIView):
 
             return success_response(
                 data={
-                    
-                    'history': history_data
-                    
+                    'history': history_data,
+                    'pagination': pagination
                 },
                 success_message='History retrieved successfully',
                 status=status.HTTP_200_OK

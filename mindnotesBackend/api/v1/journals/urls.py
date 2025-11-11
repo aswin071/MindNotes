@@ -4,6 +4,7 @@ from .views import (
     JournalAPIView,
     TagCreateView,
     TagListView,
+    JournalDetailView,
 )
 
 
@@ -12,6 +13,7 @@ urlpatterns = [
     path('create', JournalAPIView.as_view(),                                        name='journal-create'),
     path('quick', QuickJournalCreateView.as_view(),                                 name='journal-quick-create'),
     path('list', JournalAPIView.as_view(),                                          name='journal-list'),
+    path('detail', JournalDetailView.as_view(),                                     name='journal-detail'),
 
     # Tag Management
     path('tags', TagListView.as_view(),                                             name='tag-list'),
