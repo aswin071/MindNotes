@@ -40,37 +40,43 @@ class DailyPrompt(Model):
     """
     KEEP in PostgreSQL - Prompt bank (curated content)
     """
-    
+
     category = models.ForeignKey(
         PromptCategory,
         on_delete=models.SET_NULL,
         null=True,
         related_name='prompts'
     )
-    
+
     question = models.TextField(unique=True,blank=True,null=True)
     description = models.TextField(blank=True,null=True)
-    
-    tags = models.JSONField(default=list)
+
+    tags = models.ManyToManyField(
+        'journals.Tag',
+        related_name='daily_prompts',
+        blank=True
+    )
     difficulty = models.CharField(
         max_length=20,
         choices=[('easy', 'Easy'), ('medium', 'Medium'), ('deep', 'Deep')],
         default='medium'
     )
-    
+
     # REMOVED: usage tracking (calculated from MongoDB)
-    
+
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
         db_table = 'daily_prompts'
         ordering = ['category', 'difficulty']
         indexes = [
             models.Index(fields=['category', 'is_active']),
+            models.Index(fields=['is_active', 'difficulty']),
+            models.Index(fields=['created_at']),
         ]
-    
+
     def __str__(self):
         return self.question[:100]
 
@@ -99,6 +105,10 @@ class CustomPrompt(Model):
     class Meta:
         db_table = 'custom_prompts'
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['user', 'is_active']),
+            models.Index(fields=['is_recurring', 'is_active']),
+        ]
     
     def __str__(self):
         return f"{self.user.email} - {self.question[:50]}"

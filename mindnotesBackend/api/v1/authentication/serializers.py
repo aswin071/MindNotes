@@ -23,14 +23,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for User model"""
-    
+
     profile = UserProfileSerializer(read_only=True)
     is_pro = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = User
         fields = [
-            'id', 'email', 'full_name', 'phone_number', 'avatar', 'bio', 'dob', 'gender',
+            'id', 'email', 'full_name', 'phone_number', 'avatar', 'bio', 'dob', 'gender', 'profession',
             'timezone', 'language', 'email_notifications', 'push_notifications',
             'daily_reminder', 'reminder_time', 'is_verified', 'onboarding_completed',
             'onboarding_step', 'created_at', 'last_login_at', 'profile', 'is_pro'
@@ -46,21 +46,22 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     """Serializer for user registration with onboarding fields (single password field)"""
-    
+
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
-    
+
     onboarding_answers = serializers.DictField(required=False)
     dob = serializers.DateField(required=False)
     gender = serializers.ChoiceField(required=False, choices=User.GENDER_CHOICES)
+    profession = serializers.CharField(required=False, max_length=100)
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'full_name', 'dob', 'gender', 'onboarding_answers']
-    
+        fields = ['email', 'password', 'full_name', 'dob', 'gender', 'profession', 'onboarding_answers']
+
     def validate(self, attrs):
         # Additional custom validations can go here
         return attrs
-    
+
     def create(self, validated_data):
         onboarding_answers = validated_data.pop('onboarding_answers', {})
         user = User.objects.create_user(
@@ -69,6 +70,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             full_name=validated_data.get('full_name', ''),
             dob=validated_data.get('dob'),
             gender=validated_data.get('gender', ''),
+            profession=validated_data.get('profession', ''),
         )
         # Create user profile
         profile = UserProfile.objects.create(user=user)
@@ -161,11 +163,11 @@ class UserDeviceSerializer(serializers.ModelSerializer):
 
 class UserUpdateSerializer(serializers.ModelSerializer):
     """Serializer for updating user profile"""
-    
+
     class Meta:
         model = User
         fields = [
-            'full_name', 'phone_number', 'avatar', 'bio', 'dob', 'gender', 'timezone', 'language',
+            'full_name', 'phone_number', 'avatar', 'bio', 'dob', 'gender', 'profession', 'timezone', 'language',
             'email_notifications', 'push_notifications', 'daily_reminder', 'reminder_time'
         ]
 
@@ -212,6 +214,7 @@ class SignupWithGoogleSerializer(GoogleAuthSerializer):
     onboarding_answers = serializers.DictField(required=False)
     dob = serializers.DateField(required=False)
     gender = serializers.ChoiceField(required=False, choices=User.GENDER_CHOICES)
+    profession = serializers.CharField(required=False, max_length=100)
 
 
 # ============ DASHBOARD SERIALIZERS ============
@@ -274,6 +277,35 @@ class DashboardUserSerializer(serializers.Serializer):
     current_streak = serializers.IntegerField()
 
 
+class TagSerializer(serializers.Serializer):
+    """Serializer for tag info in journal entries"""
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    color = serializers.CharField()
+
+
+class MoodInfoSerializer(serializers.Serializer):
+    """Serializer for mood info in journal entries"""
+    emoji = serializers.CharField(allow_null=True)
+    category_name = serializers.CharField(allow_null=True)
+    intensity = serializers.IntegerField(allow_null=True)
+
+
+class RecentEntrySerializer(serializers.Serializer):
+    """Serializer for recent journal entries"""
+    id = serializers.CharField()
+    title = serializers.CharField()
+    content_preview = serializers.CharField()
+    entry_type = serializers.CharField()
+    entry_date = serializers.CharField(allow_null=True)
+    tags = TagSerializer(many=True)
+    mood = MoodInfoSerializer(allow_null=True)
+    has_photos = serializers.BooleanField()
+    has_voice = serializers.BooleanField()
+    is_favorite = serializers.BooleanField()
+    word_count = serializers.IntegerField()
+
+
 class DashboardSerializer(serializers.Serializer):
     """
     Main serializer for Home Dashboard API
@@ -284,7 +316,7 @@ class DashboardSerializer(serializers.Serializer):
     user = DashboardUserSerializer()
 
     # Quick Journal (static options)
-    quick_journal_options = QuickJournalOptionSerializer(many=True)
+    # quick_journal_options = QuickJournalOptionSerializer(many=True)
 
     # Prompt of the Day
     prompt_of_the_day = DailyPromptSerializer()
@@ -297,6 +329,9 @@ class DashboardSerializer(serializers.Serializer):
 
     # Today's Stats
     today_stats = TodayStatsSerializer()
+
+    # Recent Journal Entries for Daily Reflection
+    recent_entries = RecentEntrySerializer(many=True)
 
     # Metadata
     fetched_at = serializers.CharField()

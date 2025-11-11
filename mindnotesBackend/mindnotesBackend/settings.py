@@ -193,6 +193,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'EXCEPTION_HANDLER': 'core.exceptions.custom_exception_handler',
 }
 
 from datetime import timedelta
@@ -380,7 +381,7 @@ try:
         w='majority',
         alias='default',
         uuidRepresentation='standard',
-        tls=True,
+        tls=False,
         tlsInsecure=True  # Bypass SSL certificate validation (fixes Docker SSL handshake issues)
     )
     print(f"✅ MongoDB connected successfully to database: {MONGODB_DB_NAME}")

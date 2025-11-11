@@ -300,4 +300,104 @@ class QuickJournalSerializer(serializers.Serializer):
         return data
 
 
+# ============ JOURNAL DETAIL SERIALIZERS ============
+
+class JournalDetailTagSerializer(serializers.Serializer):
+    """Serializer for tags in journal detail"""
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    color = serializers.CharField()
+
+
+class JournalDetailMoodSerializer(serializers.Serializer):
+    """Serializer for mood info in journal detail"""
+    id = serializers.CharField()
+    category_id = serializers.IntegerField()
+    category_name = serializers.CharField()
+    emoji = serializers.CharField()
+    intensity = serializers.IntegerField()
+    note = serializers.CharField(allow_blank=True)
+    factors = serializers.ListField(child=serializers.CharField())
+    recorded_at = serializers.CharField(allow_null=True)
+
+
+class JournalDetailPhotoSerializer(serializers.Serializer):
+    """Serializer for photos in journal detail"""
+    image_url = serializers.CharField()
+    caption = serializers.CharField(allow_blank=True)
+    order = serializers.IntegerField()
+    width = serializers.IntegerField(allow_null=True)
+    height = serializers.IntegerField(allow_null=True)
+    file_size = serializers.IntegerField(allow_null=True)
+
+
+class JournalDetailVoiceNoteSerializer(serializers.Serializer):
+    """Serializer for voice notes in journal detail"""
+    audio_url = serializers.CharField()
+    duration = serializers.IntegerField()
+    file_size = serializers.IntegerField(allow_null=True)
+    transcription = serializers.CharField(allow_blank=True)
+    is_transcribed = serializers.BooleanField()
+
+
+class JournalDetailPromptResponseSerializer(serializers.Serializer):
+    """Serializer for prompt responses in journal detail"""
+    prompt_id = serializers.IntegerField(allow_null=True)
+    question = serializers.CharField()
+    answer = serializers.CharField()
+
+
+class JournalDetailSerializer(serializers.Serializer):
+    """Complete serializer for journal entry detail response"""
+    id = serializers.CharField()
+    user_id = serializers.CharField()
+
+    # Content
+    title = serializers.CharField(allow_blank=True)
+    content = serializers.CharField(allow_blank=True)
+    entry_type = serializers.CharField()
+
+    # Metadata
+    entry_date = serializers.CharField(allow_null=True)
+    formatted_entry_date = serializers.CharField(allow_null=True)
+    privacy = serializers.CharField()
+    is_favorite = serializers.BooleanField()
+    is_archived = serializers.BooleanField()
+
+    # Tags
+    tags = JournalDetailTagSerializer(many=True)
+
+    # Location
+    location_name = serializers.CharField(allow_blank=True)
+    latitude = serializers.FloatField(allow_null=True)
+    longitude = serializers.FloatField(allow_null=True)
+
+    # Weather
+    weather = serializers.CharField(allow_blank=True)
+    temperature = serializers.FloatField(allow_null=True)
+
+    # Statistics
+    word_count = serializers.IntegerField()
+    character_count = serializers.IntegerField()
+    reading_time_minutes = serializers.IntegerField()
+
+    # Media
+    photos = JournalDetailPhotoSerializer(many=True)
+    photos_count = serializers.IntegerField()
+    voice_notes = JournalDetailVoiceNoteSerializer(many=True)
+    voice_notes_count = serializers.IntegerField()
+    prompt_responses = JournalDetailPromptResponseSerializer(many=True)
+
+    # Associated mood
+    mood = JournalDetailMoodSerializer(allow_null=True)
+
+    # Version control
+    version = serializers.IntegerField()
+    edit_history_count = serializers.IntegerField()
+
+    # Timestamps
+    created_at = serializers.CharField(allow_null=True)
+    updated_at = serializers.CharField(allow_null=True)
+
+
 

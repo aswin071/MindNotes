@@ -28,7 +28,11 @@ class DailyPromptSetMongo(Document):
         'indexes': [
             'user_id',
             'date',
-            ('user_id', 'date'),
+            'is_active',
+            ('user_id', 'date'),  # Compound index for queries
+            ('user_id', '-date'),  # For date range queries
+            ('user_id', 'is_fully_completed'),  # For streak tracking
+            {'fields': ['generated_at'], 'expireAfterSeconds': 7776000},  # TTL: 90 days
         ],
     }
     
@@ -52,17 +56,21 @@ class PromptResponseMongo(Document):
     location = fields.DictField()
     
     # Timestamps
-    responded_at = fields.DateTimeField(default=datetime.utcnow, index=True)
+    responded_at = fields.DateTimeField(default=datetime.utcnow)
 
-    is_active = fields.BooleanField(default=False, index=True)
+    is_active = fields.BooleanField(default=False)
     
     meta = {
         'collection': 'prompt_responses',
         'indexes': [
             'user_id',
             'prompt_id',
-            'responded_at',
-            ('user_id', '-responded_at'),
+            'is_active',
+            'daily_set_date',
+            ('user_id', '-responded_at'),  # For user history
+            ('user_id', 'prompt_id'),  # For checking duplicates
+            ('user_id', 'daily_set_date'),  # For daily responses
+            {'fields': ['responded_at'], 'expireAfterSeconds': 31536000},  # TTL: 1 year
         ],
         'ordering': ['-responded_at'],
     }

@@ -152,6 +152,7 @@ class GoogleSignupView(APIView):
         onboarding_answers = serializer.validated_data.get('onboarding_answers', {})
         dob = serializer.validated_data.get('dob')
         gender = serializer.validated_data.get('gender', '')
+        profession = serializer.validated_data.get('profession', '')
 
         email = google_info['email']
         user, created = User.objects.get_or_create(
@@ -161,6 +162,7 @@ class GoogleSignupView(APIView):
                 'is_verified': True,
                 'dob': dob,
                 'gender': gender,
+                'profession': profession,
             }
         )
         if created:

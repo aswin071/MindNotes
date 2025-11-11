@@ -62,6 +62,7 @@ class User(AbstractUser):
         ('other', 'Other'),
     ]
     gender = models.CharField(max_length=20, choices=GENDER_CHOICES, blank=True)
+    profession = models.CharField(max_length=100, blank=True)
     
     # Notification preferences
     email_notifications = models.BooleanField(default=True)
