@@ -1723,3 +1723,21 @@ INFO 2025-11-11 12:12:27,738 basehttp 536437 126841942165056 "POST /api/v1/authe
 INFO 2025-11-11 12:12:32,412 basehttp 536437 126841942165056 "POST /api/v1/journals/create HTTP/1.1" 201 652
 INFO 2025-11-11 12:12:35,662 basehttp 536437 126841942165056 "POST /api/v1/journals/detail HTTP/1.1" 200 1231
 INFO 2025-11-11 12:12:39,222 basehttp 536437 126841942165056 "GET /api/v1/journals/list HTTP/1.1" 200 1988
+INFO 2025-11-11 12:20:40,520 autoreload 539743 134657523083072 Watching for file changes with StatReloader
+WARNING 2025-11-11 12:20:43,747 log 539743 134657184618048 Bad Request: /api/v1/authentication/login
+WARNING 2025-11-11 12:20:43,747 basehttp 539743 134657184618048 "POST /api/v1/authentication/login HTTP/1.1" 400 156
+INFO 2025-11-12 11:50:19,445 autoreload 603175 124471969239488 Watching for file changes with StatReloader
+ERROR 2025-11-12 11:50:58,428 log 603175 124471600469568 Invalid HTTP_HOST header: '0.0.0.0:8000'. You may need to add '0.0.0.0' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/aswin/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/aswin/.local/lib/python3.10/site-packages/django/utils/deprecation.py", line 119, in __call__
+    response = self.process_request(request)
+  File "/home/aswin/.local/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/aswin/.local/lib/python3.10/site-packages/django/http/request.py", line 202, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '0.0.0.0:8000'. You may need to add '0.0.0.0' to ALLOWED_HOSTS.
+WARNING 2025-11-12 11:50:58,429 basehttp 603175 124471600469568 "POST /api/v1/authentication/login HTTP/1.1" 400 76168
+INFO 2025-11-12 13:02:35,433 autoreload 603175 124471969239488 /home/aswin/MindNotes/mindnotesBackend/mindnotesBackend/settings.py changed, reloading.
+INFO 2025-11-12 13:02:36,345 autoreload 682553 125615237628352 Watching for file changes with StatReloader

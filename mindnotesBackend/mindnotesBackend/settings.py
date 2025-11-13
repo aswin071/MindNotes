@@ -62,6 +62,15 @@ CUSTOM_DOMAIN = os.getenv('CUSTOM_DOMAIN')
 if CUSTOM_DOMAIN:
     ALLOWED_HOSTS.append(CUSTOM_DOMAIN)
 
+# Add additional allowed hosts from environment variable (comma-separated)
+ADDITIONAL_ALLOWED_HOSTS = os.getenv('ADDITIONAL_ALLOWED_HOSTS')
+if ADDITIONAL_ALLOWED_HOSTS:
+    ALLOWED_HOSTS.extend([host.strip() for host in ADDITIONAL_ALLOWED_HOSTS.split(',')])
+
+# Allow all hosts if explicitly set (for AWS ECS with dynamic IPs)
+if os.getenv('ALLOW_ALL_HOSTS') == 'True':
+    ALLOWED_HOSTS = ['*']
+
 
 # Application definition
 
@@ -376,13 +385,11 @@ try:
         maxPoolSize=50,
         minPoolSize=10,
         maxIdleTimeMS=30000,
-        serverSelectionTimeoutMS=10000,
+        serverSelectionTimeoutMS=30000,
         retryWrites=True,
         w='majority',
         alias='default',
-        uuidRepresentation='standard',
-        tls=False,
-        tlsInsecure=True  # Bypass SSL certificate validation (fixes Docker SSL handshake issues)
+        uuidRepresentation='standard'
     )
     print(f"✅ MongoDB connected successfully to database: {MONGODB_DB_NAME}")
     print("⚠️  MongoDB indexes will be created automatically on first use")
