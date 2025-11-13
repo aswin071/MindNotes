@@ -22,6 +22,7 @@ from core.views import health_check, readiness_check, liveness_check
 
 urlpatterns = [
     # Health checks (unauthenticated for load balancers)
+    path('', readiness_check, name='root_health_check'),  # Root path for ALB - simple check
     path('health/', health_check, name='health_check'),
     path('ready/', readiness_check, name='readiness_check'),
     path('alive/', liveness_check, name='liveness_check'),

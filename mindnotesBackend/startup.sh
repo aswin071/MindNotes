@@ -6,6 +6,9 @@ echo "🚀 Starting MindNotes Backend..."
 # Navigate to app directory
 cd /app
 
+echo "🗄️ Creating database if it doesn't exist..."
+PGPASSWORD=$POSTGRES_PASSWORD psql -h $POSTGRES_HOST -U $POSTGRES_USER -p $POSTGRES_PORT -tc "SELECT 1 FROM pg_database WHERE datname = '$POSTGRES_DATABASE'" | grep -q 1 || PGPASSWORD=$POSTGRES_PASSWORD psql -h $POSTGRES_HOST -U $POSTGRES_USER -p $POSTGRES_PORT -c "CREATE DATABASE $POSTGRES_DATABASE"
+
 echo "📦 Running database migrations..."
 python manage.py migrate --noinput
 

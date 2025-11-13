@@ -126,13 +126,11 @@ class MongoConnectionPool:
                 maxPoolSize=50,
                 minPoolSize=10,
                 maxIdleTimeMS=30000,
-                serverSelectionTimeoutMS=10000,
+                serverSelectionTimeoutMS=30000,
                 retryWrites=True,
                 w='majority',
                 alias='default',
-                uuidRepresentation='standard',
-                tls=True,
-                tlsInsecure=True
+                uuidRepresentation='standard'
             )
 
             logger.info("MongoDB reconnection successful")
