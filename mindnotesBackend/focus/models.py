@@ -18,17 +18,15 @@ KEPT MODELS (Template/Reference Data):
 """
 
 class FocusProgram(Model):
-    """Pre-defined focus programs (14-day, 30-day, rituals)"""
+    """Pre-defined focus programs (14-day, 30-day, premium micro-programs)"""
 
     PROGRAM_TYPES = [
         ('14_day', '14-Day Program'),
         ('30_day', '30-Day Program'),
         ('custom', 'Custom Program'),
-        # Ritual / Quick Programs (5-minute flows)
-        ('morning_ritual', 'Morning Ritual'),
-        ('brain_dump', 'Brain Dump'),
-        ('gratitude', 'Gratitude Pause'),
-        ('evening_ritual', 'Evening Ritual'),
+        ('morning_charge', '5-Minute Morning Charge'),
+        ('brain_dump', 'Brain Dump Reset'),
+        ('gratitude_pause', 'Gratitude Pause'),
     ]
     
     name = models.CharField(max_length=100)
@@ -257,6 +255,74 @@ class UserFocusProgram(Model):
     
     def __str__(self):
         return f"{self.user.email} - {self.program.name} ({self.status})"
+
+
+class BrainDumpCategory(Model):
+    """Categories for Brain Dump thoughts (reference data)"""
+
+    name = models.CharField(max_length=100)
+    icon = models.CharField(max_length=50, blank=True)
+    color = models.CharField(max_length=7, default='#3B82F6')
+    description = models.TextField(blank=True)
+    order = models.IntegerField(default=0)
+    is_system = models.BooleanField(default=True, help_text='System-defined category')
+
+    class Meta:
+        db_table = 'brain_dump_categories'
+        ordering = ['order', 'name']
+        verbose_name_plural = 'Brain Dump Categories'
+
+    def __str__(self):
+        return self.name
+
+
+class PremiumProgramTrial(Model):
+    """Track premium program trial periods for users"""
+
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='premium_program_trial'
+    )
+
+    # Trial tracking
+    trial_started_at = models.DateTimeField(auto_now_add=True)
+    trial_ends_at = models.DateTimeField(help_text='7 days from start')
+
+    # Usage counts during trial
+    morning_charge_count = models.IntegerField(default=0)
+    brain_dump_count = models.IntegerField(default=0)
+    gratitude_pause_count = models.IntegerField(default=0)
+
+    # Status
+    trial_expired = models.BooleanField(default=False)
+    converted_to_paid = models.BooleanField(default=False)
+    converted_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        db_table = 'premium_program_trials'
+        indexes = [
+            models.Index(fields=['user', 'trial_ends_at']),
+            models.Index(fields=['trial_expired']),
+        ]
+
+    def __str__(self):
+        return f"{self.user.email} - Trial {'Expired' if self.trial_expired else 'Active'}"
+
+    def is_trial_active(self):
+        """Check if trial is still active"""
+        from django.utils import timezone
+        if self.trial_expired or self.converted_to_paid:
+            return False
+        return timezone.now() < self.trial_ends_at
+
+    def days_remaining(self):
+        """Calculate days remaining in trial"""
+        from django.utils import timezone
+        if not self.is_trial_active():
+            return 0
+        delta = self.trial_ends_at - timezone.now()
+        return max(0, delta.days)
 
 
 # class UserProgramDay(Model):

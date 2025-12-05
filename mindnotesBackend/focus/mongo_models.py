@@ -508,3 +508,331 @@ class ProgramProgressMongo(Document):
 
     def __str__(self):
         return f"Progress for User {self.user_id} - Program {self.program_id}"
+
+
+# ============================================
+# PREMIUM FOCUS PROGRAMS - MONGODB MODELS
+# ============================================
+
+class MorningChargeSessionMongo(Document):
+    """
+    MongoDB model for 5-Minute Morning Charge sessions
+    Stores user's daily morning charge completion data
+    """
+    user_id = fields.IntField(required=True, index=True)
+    session_date = fields.DateField(required=True, index=True)
+
+    # Step 1: Wake & Breathe (1 min)
+    breathing_completed = fields.BooleanField(default=False)
+    breathing_completed_at = fields.DateTimeField()
+    breathing_duration_seconds = fields.IntField(default=0)
+
+    # Step 2: Gratitude Spark (1 min)
+    gratitude_text = fields.StringField()
+    gratitude_voice_note_url = fields.StringField()
+    gratitude_completed_at = fields.DateTimeField()
+
+    # Step 3: Positive Affirmation (1 min)
+    affirmation_text = fields.StringField()
+    affirmation_is_favorite = fields.BooleanField(default=False)
+    affirmation_completed_at = fields.DateTimeField()
+
+    # Step 4: Daily Clarity Prompt (1-2 min)
+    clarity_prompt_question = fields.StringField()
+    clarity_prompt_answer = fields.StringField()
+    clarity_completed_at = fields.DateTimeField()
+
+    # Step 5: Charge Close (30 sec)
+    charge_close_completed = fields.BooleanField(default=False)
+    charge_close_completed_at = fields.DateTimeField()
+
+    # Overall session tracking
+    is_completed = fields.BooleanField(default=False, index=True)
+    completed_at = fields.DateTimeField()
+    total_duration_seconds = fields.IntField(default=0)
+
+    # Streak tracking
+    current_streak = fields.IntField(default=0)
+
+    # Timestamps
+    created_at = fields.DateTimeField(default=datetime.utcnow, index=True)
+    updated_at = fields.DateTimeField(default=datetime.utcnow)
+
+    meta = {
+        'collection': 'morning_charge_sessions',
+        'indexes': [
+            'user_id',
+            'session_date',
+            'is_completed',
+            ('user_id', '-session_date'),
+            ('user_id', 'is_completed'),
+        ],
+        'ordering': ['-session_date'],
+    }
+
+    def __str__(self):
+        return f"Morning Charge - User {self.user_id} - {self.session_date}"
+
+
+class BrainDumpThoughtEmbed(EmbeddedDocument):
+    """Embedded document for individual brain dump thoughts"""
+    thought_text = fields.StringField(required=True)
+    category_id = fields.IntField()  # Reference to BrainDumpCategory
+    category_name = fields.StringField()
+    order = fields.IntField(default=0)
+    created_at = fields.DateTimeField(default=datetime.utcnow)
+
+
+class BrainDumpSessionMongo(Document):
+    """
+    MongoDB model for Brain Dump Reset sessions
+    Stores user's brain dump sessions with categorized thoughts
+    """
+    user_id = fields.IntField(required=True, index=True)
+    session_date = fields.DateField(required=True, index=True)
+
+    # Step 1: Settle In (1 min)
+    settle_in_completed = fields.BooleanField(default=False)
+    settle_in_completed_at = fields.DateTimeField()
+
+    # Step 2: Write Your Dump (2 min) - bullet points
+    dump_thoughts = fields.ListField(fields.EmbeddedDocumentField(BrainDumpThoughtEmbed))
+    total_thoughts_count = fields.IntField(default=0)
+
+    # Guided questions responses (if user needed help)
+    guided_question_1_response = fields.StringField()  # "What's taking up most mental space?"
+    guided_question_2_response = fields.StringField()  # "Is there something you keep postponing?"
+    guided_question_3_response = fields.StringField()  # "What thought keeps replaying?"
+
+    # Step 3: Categorize Your Thoughts - already embedded in thoughts
+    categorize_completed = fields.BooleanField(default=False)
+    categorize_completed_at = fields.DateTimeField()
+
+    # Category distribution
+    category_distribution = fields.DictField()  # {category_id: count}
+
+    # Step 4: Choose One Task - from actionable items
+    chosen_task_text = fields.StringField()
+    chosen_task_category_id = fields.IntField()
+    chosen_task_completed_at = fields.DateTimeField()
+
+    # Step 5: Close & Breathe
+    close_breathe_completed = fields.BooleanField(default=False)
+    close_breathe_completed_at = fields.DateTimeField()
+
+    # Overall session tracking
+    is_completed = fields.BooleanField(default=False, index=True)
+    completed_at = fields.DateTimeField()
+    total_duration_seconds = fields.IntField(default=0)
+
+    # Streak tracking
+    current_streak = fields.IntField(default=0)
+
+    # Timestamps
+    created_at = fields.DateTimeField(default=datetime.utcnow, index=True)
+    updated_at = fields.DateTimeField(default=datetime.utcnow)
+
+    meta = {
+        'collection': 'brain_dump_sessions',
+        'indexes': [
+            'user_id',
+            'session_date',
+            'is_completed',
+            ('user_id', '-session_date'),
+            ('user_id', 'is_completed'),
+        ],
+        'ordering': ['-session_date'],
+    }
+
+    def __str__(self):
+        return f"Brain Dump - User {self.user_id} - {self.session_date}"
+
+
+class GratitudePauseSessionMongo(Document):
+    """
+    MongoDB model for Gratitude Pause sessions
+    Stores user's gratitude pause deep dive sessions
+    """
+    user_id = fields.IntField(required=True, index=True)
+    session_date = fields.DateField(required=True, index=True)
+
+    # Step 1: Arrive (0:30)
+    arrive_completed = fields.BooleanField(default=False)
+    arrive_completed_at = fields.DateTimeField()
+
+    # Step 2: List Three (0:30-2:00) - 3 gratitudes
+    gratitude_1 = fields.StringField()
+    gratitude_2 = fields.StringField()
+    gratitude_3 = fields.StringField()
+    list_three_completed_at = fields.DateTimeField()
+
+    # Step 3: Deep Dive on One (2:00-4:15)
+    selected_gratitude_index = fields.IntField()  # Which one they chose (1, 2, or 3)
+    selected_gratitude_text = fields.StringField()
+
+    # 5 Deep Dive Prompts
+    deep_dive_1_precise = fields.StringField()  # "What exactly are you grateful for?"
+    deep_dive_2_why_matters = fields.StringField()  # "How did this help your day?"
+    deep_dive_3_who_made_possible = fields.StringField()  # "Who/what made it possible?"
+    deep_dive_4_sensory_moment = fields.StringField()  # "Replay a moment"
+    deep_dive_5_gratitude_line = fields.StringField()  # "I'm grateful for ___ because ___"
+
+    deep_dive_completed_at = fields.DateTimeField()
+
+    # Step 4: Express It Now (4:15-4:45)
+    expression_action = fields.StringField(
+        choices=['send_thank_you', 'leave_note', 'helpful_act', 'reminder_later', 'skipped'],
+    )
+    expression_notes = fields.StringField()
+    expression_completed_at = fields.DateTimeField()
+
+    # Step 5: Anchor (4:45-5:00)
+    anchor_completed = fields.BooleanField(default=False)
+    anchor_completed_at = fields.DateTimeField()
+
+    # Overall session tracking
+    is_completed = fields.BooleanField(default=False, index=True)
+    completed_at = fields.DateTimeField()
+    total_duration_seconds = fields.IntField(default=0)
+
+    # Streak tracking
+    current_streak = fields.IntField(default=0)
+
+    # Timestamps
+    created_at = fields.DateTimeField(default=datetime.utcnow, index=True)
+    updated_at = fields.DateTimeField(default=datetime.utcnow)
+
+    meta = {
+        'collection': 'gratitude_pause_sessions',
+        'indexes': [
+            'user_id',
+            'session_date',
+            'is_completed',
+            ('user_id', '-session_date'),
+            ('user_id', 'is_completed'),
+        ],
+        'ordering': ['-session_date'],
+    }
+
+    def __str__(self):
+        return f"Gratitude Pause - User {self.user_id} - {self.session_date}"
+
+
+class PremiumProgramStreakMongo(Document):
+    """
+    MongoDB model for tracking streaks across all premium programs
+    Consolidated streak tracking for gamification
+    """
+    user_id = fields.IntField(required=True, index=True, unique=True)
+
+    # Per-program streaks
+    morning_charge_current_streak = fields.IntField(default=0)
+    morning_charge_longest_streak = fields.IntField(default=0)
+    morning_charge_last_activity = fields.DateField()
+    morning_charge_total_sessions = fields.IntField(default=0)
+
+    brain_dump_current_streak = fields.IntField(default=0)
+    brain_dump_longest_streak = fields.IntField(default=0)
+    brain_dump_last_activity = fields.DateField()
+    brain_dump_total_sessions = fields.IntField(default=0)
+
+    gratitude_pause_current_streak = fields.IntField(default=0)
+    gratitude_pause_longest_streak = fields.IntField(default=0)
+    gratitude_pause_last_activity = fields.DateField()
+    gratitude_pause_total_sessions = fields.IntField(default=0)
+
+    # Badges/Achievements
+    badges = fields.ListField(fields.DictField())  # [{name, program_type, earned_at, description}]
+
+    # Overall stats
+    total_premium_sessions = fields.IntField(default=0)
+    first_session_date = fields.DateField()
+
+    # Timestamps
+    created_at = fields.DateTimeField(default=datetime.utcnow)
+    updated_at = fields.DateTimeField(default=datetime.utcnow)
+
+    meta = {
+        'collection': 'premium_program_streaks',
+        'indexes': [
+            'user_id',
+        ],
+    }
+
+    def update_streak(self, program_type: str, session_date):
+        """
+        Update streak for a specific program type
+        program_type: 'morning_charge', 'brain_dump', or 'gratitude_pause'
+        """
+        from datetime import date, timedelta
+
+        if isinstance(session_date, datetime):
+            session_date = session_date.date()
+        elif not isinstance(session_date, date):
+            session_date = date.today()
+
+        # Get program-specific fields
+        current_streak_field = f"{program_type}_current_streak"
+        longest_streak_field = f"{program_type}_longest_streak"
+        last_activity_field = f"{program_type}_last_activity"
+        total_sessions_field = f"{program_type}_total_sessions"
+
+        last_activity = getattr(self, last_activity_field)
+        current_streak = getattr(self, current_streak_field, 0)
+
+        if last_activity:
+            days_diff = (session_date - last_activity).days
+
+            if days_diff == 0:
+                # Same day, don't increment
+                pass
+            elif days_diff == 1:
+                # Consecutive day
+                current_streak += 1
+            else:
+                # Streak broken
+                current_streak = 1
+        else:
+            # First session
+            current_streak = 1
+
+        # Update fields
+        setattr(self, current_streak_field, current_streak)
+        setattr(self, last_activity_field, session_date)
+
+        # Update longest streak
+        longest_streak = getattr(self, longest_streak_field, 0)
+        if current_streak > longest_streak:
+            setattr(self, longest_streak_field, current_streak)
+
+        # Increment total sessions
+        total_sessions = getattr(self, total_sessions_field, 0)
+        setattr(self, total_sessions_field, total_sessions + 1)
+
+        # Update overall stats
+        self.total_premium_sessions += 1
+        if not self.first_session_date:
+            self.first_session_date = session_date
+
+        self.updated_at = datetime.utcnow()
+        self.save()
+
+        return current_streak
+
+    def add_badge(self, badge_name: str, program_type: str, description: str = ""):
+        """Add a badge/achievement"""
+        badge = {
+            'name': badge_name,
+            'program_type': program_type,
+            'description': description,
+            'earned_at': datetime.utcnow()
+        }
+
+        # Check if badge already exists
+        if not any(b['name'] == badge_name and b['program_type'] == program_type for b in self.badges):
+            self.badges.append(badge)
+            self.updated_at = datetime.utcnow()
+            self.save()
+
+    def __str__(self):
+        return f"Premium Streaks - User {self.user_id}"
