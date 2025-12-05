@@ -1739,3 +1739,395 @@ class FocusService:
             })
 
         return history
+
+    # ============================================
+    # RITUAL / MORNING CHARGE SERVICE METHODS
+    # ============================================
+
+    @staticmethod
+    def get_ritual_day_details(user, enrollment_id, day_number):
+        """
+        Get detailed information for a ritual day with all steps
+        Used for step-by-step programs like Morning Charge
+        """
+        from focus.models import UserFocusProgram, ProgramDay, ProgramStep
+        from focus.mongo_models import RitualSessionMongo
+
+        try:
+            user_program = UserFocusProgram.objects.select_related('program').get(
+                id=enrollment_id,
+                user=user
+            )
+        except UserFocusProgram.DoesNotExist:
+            raise ValueError("Enrollment not found")
+
+        # Get program day template
+        try:
+            program_day = ProgramDay.objects.get(
+                program=user_program.program,
+                day_number=day_number
+            )
+        except ProgramDay.DoesNotExist:
+            raise ValueError(f"Day {day_number} not found for this program")
+
+        # Get steps for this day
+        steps = ProgramStep.objects.filter(
+            program_day=program_day
+        ).order_by('order')
+
+        # Get user's session for today if exists
+        today_session = RitualSessionMongo.objects(
+            user_id=user.id,
+            user_program_id=enrollment_id,
+            day_number=day_number
+        ).order_by('-created_at').first()
+
+        # Build step responses map if session exists
+        step_responses_map = {}
+        if today_session:
+            for resp in today_session.step_responses:
+                step_responses_map[resp.step_order] = {
+                    'is_completed': resp.is_completed,
+                    'started_at': resp.started_at,
+                    'completed_at': resp.completed_at,
+                    'duration_seconds': resp.duration_seconds,
+                    'text_response': resp.text_response,
+                    'voice_note_url': resp.voice_note_url,
+                    'selected_choice': resp.selected_choice,
+                    'selected_choices': resp.selected_choices,
+                    'rating_value': resp.rating_value,
+                    'breathing_cycles_completed': resp.breathing_cycles_completed,
+                    'skipped': resp.skipped,
+                }
+
+        # Build steps data
+        steps_data = []
+        for step in steps:
+            step_data = {
+                'id': step.id,
+                'order': step.order,
+                'step_type': step.step_type,
+                'title': step.title,
+                'description': step.description,
+                'subtitle': step.subtitle,
+                'duration_seconds': step.duration_seconds,
+                'input_type': step.input_type,
+                'placeholder_text': step.placeholder_text,
+                'choices': step.choices,
+                'prompts': step.prompts,
+                'config': step.config,
+                'icon': step.icon,
+                'color': step.color,
+                'background_color': step.background_color,
+                'is_required': step.is_required,
+                'is_skippable': step.is_skippable,
+                'user_response': step_responses_map.get(step.order),
+            }
+            steps_data.append(step_data)
+
+        return {
+            'day_number': program_day.day_number,
+            'title': program_day.title,
+            'description': program_day.description,
+            'focus_duration': program_day.focus_duration,
+            'tips': program_day.tips,
+            'is_ritual': program_day.is_ritual,
+            'steps': steps_data,
+            'total_steps': len(steps_data),
+            'user_progress': {
+                'session_id': str(today_session.id) if today_session else None,
+                'status': today_session.status if today_session else None,
+                'steps_completed': today_session.steps_completed if today_session else 0,
+                'completion_percentage': today_session.completion_percentage if today_session else 0,
+                'current_step_order': today_session.current_step_order if today_session else 0,
+            } if today_session else None
+        }
+
+    @staticmethod
+    def start_ritual_session(user, enrollment_id, day_number, mood_before=None):
+        """
+        Start a new ritual session for a program day
+        """
+        from focus.models import UserFocusProgram, ProgramDay, ProgramStep
+        from focus.mongo_models import RitualSessionMongo, ProgramProgressMongo
+        from datetime import datetime
+
+        try:
+            user_program = UserFocusProgram.objects.select_related('program').get(
+                id=enrollment_id,
+                user=user
+            )
+        except UserFocusProgram.DoesNotExist:
+            raise ValueError("Enrollment not found")
+
+        # Get program day
+        try:
+            program_day = ProgramDay.objects.get(
+                program=user_program.program,
+                day_number=day_number
+            )
+        except ProgramDay.DoesNotExist:
+            raise ValueError(f"Day {day_number} not found for this program")
+
+        # Check if there's already an active session for this day
+        active_session = RitualSessionMongo.objects(
+            user_id=user.id,
+            user_program_id=enrollment_id,
+            day_number=day_number,
+            status='in_progress'
+        ).first()
+
+        if active_session:
+            # Return existing session
+            return {
+                'session_id': str(active_session.id),
+                'status': active_session.status,
+                'current_step_order': active_session.current_step_order,
+                'total_steps': active_session.total_steps,
+                'steps_completed': active_session.steps_completed,
+                'started_at': active_session.started_at,
+                'message': 'Resuming existing session'
+            }
+
+        # Count steps for this day
+        total_steps = ProgramStep.objects.filter(program_day=program_day).count()
+
+        # Create new ritual session
+        session = RitualSessionMongo(
+            user_id=user.id,
+            program_id=user_program.program.id,
+            program_day_id=program_day.id,
+            user_program_id=user_program.id,
+            day_number=day_number,
+            status='in_progress',
+            started_at=datetime.utcnow(),
+            total_steps=total_steps,
+            steps_completed=0,
+            current_step_order=0,
+            mood_before=mood_before
+        )
+        session.save()
+
+        # Update program progress streak
+        progress = ProgramProgressMongo.objects(
+            user_program_id=enrollment_id
+        ).first()
+        if progress:
+            progress.update_streak(True)
+
+        return {
+            'session_id': str(session.id),
+            'status': session.status,
+            'current_step_order': session.current_step_order,
+            'total_steps': session.total_steps,
+            'steps_completed': session.steps_completed,
+            'started_at': session.started_at,
+            'message': 'New session started'
+        }
+
+    @staticmethod
+    def start_ritual_step(user, session_id, step_id):
+        """
+        Start a specific step in a ritual session
+        """
+        from focus.models import ProgramStep
+        from focus.mongo_models import RitualSessionMongo
+
+        try:
+            session = RitualSessionMongo.objects.get(
+                id=session_id,
+                user_id=user.id
+            )
+        except RitualSessionMongo.DoesNotExist:
+            raise ValueError("Session not found")
+
+        if session.status != 'in_progress':
+            raise ValueError("Session is not active")
+
+        # Get step details
+        try:
+            step = ProgramStep.objects.get(id=step_id)
+        except ProgramStep.DoesNotExist:
+            raise ValueError("Step not found")
+
+        # Check if step was already started
+        existing_response = next(
+            (r for r in session.step_responses if r.step_id == step_id),
+            None
+        )
+        if existing_response:
+            return {
+                'message': 'Step already started',
+                'step_order': existing_response.step_order,
+                'started_at': existing_response.started_at
+            }
+
+        # Start the step
+        session.start_step(
+            step_id=step.id,
+            step_order=step.order,
+            step_type=step.step_type
+        )
+
+        return {
+            'message': 'Step started',
+            'step_id': step.id,
+            'step_order': step.order,
+            'step_type': step.step_type,
+            'title': step.title,
+            'duration_seconds': step.duration_seconds
+        }
+
+    @staticmethod
+    def complete_ritual_step(user, session_id, step_order, response_data=None):
+        """
+        Complete a ritual step with optional response data
+        """
+        from focus.mongo_models import RitualSessionMongo
+
+        try:
+            session = RitualSessionMongo.objects.get(
+                id=session_id,
+                user_id=user.id
+            )
+        except RitualSessionMongo.DoesNotExist:
+            raise ValueError("Session not found")
+
+        if session.status != 'in_progress':
+            raise ValueError("Session is not active")
+
+        # Complete the step
+        success = session.complete_step(step_order, response_data)
+
+        if not success:
+            raise ValueError(f"Step {step_order} not found or not started")
+
+        return {
+            'message': 'Step completed',
+            'step_order': step_order,
+            'steps_completed': session.steps_completed,
+            'total_steps': session.total_steps,
+            'completion_percentage': session.completion_percentage,
+            'is_session_complete': session.steps_completed >= session.total_steps
+        }
+
+    @staticmethod
+    def skip_ritual_step(user, session_id, step_order, reason=''):
+        """
+        Skip a ritual step
+        """
+        from focus.mongo_models import RitualSessionMongo
+
+        try:
+            session = RitualSessionMongo.objects.get(
+                id=session_id,
+                user_id=user.id
+            )
+        except RitualSessionMongo.DoesNotExist:
+            raise ValueError("Session not found")
+
+        if session.status != 'in_progress':
+            raise ValueError("Session is not active")
+
+        # Skip the step
+        success = session.skip_step(step_order, reason)
+
+        if not success:
+            raise ValueError(f"Step {step_order} not found")
+
+        return {
+            'message': 'Step skipped',
+            'step_order': step_order,
+            'steps_completed': session.steps_completed,
+            'total_steps': session.total_steps,
+            'completion_percentage': session.completion_percentage
+        }
+
+    @staticmethod
+    def complete_ritual_session(user, session_id, mood_after=None, energy_level=None, notes=''):
+        """
+        Complete a ritual session
+        """
+        from focus.models import UserFocusProgram
+        from focus.mongo_models import RitualSessionMongo, ProgramProgressMongo
+        from datetime import datetime
+
+        try:
+            session = RitualSessionMongo.objects.get(
+                id=session_id,
+                user_id=user.id
+            )
+        except RitualSessionMongo.DoesNotExist:
+            raise ValueError("Session not found")
+
+        if session.status == 'completed':
+            return {
+                'message': 'Session already completed',
+                'session_id': str(session.id)
+            }
+
+        # Complete the session
+        session.complete_session(mood_after, energy_level)
+        if notes:
+            session.notes = notes
+            session.save()
+
+        # Update program progress
+        progress = ProgramProgressMongo.objects(
+            user_program_id=session.user_program_id
+        ).first()
+
+        if progress:
+            progress.total_sessions += 1
+            progress.total_focus_minutes += session.total_duration_seconds // 60
+            progress.days_completed += 1
+            progress.update_progress()
+
+            # Check for achievements
+            if progress.days_completed == 7:
+                progress.add_achievement('First Week', 'Completed 7 days of Morning Charge')
+            elif progress.days_completed == 14:
+                progress.add_achievement('Two Weeks Strong', 'Completed 14 days of Morning Charge')
+            elif progress.days_completed == 21:
+                progress.add_achievement('Habit Formed', 'Completed 21 days - you\'ve built a habit!')
+            elif progress.days_completed == 30:
+                progress.add_achievement('Morning Master', 'Completed the full 30-day Morning Charge program!')
+
+            # Streak achievements
+            if progress.current_streak == 7:
+                progress.add_achievement('Week Streak', '7 day streak!')
+            elif progress.current_streak == 14:
+                progress.add_achievement('Two Week Streak', '14 day streak!')
+            elif progress.current_streak == 30:
+                progress.add_achievement('Month Streak', '30 day streak!')
+
+        # Update UserFocusProgram
+        try:
+            user_program = UserFocusProgram.objects.get(id=session.user_program_id)
+            if session.day_number == user_program.current_day:
+                user_program.current_day += 1
+
+                # Update streaks
+                if progress:
+                    user_program.current_streak = progress.current_streak
+                    if progress.current_streak > user_program.longest_streak:
+                        user_program.longest_streak = progress.current_streak
+
+                # Check if program is complete
+                if user_program.current_day > user_program.program.duration_days:
+                    user_program.status = 'completed'
+                    user_program.completed_at = datetime.utcnow()
+
+                user_program.save()
+        except UserFocusProgram.DoesNotExist:
+            pass
+
+        return {
+            'message': 'Session completed successfully!',
+            'session_id': str(session.id),
+            'total_duration_seconds': session.total_duration_seconds,
+            'steps_completed': session.steps_completed,
+            'mood_improvement': (session.mood_after - session.mood_before) if session.mood_after and session.mood_before else None,
+            'current_streak': progress.current_streak if progress else 0,
+            'achievements_earned': [ach['name'] for ach in progress.achievements] if progress else []
+        }

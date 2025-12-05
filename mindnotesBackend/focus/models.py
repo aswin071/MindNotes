@@ -59,28 +59,98 @@ class FocusProgram(Model):
 
 class ProgramDay(Model):
     """Individual day content within a focus program"""
-    
+
     program = models.ForeignKey(FocusProgram, on_delete=models.CASCADE, related_name='days')
-    
+
     day_number = models.IntegerField()
     title = models.CharField(max_length=200)
     description = models.TextField()
-    
+
     # Daily content
     focus_duration = models.IntegerField(help_text='Recommended focus time in minutes')
     tasks = models.JSONField(default=list)
     tips = models.JSONField(default=list)
-    
+
     # Reflections
     reflection_prompts = models.JSONField(default=list)
-    
+
+    # For ritual-type programs (like Morning Charge)
+    is_ritual = models.BooleanField(default=False, help_text='If True, uses step-based flow instead of tasks')
+
     class Meta:
         db_table = 'program_days'
         unique_together = ['program', 'day_number']
         ordering = ['program', 'day_number']
-    
+
     def __str__(self):
         return f"{self.program.name} - Day {self.day_number}"
+
+
+class ProgramStep(Model):
+    """Individual steps within a ritual/guided program day"""
+
+    STEP_TYPES = [
+        ('breathing', 'Breathing Exercise'),
+        ('gratitude', 'Gratitude Entry'),
+        ('affirmation', 'Affirmation Selection'),
+        ('prompt', 'Reflection Prompt'),
+        ('task', 'Simple Task'),
+        ('meditation', 'Meditation'),
+        ('journaling', 'Journaling'),
+        ('checkin', 'Mood Check-in'),
+    ]
+
+    INPUT_TYPES = [
+        ('none', 'No Input'),
+        ('text', 'Text Input'),
+        ('voice', 'Voice Note'),
+        ('text_voice', 'Text or Voice'),
+        ('single_choice', 'Single Choice'),
+        ('multi_choice', 'Multiple Choice'),
+        ('rating', 'Rating Scale'),
+        ('slider', 'Slider'),
+    ]
+
+    program_day = models.ForeignKey(ProgramDay, on_delete=models.CASCADE, related_name='steps')
+
+    order = models.IntegerField(default=0)
+    step_type = models.CharField(max_length=20, choices=STEP_TYPES)
+
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    subtitle = models.CharField(max_length=300, blank=True)
+
+    # Timing
+    duration_seconds = models.IntegerField(default=60, help_text='Duration in seconds')
+
+    # Input configuration
+    input_type = models.CharField(max_length=20, choices=INPUT_TYPES, default='none')
+    placeholder_text = models.CharField(max_length=300, blank=True)
+
+    # For choice-based steps (affirmations, etc.)
+    choices = models.JSONField(default=list, blank=True, help_text='List of choice options')
+
+    # For prompt-based steps
+    prompts = models.JSONField(default=list, blank=True, help_text='Rotating prompts')
+
+    # Step-specific configuration (animations, colors, etc.)
+    config = models.JSONField(default=dict, blank=True, help_text='Step-specific config like animation type, icon, color')
+
+    # Visual
+    icon = models.CharField(max_length=50, blank=True)
+    color = models.CharField(max_length=7, default='#3B82F6')
+    background_color = models.CharField(max_length=7, blank=True)
+
+    is_required = models.BooleanField(default=True)
+    is_skippable = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'program_steps'
+        unique_together = ['program_day', 'order']
+        ordering = ['program_day', 'order']
+
+    def __str__(self):
+        return f"{self.program_day.program.name} - Day {self.program_day.day_number} - Step {self.order}: {self.title}"
 
 
 # class FocusPause(Model):

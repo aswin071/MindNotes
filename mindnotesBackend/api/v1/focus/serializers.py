@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from focus.models import FocusProgram, ProgramDay, UserFocusProgram
+from focus.models import FocusProgram, ProgramDay, ProgramStep, UserFocusProgram
 
 
 class FocusProgramSerializer(serializers.ModelSerializer):
@@ -167,3 +167,122 @@ class AddDistractionSerializer(serializers.Serializer):
     """Serializer for logging distractions"""
     session_id = serializers.CharField(required=True)
     distraction_note = serializers.CharField(required=True, max_length=500)
+
+
+# ============================================
+# RITUAL / MORNING CHARGE SERIALIZERS
+# ============================================
+
+class ProgramStepSerializer(serializers.ModelSerializer):
+    """Serializer for Program Step details"""
+
+    class Meta:
+        model = ProgramStep
+        fields = [
+            'id', 'order', 'step_type', 'title', 'description', 'subtitle',
+            'duration_seconds', 'input_type', 'placeholder_text', 'choices',
+            'prompts', 'config', 'icon', 'color', 'background_color',
+            'is_required', 'is_skippable'
+        ]
+
+
+class RitualDaySerializer(serializers.Serializer):
+    """Serializer for ritual day with steps"""
+    day_number = serializers.IntegerField(read_only=True)
+    title = serializers.CharField(read_only=True)
+    description = serializers.CharField(read_only=True)
+    focus_duration = serializers.IntegerField(read_only=True)
+    tips = serializers.ListField(read_only=True)
+    is_ritual = serializers.BooleanField(read_only=True)
+    steps = ProgramStepSerializer(many=True, read_only=True)
+    user_progress = serializers.DictField(read_only=True, allow_null=True)
+
+
+class StartRitualSessionSerializer(serializers.Serializer):
+    """Serializer for starting a ritual session (Morning Charge, etc.)"""
+    enrollment_id = serializers.IntegerField(required=True)
+    day_number = serializers.IntegerField(required=True, min_value=1)
+    mood_before = serializers.IntegerField(required=False, min_value=1, max_value=5)
+
+
+class StartRitualStepSerializer(serializers.Serializer):
+    """Serializer for starting a step in a ritual"""
+    session_id = serializers.CharField(required=True)
+    step_id = serializers.IntegerField(required=True)
+
+
+class CompleteRitualStepSerializer(serializers.Serializer):
+    """Serializer for completing a ritual step with response"""
+    session_id = serializers.CharField(required=True)
+    step_order = serializers.IntegerField(required=True)
+
+    # Optional response fields (varies by step type)
+    text_response = serializers.CharField(required=False, allow_blank=True, max_length=1000)
+    voice_note_url = serializers.CharField(required=False, allow_blank=True, max_length=500)
+    selected_choice = serializers.CharField(required=False, allow_blank=True, max_length=500)
+    selected_choices = serializers.ListField(
+        child=serializers.CharField(max_length=500),
+        required=False
+    )
+    rating_value = serializers.IntegerField(required=False, min_value=1, max_value=5)
+    breathing_cycles_completed = serializers.IntegerField(required=False, min_value=0)
+
+
+class SkipRitualStepSerializer(serializers.Serializer):
+    """Serializer for skipping a ritual step"""
+    session_id = serializers.CharField(required=True)
+    step_order = serializers.IntegerField(required=True)
+    reason = serializers.CharField(required=False, allow_blank=True, max_length=200)
+
+
+class CompleteRitualSessionSerializer(serializers.Serializer):
+    """Serializer for completing a ritual session"""
+    session_id = serializers.CharField(required=True)
+    mood_after = serializers.IntegerField(required=False, min_value=1, max_value=5)
+    energy_level = serializers.IntegerField(required=False, min_value=1, max_value=5)
+    notes = serializers.CharField(required=False, allow_blank=True, max_length=1000)
+
+
+class RitualSessionResponseSerializer(serializers.Serializer):
+    """Serializer for ritual session response"""
+    session_id = serializers.CharField(read_only=True)
+    status = serializers.CharField(read_only=True)
+    current_step_order = serializers.IntegerField(read_only=True)
+    total_steps = serializers.IntegerField(read_only=True)
+    steps_completed = serializers.IntegerField(read_only=True)
+    completion_percentage = serializers.FloatField(read_only=True)
+    started_at = serializers.DateTimeField(read_only=True)
+    completed_at = serializers.DateTimeField(read_only=True, allow_null=True)
+
+
+class StepResponseSerializer(serializers.Serializer):
+    """Serializer for individual step response"""
+    step_id = serializers.IntegerField(read_only=True)
+    step_order = serializers.IntegerField(read_only=True)
+    step_type = serializers.CharField(read_only=True)
+    is_completed = serializers.BooleanField(read_only=True)
+    started_at = serializers.DateTimeField(read_only=True, allow_null=True)
+    completed_at = serializers.DateTimeField(read_only=True, allow_null=True)
+    duration_seconds = serializers.IntegerField(read_only=True)
+    text_response = serializers.CharField(read_only=True, allow_null=True)
+    voice_note_url = serializers.CharField(read_only=True, allow_null=True)
+    selected_choice = serializers.CharField(read_only=True, allow_null=True)
+    selected_choices = serializers.ListField(read_only=True, allow_null=True)
+    rating_value = serializers.IntegerField(read_only=True, allow_null=True)
+    breathing_cycles_completed = serializers.IntegerField(read_only=True)
+    skipped = serializers.BooleanField(read_only=True)
+
+
+class RitualHistorySerializer(serializers.Serializer):
+    """Serializer for ritual session history"""
+    session_id = serializers.CharField(read_only=True)
+    day_number = serializers.IntegerField(read_only=True)
+    status = serializers.CharField(read_only=True)
+    started_at = serializers.DateTimeField(read_only=True)
+    completed_at = serializers.DateTimeField(read_only=True, allow_null=True)
+    total_duration_seconds = serializers.IntegerField(read_only=True)
+    steps_completed = serializers.IntegerField(read_only=True)
+    total_steps = serializers.IntegerField(read_only=True)
+    mood_before = serializers.IntegerField(read_only=True, allow_null=True)
+    mood_after = serializers.IntegerField(read_only=True, allow_null=True)
+    energy_level = serializers.IntegerField(read_only=True, allow_null=True)
