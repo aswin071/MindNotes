@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from .views import (
     FocusProgramListView,
     EnrollProgramView,
@@ -18,6 +18,10 @@ from .views import (
 )
 
 urlpatterns = [
+    # Premium Focus Programs (Morning Charge, Brain Dump, Gratitude Pause)
+    path('', include('api.v1.focus.premium_urls')),
+
+
     # Program management
     path('programs', FocusProgramListView.as_view(),                                                name='focus-programs-list'),
     path('programs/enroll', EnrollProgramView.as_view(),                                            name='focus-programs-enroll'),
