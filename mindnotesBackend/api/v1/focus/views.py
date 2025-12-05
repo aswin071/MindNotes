@@ -22,6 +22,15 @@ from .serializers import (
     PauseSessionSerializer,
     ResumeSessionSerializer,
     AddDistractionSerializer,
+    # Ritual serializers
+    RitualDaySerializer,
+    StartRitualSessionSerializer,
+    StartRitualStepSerializer,
+    CompleteRitualStepSerializer,
+    SkipRitualStepSerializer,
+    CompleteRitualSessionSerializer,
+    RitualSessionResponseSerializer,
+    RitualHistorySerializer,
 )
 from helpers.common import success_response, error_response
 
@@ -656,5 +665,445 @@ class ActiveSessionView(APIView):
         except Exception as e:
             return error_response(
                 {'error': f'Failed to fetch active session: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+# ============================================
+# RITUAL / MORNING CHARGE VIEWS
+# ============================================
+
+class RitualDayDetailsView(APIView):
+    """
+    GET /api/v1/focus/rituals/{enrollment_id}/days/{day_number}/
+
+    Get ritual day details with steps for step-by-step programs like Morning Charge
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, enrollment_id, day_number):
+        """Get ritual day details with all steps"""
+        try:
+            details = FocusService.get_ritual_day_details(
+                user=request.user,
+                enrollment_id=enrollment_id,
+                day_number=day_number
+            )
+
+            return success_response(details, status=status.HTTP_200_OK)
+
+        except ValueError as e:
+            return error_response(
+                {'error': str(e)},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            return error_response(
+                {'error': f'Failed to fetch ritual day details: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class StartRitualSessionView(APIView):
+    """
+    POST /api/v1/focus/rituals/sessions/start/
+
+    Start a new ritual session (Morning Charge, etc.)
+    Body: {
+        "enrollment_id": 1,
+        "day_number": 1,
+        "mood_before": 3  // optional
+    }
+    """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        """Start a ritual session"""
+        serializer = StartRitualSessionSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return error_response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            result = FocusService.start_ritual_session(
+                user=request.user,
+                enrollment_id=serializer.validated_data['enrollment_id'],
+                day_number=serializer.validated_data['day_number'],
+                mood_before=serializer.validated_data.get('mood_before')
+            )
+
+            return success_response(result, status=status.HTTP_201_CREATED)
+
+        except ValueError as e:
+            return error_response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except Exception as e:
+            return error_response(
+                {'error': f'Failed to start ritual session: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class StartRitualStepView(APIView):
+    """
+    POST /api/v1/focus/rituals/steps/start/
+
+    Start a specific step in a ritual session
+    Body: {
+        "session_id": "abc123",
+        "step_id": 1
+    }
+    """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        """Start a ritual step"""
+        serializer = StartRitualStepSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return error_response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            result = FocusService.start_ritual_step(
+                user=request.user,
+                session_id=serializer.validated_data['session_id'],
+                step_id=serializer.validated_data['step_id']
+            )
+
+            return success_response(result, status=status.HTTP_200_OK)
+
+        except ValueError as e:
+            return error_response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except Exception as e:
+            return error_response(
+                {'error': f'Failed to start ritual step: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class CompleteRitualStepView(APIView):
+    """
+    POST /api/v1/focus/rituals/steps/complete/
+
+    Complete a ritual step with response
+    Body: {
+        "session_id": "abc123",
+        "step_order": 1,
+        "text_response": "I am grateful for...",  // for gratitude/prompt steps
+        "selected_choice": "I am focused...",      // for affirmation steps
+        "breathing_cycles_completed": 3            // for breathing steps
+    }
+    """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        """Complete a ritual step"""
+        serializer = CompleteRitualStepSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return error_response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            # Build response data from validated data
+            response_data = {}
+            for field in ['text_response', 'voice_note_url', 'selected_choice',
+                         'selected_choices', 'rating_value', 'breathing_cycles_completed']:
+                if field in serializer.validated_data:
+                    response_data[field] = serializer.validated_data[field]
+
+            result = FocusService.complete_ritual_step(
+                user=request.user,
+                session_id=serializer.validated_data['session_id'],
+                step_order=serializer.validated_data['step_order'],
+                response_data=response_data
+            )
+
+            return success_response(result, status=status.HTTP_200_OK)
+
+        except ValueError as e:
+            return error_response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except Exception as e:
+            return error_response(
+                {'error': f'Failed to complete ritual step: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class SkipRitualStepView(APIView):
+    """
+    POST /api/v1/focus/rituals/steps/skip/
+
+    Skip a ritual step
+    Body: {
+        "session_id": "abc123",
+        "step_order": 1,
+        "reason": "Not in the mood"  // optional
+    }
+    """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        """Skip a ritual step"""
+        serializer = SkipRitualStepSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return error_response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            result = FocusService.skip_ritual_step(
+                user=request.user,
+                session_id=serializer.validated_data['session_id'],
+                step_order=serializer.validated_data['step_order'],
+                reason=serializer.validated_data.get('reason', '')
+            )
+
+            return success_response(result, status=status.HTTP_200_OK)
+
+        except ValueError as e:
+            return error_response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except Exception as e:
+            return error_response(
+                {'error': f'Failed to skip ritual step: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class CompleteRitualSessionView(APIView):
+    """
+    POST /api/v1/focus/rituals/sessions/complete/
+
+    Complete a ritual session
+    Body: {
+        "session_id": "abc123",
+        "mood_after": 4,      // optional
+        "energy_level": 5,    // optional
+        "notes": "Great morning!"  // optional
+    }
+    """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        """Complete a ritual session"""
+        serializer = CompleteRitualSessionSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return error_response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            result = FocusService.complete_ritual_session(
+                user=request.user,
+                session_id=serializer.validated_data['session_id'],
+                mood_after=serializer.validated_data.get('mood_after'),
+                energy_level=serializer.validated_data.get('energy_level'),
+                notes=serializer.validated_data.get('notes', '')
+            )
+
+            return success_response(result, status=status.HTTP_200_OK)
+
+        except ValueError as e:
+            return error_response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except Exception as e:
+            return error_response(
+                {'error': f'Failed to complete ritual session: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class ActiveRitualSessionView(APIView):
+    """
+    GET /api/v1/focus/rituals/sessions/active/
+
+    Get user's active ritual session if any
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        """Get active ritual session"""
+        try:
+            from focus.mongo_models import RitualSessionMongo
+
+            active_session = RitualSessionMongo.objects(
+                user_id=request.user.id,
+                status='in_progress'
+            ).first()
+
+            if not active_session:
+                return success_response(
+                    {'active_session': None},
+                    status=status.HTTP_200_OK
+                )
+
+            return success_response(
+                {
+                    'active_session': {
+                        'session_id': str(active_session.id),
+                        'program_id': active_session.program_id,
+                        'day_number': active_session.day_number,
+                        'started_at': active_session.started_at,
+                        'current_step_order': active_session.current_step_order,
+                        'total_steps': active_session.total_steps,
+                        'steps_completed': active_session.steps_completed,
+                        'completion_percentage': active_session.completion_percentage,
+                        'status': active_session.status,
+                    }
+                },
+                status=status.HTTP_200_OK
+            )
+
+        except Exception as e:
+            return error_response(
+                {'error': f'Failed to fetch active ritual session: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class RitualSessionDetailView(APIView):
+    """
+    GET /api/v1/focus/rituals/sessions/{session_id}/
+
+    Get details of a specific ritual session including all step responses
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, session_id):
+        """Get ritual session details"""
+        try:
+            from focus.mongo_models import RitualSessionMongo
+
+            session = RitualSessionMongo.objects.get(
+                id=session_id,
+                user_id=request.user.id
+            )
+
+            step_responses = []
+            for step_resp in session.step_responses:
+                step_responses.append({
+                    'step_id': step_resp.step_id,
+                    'step_order': step_resp.step_order,
+                    'step_type': step_resp.step_type,
+                    'is_completed': step_resp.is_completed,
+                    'started_at': step_resp.started_at,
+                    'completed_at': step_resp.completed_at,
+                    'duration_seconds': step_resp.duration_seconds,
+                    'text_response': step_resp.text_response,
+                    'voice_note_url': step_resp.voice_note_url,
+                    'selected_choice': step_resp.selected_choice,
+                    'selected_choices': step_resp.selected_choices,
+                    'rating_value': step_resp.rating_value,
+                    'breathing_cycles_completed': step_resp.breathing_cycles_completed,
+                    'skipped': step_resp.skipped,
+                    'skip_reason': step_resp.skip_reason,
+                })
+
+            return success_response({
+                'session_id': str(session.id),
+                'program_id': session.program_id,
+                'day_number': session.day_number,
+                'status': session.status,
+                'started_at': session.started_at,
+                'completed_at': session.completed_at,
+                'total_duration_seconds': session.total_duration_seconds,
+                'current_step_order': session.current_step_order,
+                'total_steps': session.total_steps,
+                'steps_completed': session.steps_completed,
+                'completion_percentage': session.completion_percentage,
+                'mood_before': session.mood_before,
+                'mood_after': session.mood_after,
+                'energy_level': session.energy_level,
+                'step_responses': step_responses,
+            }, status=status.HTTP_200_OK)
+
+        except RitualSessionMongo.DoesNotExist:
+            return error_response(
+                {'error': 'Session not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            return error_response(
+                {'error': f'Failed to fetch ritual session: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class RitualHistoryView(APIView):
+    """
+    GET /api/v1/focus/rituals/{enrollment_id}/history/
+
+    Get ritual session history for a program enrollment
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, enrollment_id):
+        """Get ritual session history"""
+        try:
+            from focus.models import UserFocusProgram
+            from focus.mongo_models import RitualSessionMongo
+
+            # Verify enrollment
+            user_program = UserFocusProgram.objects.get(
+                id=enrollment_id,
+                user=request.user
+            )
+
+            sessions = RitualSessionMongo.objects(
+                user_id=request.user.id,
+                user_program_id=enrollment_id
+            ).order_by('-created_at')
+
+            history = []
+            for session in sessions:
+                history.append({
+                    'session_id': str(session.id),
+                    'day_number': session.day_number,
+                    'status': session.status,
+                    'started_at': session.started_at,
+                    'completed_at': session.completed_at,
+                    'total_duration_seconds': session.total_duration_seconds,
+                    'steps_completed': session.steps_completed,
+                    'total_steps': session.total_steps,
+                    'mood_before': session.mood_before,
+                    'mood_after': session.mood_after,
+                    'energy_level': session.energy_level,
+                })
+
+            return success_response(history, status=status.HTTP_200_OK)
+
+        except UserFocusProgram.DoesNotExist:
+            return error_response(
+                {'error': 'Enrollment not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            return error_response(
+                {'error': f'Failed to fetch ritual history: {str(e)}'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )

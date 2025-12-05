@@ -1741,3 +1741,203 @@ django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '0.0.0.0:8000'.
 WARNING 2025-11-12 11:50:58,429 basehttp 603175 124471600469568 "POST /api/v1/authentication/login HTTP/1.1" 400 76168
 INFO 2025-11-12 13:02:35,433 autoreload 603175 124471969239488 /home/aswin/MindNotes/mindnotesBackend/mindnotesBackend/settings.py changed, reloading.
 INFO 2025-11-12 13:02:36,345 autoreload 682553 125615237628352 Watching for file changes with StatReloader
+INFO 2025-11-14 04:34:45,945 autoreload 138392 134718991505216 Watching for file changes with StatReloader
+WARNING 2025-11-14 04:35:24,027 log 138392 134718652143168 Bad Request: /api/v1/authentication/login
+WARNING 2025-11-14 04:35:24,027 basehttp 138392 134718652143168 "POST /api/v1/authentication/login HTTP/1.1" 400 156
+INFO 2025-11-14 04:35:33,972 basehttp 138392 134718652143168 "POST /api/v1/authentication/signup HTTP/1.1" 201 1412
+INFO 2025-11-14 04:35:47,507 basehttp 138392 134718652143168 "POST /api/v1/authentication/login HTTP/1.1" 200 1405
+INFO 2025-11-14 04:36:06,505 basehttp 138392 134718652143168 "POST /api/v1/authentication/home HTTP/1.1" 200 608
+INFO 2025-12-05 10:40:19,381 autoreload 653170 138965974304576 Watching for file changes with StatReloader
+ERROR 2025-12-05 10:40:59,777 exceptions 653170 138965601478208 API Exception: NotAuthenticated - Authentication credentials were not provided. | Path: /api/v1/focus/programs | Method: GET
+Traceback (most recent call last):
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 415, in initial
+    self.check_permissions(request)
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 333, in check_permissions
+    self.permission_denied(
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 174, in permission_denied
+    raise exceptions.NotAuthenticated()
+rest_framework.exceptions.NotAuthenticated: Authentication credentials were not provided.
+WARNING 2025-12-05 10:40:59,778 log 653170 138965601478208 Unauthorized: /api/v1/focus/programs
+WARNING 2025-12-05 10:40:59,778 basehttp 653170 138965601478208 "GET /api/v1/focus/programs HTTP/1.1" 401 191
+WARNING 2025-12-05 10:41:24,341 log 653170 138965601478208 Not Found: /api/v1//api/authentication/login
+WARNING 2025-12-05 10:41:24,341 basehttp 653170 138965601478208 "POST /api/v1//api/authentication/login HTTP/1.1" 404 4258
+WARNING 2025-12-05 10:41:32,518 log 653170 138965601478208 Not Found: /api/v1//authentication/login
+WARNING 2025-12-05 10:41:32,518 basehttp 653170 138965601478208 "POST /api/v1//authentication/login HTTP/1.1" 404 4246
+WARNING 2025-12-05 10:41:34,981 log 653170 138965601478208 Bad Request: /api/v1/authentication/login
+WARNING 2025-12-05 10:41:34,981 basehttp 653170 138965601478208 "POST /api/v1/authentication/login HTTP/1.1" 400 156
+WARNING 2025-12-05 10:41:44,529 log 653170 138965601478208 Bad Request: /api/v1/authentication/signup
+WARNING 2025-12-05 10:41:44,530 basehttp 653170 138965601478208 "POST /api/v1/authentication/signup HTTP/1.1" 400 156
+INFO 2025-12-05 10:42:09,280 basehttp 653170 138965601478208 "POST /api/v1/authentication/login HTTP/1.1" 200 1405
+ERROR 2025-12-05 10:42:12,845 exceptions 653170 138965601478208 API Exception: NotAuthenticated - Authentication credentials were not provided. | Path: /api/v1/focus/programs | Method: GET
+Traceback (most recent call last):
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 415, in initial
+    self.check_permissions(request)
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 333, in check_permissions
+    self.permission_denied(
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 174, in permission_denied
+    raise exceptions.NotAuthenticated()
+rest_framework.exceptions.NotAuthenticated: Authentication credentials were not provided.
+WARNING 2025-12-05 10:42:12,846 log 653170 138965601478208 Unauthorized: /api/v1/focus/programs
+WARNING 2025-12-05 10:42:12,846 basehttp 653170 138965601478208 "GET /api/v1/focus/programs HTTP/1.1" 401 191
+INFO 2025-12-05 10:42:38,472 basehttp 653170 138965601478208 "GET /api/v1/focus/programs HTTP/1.1" 200 1878
+ERROR 2025-12-05 11:03:09,189 exceptions 653170 138965590988352 API Exception: NotAuthenticated - Authentication credentials were not provided. | Path: /api/v1/focus/programs/start | Method: GET
+Traceback (most recent call last):
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 415, in initial
+    self.check_permissions(request)
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 333, in check_permissions
+    self.permission_denied(
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 174, in permission_denied
+    raise exceptions.NotAuthenticated()
+rest_framework.exceptions.NotAuthenticated: Authentication credentials were not provided.
+WARNING 2025-12-05 11:03:09,189 log 653170 138965590988352 Unauthorized: /api/v1/focus/programs/start
+WARNING 2025-12-05 11:03:09,189 basehttp 653170 138965590988352 "GET /api/v1/focus/programs/start HTTP/1.1" 401 191
+ERROR 2025-12-05 11:03:15,560 exceptions 653170 138965590988352 API Exception: MethodNotAllowed - Method "GET" not allowed. | Path: /api/v1/focus/programs/start | Method: GET
+Traceback (most recent call last):
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 167, in http_method_not_allowed
+    raise exceptions.MethodNotAllowed(request.method)
+rest_framework.exceptions.MethodNotAllowed: Method "GET" not allowed.
+WARNING 2025-12-05 11:03:15,561 log 653170 138965590988352 Method Not Allowed: /api/v1/focus/programs/start
+WARNING 2025-12-05 11:03:15,561 basehttp 653170 138965590988352 "GET /api/v1/focus/programs/start HTTP/1.1" 405 155
+INFO 2025-12-05 11:10:53,130 basehttp 653170 138965582595648 "GET /api/v1/focus/programs HTTP/1.1" 200 1878
+INFO 2025-12-05 11:23:59,954 autoreload 653170 138965974304576 /home/aswin/MindNotes/mindnotesBackend/focus/models.py changed, reloading.
+INFO 2025-12-05 11:24:01,237 autoreload 667716 131288350361408 Watching for file changes with StatReloader
+INFO 2025-12-05 11:27:51,895 basehttp 667716 131287977289280 "GET /api/v1/focus/programs HTTP/1.1" 200 3259
+INFO 2025-12-05 11:29:43,441 basehttp 667716 131287967848000 "GET /api/v1/focus/programs HTTP/1.1" 200 3259
+INFO 2025-12-05 11:30:12,318 basehttp 667716 131287967848000 "GET /api/v1/focus/programs HTTP/1.1" 200 3259
+INFO 2025-12-05 11:30:13,367 basehttp 667716 131287967848000 "GET /api/v1/focus/programs HTTP/1.1" 200 3259
+INFO 2025-12-05 11:30:28,180 autoreload 669919 130428509099840 Watching for file changes with StatReloader
+INFO 2025-12-05 11:30:29,868 basehttp 669919 130428202640960 "GET /api/v1/focus/programs HTTP/1.1" 200 2115
+ERROR 2025-12-05 11:42:27,597 exceptions 669919 130428193199680 API Exception: NotAuthenticated - Authentication credentials were not provided. | Path: /api/v1/focus/programs/enroll | Method: GET
+Traceback (most recent call last):
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 415, in initial
+    self.check_permissions(request)
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 333, in check_permissions
+    self.permission_denied(
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 174, in permission_denied
+    raise exceptions.NotAuthenticated()
+rest_framework.exceptions.NotAuthenticated: Authentication credentials were not provided.
+WARNING 2025-12-05 11:42:27,597 log 669919 130428193199680 Unauthorized: /api/v1/focus/programs/enroll
+WARNING 2025-12-05 11:42:27,597 basehttp 669919 130428193199680 "GET /api/v1/focus/programs/enroll HTTP/1.1" 401 191
+ERROR 2025-12-05 11:42:34,038 exceptions 669919 130428193199680 API Exception: MethodNotAllowed - Method "GET" not allowed. | Path: /api/v1/focus/programs/enroll | Method: GET
+Traceback (most recent call last):
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 167, in http_method_not_allowed
+    raise exceptions.MethodNotAllowed(request.method)
+rest_framework.exceptions.MethodNotAllowed: Method "GET" not allowed.
+WARNING 2025-12-05 11:42:34,038 log 669919 130428193199680 Method Not Allowed: /api/v1/focus/programs/enroll
+WARNING 2025-12-05 11:42:34,039 basehttp 669919 130428193199680 "GET /api/v1/focus/programs/enroll HTTP/1.1" 405 155
+INFO 2025-12-05 11:42:37,842 basehttp 669919 130428193199680 "POST /api/v1/focus/programs/enroll HTTP/1.1" 201 174
+ERROR 2025-12-05 11:52:29,158 exceptions 669919 130428184806976 API Exception: MethodNotAllowed - Method "GET" not allowed. | Path: /api/v1/focus/programs/start | Method: GET
+Traceback (most recent call last):
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 167, in http_method_not_allowed
+    raise exceptions.MethodNotAllowed(request.method)
+rest_framework.exceptions.MethodNotAllowed: Method "GET" not allowed.
+WARNING 2025-12-05 11:52:29,159 log 669919 130428184806976 Method Not Allowed: /api/v1/focus/programs/start
+WARNING 2025-12-05 11:52:29,159 basehttp 669919 130428184806976 "GET /api/v1/focus/programs/start HTTP/1.1" 405 155
+WARNING 2025-12-05 11:52:32,574 log 669919 130428184806976 Bad Request: /api/v1/focus/programs/start
+WARNING 2025-12-05 11:52:32,574 basehttp 669919 130428184806976 "POST /api/v1/focus/programs/start HTTP/1.1" 400 129
+INFO 2025-12-05 11:53:22,135 basehttp 669919 130428184806976 "POST /api/v1/focus/programs/start HTTP/1.1" 200 139
+WARNING 2025-12-05 11:54:29,866 log 669919 130428176414272 Not Found: /api/v1/focus/rituals/1/days/1
+WARNING 2025-12-05 11:54:29,866 basehttp 669919 130428176414272 "GET /api/v1/focus/rituals/1/days/1 HTTP/1.1" 404 129
+WARNING 2025-12-05 11:54:31,038 log 669919 130428176414272 Not Found: /api/v1/focus/rituals/1/days/1
+WARNING 2025-12-05 11:54:31,038 basehttp 669919 130428176414272 "GET /api/v1/focus/rituals/1/days/1 HTTP/1.1" 404 129
+WARNING 2025-12-05 11:54:33,026 log 669919 130428176414272 Not Found: /api/v1/focus/rituals/1/days/4
+WARNING 2025-12-05 11:54:33,026 basehttp 669919 130428176414272 "GET /api/v1/focus/rituals/1/days/4 HTTP/1.1" 404 129
+INFO 2025-12-05 11:54:53,999 basehttp 669919 130428176414272 "GET /api/v1/focus/rituals/4/days/1 HTTP/1.1" 200 3370
+ERROR 2025-12-05 11:56:09,238 exceptions 669919 130428168021568 API Exception: MethodNotAllowed - Method "GET" not allowed. | Path: /api/v1/focus/rituals/sessions/start | Method: GET
+Traceback (most recent call last):
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 167, in http_method_not_allowed
+    raise exceptions.MethodNotAllowed(request.method)
+rest_framework.exceptions.MethodNotAllowed: Method "GET" not allowed.
+WARNING 2025-12-05 11:56:09,238 log 669919 130428168021568 Method Not Allowed: /api/v1/focus/rituals/sessions/start
+WARNING 2025-12-05 11:56:09,238 basehttp 669919 130428168021568 "GET /api/v1/focus/rituals/sessions/start HTTP/1.1" 405 155
+WARNING 2025-12-05 11:56:12,402 log 669919 130428168021568 Bad Request: /api/v1/focus/rituals/sessions/start
+WARNING 2025-12-05 11:56:12,402 basehttp 669919 130428168021568 "POST /api/v1/focus/rituals/sessions/start HTTP/1.1" 400 129
+INFO 2025-12-05 11:56:15,989 basehttp 669919 130428168021568 "POST /api/v1/focus/rituals/sessions/start HTTP/1.1" 201 291
+ERROR 2025-12-05 11:57:21,959 exceptions 669919 130427754903104 API Exception: MethodNotAllowed - Method "GET" not allowed. | Path: /api/v1/focus/rituals/steps/start | Method: GET
+Traceback (most recent call last):
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 167, in http_method_not_allowed
+    raise exceptions.MethodNotAllowed(request.method)
+rest_framework.exceptions.MethodNotAllowed: Method "GET" not allowed.
+WARNING 2025-12-05 11:57:21,959 log 669919 130427754903104 Method Not Allowed: /api/v1/focus/rituals/steps/start
+WARNING 2025-12-05 11:57:21,959 basehttp 669919 130427754903104 "GET /api/v1/focus/rituals/steps/start HTTP/1.1" 405 155
+ERROR 2025-12-05 11:57:53,004 exceptions 669919 130427754903104 API Exception: MethodNotAllowed - Method "GET" not allowed. | Path: /api/v1/focus/rituals/steps/start | Method: GET
+Traceback (most recent call last):
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 167, in http_method_not_allowed
+    raise exceptions.MethodNotAllowed(request.method)
+rest_framework.exceptions.MethodNotAllowed: Method "GET" not allowed.
+WARNING 2025-12-05 11:57:53,004 log 669919 130427754903104 Method Not Allowed: /api/v1/focus/rituals/steps/start
+WARNING 2025-12-05 11:57:53,005 basehttp 669919 130427754903104 "GET /api/v1/focus/rituals/steps/start HTTP/1.1" 405 155
+ERROR 2025-12-05 11:57:54,053 exceptions 669919 130427754903104 API Exception: MethodNotAllowed - Method "GET" not allowed. | Path: /api/v1/focus/rituals/steps/start | Method: GET
+Traceback (most recent call last):
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 167, in http_method_not_allowed
+    raise exceptions.MethodNotAllowed(request.method)
+rest_framework.exceptions.MethodNotAllowed: Method "GET" not allowed.
+WARNING 2025-12-05 11:57:54,053 log 669919 130427754903104 Method Not Allowed: /api/v1/focus/rituals/steps/start
+WARNING 2025-12-05 11:57:54,054 basehttp 669919 130427754903104 "GET /api/v1/focus/rituals/steps/start HTTP/1.1" 405 155
+ERROR 2025-12-05 11:57:54,698 exceptions 669919 130427754903104 API Exception: MethodNotAllowed - Method "GET" not allowed. | Path: /api/v1/focus/rituals/steps/start | Method: GET
+Traceback (most recent call last):
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 167, in http_method_not_allowed
+    raise exceptions.MethodNotAllowed(request.method)
+rest_framework.exceptions.MethodNotAllowed: Method "GET" not allowed.
+WARNING 2025-12-05 11:57:54,698 log 669919 130427754903104 Method Not Allowed: /api/v1/focus/rituals/steps/start
+WARNING 2025-12-05 11:57:54,698 basehttp 669919 130427754903104 "GET /api/v1/focus/rituals/steps/start HTTP/1.1" 405 155
+WARNING 2025-12-05 11:57:56,624 log 669919 130427754903104 Bad Request: /api/v1/focus/rituals/steps/start
+WARNING 2025-12-05 11:57:56,625 basehttp 669919 130427754903104 "POST /api/v1/focus/rituals/steps/start HTTP/1.1" 400 123
+INFO 2025-12-05 11:59:40,429 basehttp 669919 130427746510400 "POST /api/v1/focus/rituals/steps/start HTTP/1.1" 200 221
+INFO 2025-12-05 12:02:02,409 basehttp 669919 130427738117696 "POST /api/v1/focus/rituals/steps/start HTTP/1.1" 200 222
+WARNING 2025-12-05 12:04:08,336 log 669919 130427729724992 Bad Request: /api/v1/focus/rituals/steps/start
+WARNING 2025-12-05 12:04:08,336 basehttp 669919 130427729724992 "POST /api/v1/focus/rituals/steps/start HTTP/1.1" 400 136
+WARNING 2025-12-05 12:06:18,260 log 669919 130427721332288 Bad Request: /api/v1/focus/rituals/steps/complete
+WARNING 2025-12-05 12:06:18,260 basehttp 669919 130427721332288 "POST /api/v1/focus/rituals/steps/complete HTTP/1.1" 400 142
+INFO 2025-12-05 12:06:36,532 basehttp 669919 130427721332288 "POST /api/v1/focus/rituals/steps/complete HTTP/1.1" 200 231
+INFO 2025-12-05 12:07:03,270 basehttp 669919 130427721332288 "POST /api/v1/focus/rituals/steps/complete HTTP/1.1" 200 231
+WARNING 2025-12-05 12:08:05,999 log 669919 130427712939584 Bad Request: /api/v1/focus/rituals/steps/complete
+WARNING 2025-12-05 12:08:06,000 basehttp 669919 130427712939584 "POST /api/v1/focus/rituals/steps/complete HTTP/1.1" 400 140
+WARNING 2025-12-05 12:08:19,805 log 669919 130427712939584 Bad Request: /api/v1/focus/rituals/steps/complete
+WARNING 2025-12-05 12:08:19,806 basehttp 669919 130427712939584 "POST /api/v1/focus/rituals/steps/complete HTTP/1.1" 400 140
+WARNING 2025-12-05 12:08:24,183 log 669919 130427712939584 Bad Request: /api/v1/focus/rituals/steps/complete
+WARNING 2025-12-05 12:08:24,183 basehttp 669919 130427712939584 "POST /api/v1/focus/rituals/steps/complete HTTP/1.1" 400 140
+WARNING 2025-12-05 12:09:41,446 log 669919 130427704546880 Bad Request: /api/v1/focus/rituals/steps/complete
+WARNING 2025-12-05 12:09:41,447 basehttp 669919 130427704546880 "POST /api/v1/focus/rituals/steps/complete HTTP/1.1" 400 140
+INFO 2025-12-05 12:13:43,427 basehttp 669919 130427150923328 "POST /api/v1/focus/rituals/steps/start HTTP/1.1" 200 229
+INFO 2025-12-05 12:13:47,934 basehttp 669919 130427150923328 "POST /api/v1/focus/rituals/steps/complete HTTP/1.1" 200 231
+INFO 2025-12-05 12:13:54,852 basehttp 669919 130427150923328 "POST /api/v1/focus/rituals/steps/start HTTP/1.1" 200 217
+INFO 2025-12-05 12:13:59,875 basehttp 669919 130427150923328 "POST /api/v1/focus/rituals/steps/complete HTTP/1.1" 200 231
+INFO 2025-12-05 12:14:21,583 basehttp 669919 130427150923328 "POST /api/v1/focus/rituals/steps/complete HTTP/1.1" 200 231
+INFO 2025-12-05 12:17:37,106 basehttp 669919 130427142530624 "POST /api/v1/focus/rituals/sessions/complete HTTP/1.1" 200 297
+ERROR 2025-12-05 12:18:19,530 exceptions 669919 130427142530624 API Exception: MethodNotAllowed - Method "POST" not allowed. | Path: /api/v1/focus/rituals/sessions/active | Method: POST
+Traceback (most recent call last):
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/aswin/.local/lib/python3.10/site-packages/rest_framework/views.py", line 167, in http_method_not_allowed
+    raise exceptions.MethodNotAllowed(request.method)
+rest_framework.exceptions.MethodNotAllowed: Method "POST" not allowed.
+WARNING 2025-12-05 12:18:19,531 log 669919 130427142530624 Method Not Allowed: /api/v1/focus/rituals/sessions/active
+WARNING 2025-12-05 12:18:19,531 basehttp 669919 130427142530624 "POST /api/v1/focus/rituals/sessions/active HTTP/1.1" 405 157
+INFO 2025-12-05 12:18:22,933 basehttp 669919 130427142530624 "GET /api/v1/focus/rituals/sessions/active HTTP/1.1" 200 108
+INFO 2025-12-05 12:18:50,233 basehttp 669919 130427142530624 "POST /api/v1/focus/rituals/sessions/start HTTP/1.1" 201 291
+INFO 2025-12-05 12:18:59,026 basehttp 669919 130427142530624 "GET /api/v1/focus/rituals/sessions/active HTTP/1.1" 200 341

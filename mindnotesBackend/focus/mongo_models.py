@@ -117,6 +117,178 @@ class ReflectionResponseEmbed(EmbeddedDocument):
     answered_at = fields.DateTimeField()
 
 
+class StepResponseEmbed(EmbeddedDocument):
+    """Embedded document for ritual step responses"""
+    step_id = fields.IntField(required=True)  # Reference to ProgramStep in PostgreSQL
+    step_order = fields.IntField(required=True)
+    step_type = fields.StringField(required=True)
+
+    # Completion tracking
+    is_completed = fields.BooleanField(default=False)
+    started_at = fields.DateTimeField()
+    completed_at = fields.DateTimeField()
+    duration_seconds = fields.IntField(default=0)  # Actual time spent
+
+    # Response data (varies by step type)
+    text_response = fields.StringField()  # For gratitude, journaling, prompts
+    voice_note_url = fields.StringField()  # For voice responses
+    selected_choice = fields.StringField()  # For affirmation selection
+    selected_choices = fields.ListField(fields.StringField())  # For multi-choice
+    rating_value = fields.IntField()  # For rating/slider responses
+
+    # For breathing exercises
+    breathing_cycles_completed = fields.IntField(default=0)
+
+    # Metadata
+    skipped = fields.BooleanField(default=False)
+    skip_reason = fields.StringField()
+
+
+class RitualSessionMongo(Document):
+    """
+    MongoDB model for ritual sessions (Morning Charge, Evening Wind-down, etc.)
+    Different from FocusSession - designed for step-by-step guided flows
+    """
+    user_id = fields.IntField(required=True, index=True)
+
+    # Program references (PostgreSQL IDs)
+    program_id = fields.IntField(required=True, index=True)
+    program_day_id = fields.IntField(required=True)
+    user_program_id = fields.IntField(required=True, index=True)
+    day_number = fields.IntField(required=True)
+
+    # Session status
+    status = fields.StringField(
+        choices=['not_started', 'in_progress', 'completed', 'abandoned'],
+        default='not_started'
+    )
+
+    # Timing
+    started_at = fields.DateTimeField()
+    completed_at = fields.DateTimeField()
+    total_duration_seconds = fields.IntField(default=0)
+
+    # Step tracking
+    current_step_order = fields.IntField(default=0)
+    total_steps = fields.IntField(required=True)
+    steps_completed = fields.IntField(default=0)
+
+    # Step responses (embedded)
+    step_responses = fields.ListField(fields.EmbeddedDocumentField(StepResponseEmbed))
+
+    # Session metrics
+    completion_percentage = fields.FloatField(default=0.0)
+
+    # Mood tracking (optional before/after)
+    mood_before = fields.IntField(min_value=1, max_value=5)
+    mood_after = fields.IntField(min_value=1, max_value=5)
+    energy_level = fields.IntField(min_value=1, max_value=5)
+
+    # Notes
+    notes = fields.StringField()
+
+    # Timestamps
+    created_at = fields.DateTimeField(default=datetime.utcnow)
+    updated_at = fields.DateTimeField(default=datetime.utcnow)
+
+    meta = {
+        'collection': 'ritual_sessions',
+        'indexes': [
+            'user_id',
+            'program_id',
+            'user_program_id',
+            'status',
+            ('user_id', '-created_at'),
+            ('user_id', 'program_id', 'day_number'),
+        ],
+        'ordering': ['-created_at'],
+    }
+
+    def start_step(self, step_id: int, step_order: int, step_type: str):
+        """Start a new step in the ritual"""
+        step_response = StepResponseEmbed(
+            step_id=step_id,
+            step_order=step_order,
+            step_type=step_type,
+            started_at=datetime.utcnow()
+        )
+        self.step_responses.append(step_response)
+        self.current_step_order = step_order
+        self.updated_at = datetime.utcnow()
+        self.save()
+        return step_response
+
+    def complete_step(self, step_order: int, response_data: dict = None):
+        """Complete a step with optional response data"""
+        for step_response in self.step_responses:
+            if step_response.step_order == step_order:
+                step_response.is_completed = True
+                step_response.completed_at = datetime.utcnow()
+
+                if step_response.started_at:
+                    step_response.duration_seconds = int(
+                        (step_response.completed_at - step_response.started_at).total_seconds()
+                    )
+
+                # Apply response data based on step type
+                if response_data:
+                    if 'text_response' in response_data:
+                        step_response.text_response = response_data['text_response']
+                    if 'voice_note_url' in response_data:
+                        step_response.voice_note_url = response_data['voice_note_url']
+                    if 'selected_choice' in response_data:
+                        step_response.selected_choice = response_data['selected_choice']
+                    if 'selected_choices' in response_data:
+                        step_response.selected_choices = response_data['selected_choices']
+                    if 'rating_value' in response_data:
+                        step_response.rating_value = response_data['rating_value']
+                    if 'breathing_cycles_completed' in response_data:
+                        step_response.breathing_cycles_completed = response_data['breathing_cycles_completed']
+
+                self.steps_completed += 1
+                self.completion_percentage = (self.steps_completed / self.total_steps) * 100
+                self.updated_at = datetime.utcnow()
+                self.save()
+                return True
+        return False
+
+    def skip_step(self, step_order: int, reason: str = ''):
+        """Skip a step"""
+        for step_response in self.step_responses:
+            if step_response.step_order == step_order:
+                step_response.skipped = True
+                step_response.skip_reason = reason
+                step_response.completed_at = datetime.utcnow()
+                self.steps_completed += 1
+                self.completion_percentage = (self.steps_completed / self.total_steps) * 100
+                self.updated_at = datetime.utcnow()
+                self.save()
+                return True
+        return False
+
+    def complete_session(self, mood_after: int = None, energy_level: int = None):
+        """Mark the entire ritual session as complete"""
+        self.status = 'completed'
+        self.completed_at = datetime.utcnow()
+
+        if self.started_at:
+            self.total_duration_seconds = int(
+                (self.completed_at - self.started_at).total_seconds()
+            )
+
+        if mood_after:
+            self.mood_after = mood_after
+        if energy_level:
+            self.energy_level = energy_level
+
+        self.completion_percentage = 100.0
+        self.updated_at = datetime.utcnow()
+        self.save()
+
+    def __str__(self):
+        return f"Ritual Session - User {self.user_id} - Program {self.program_id} - Day {self.day_number}"
+
+
 class UserProgramDayMongo(Document):
     """
     MongoDB model for user's daily program progress
